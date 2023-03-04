@@ -2,7 +2,7 @@ export const utilService = {
     makeId,
     makeLorem,
     getRandomIntInclusive,
-    // debounce,
+    debounce,
     randomPastTime,
     saveToStorage,
     loadFromStorage,
@@ -46,14 +46,13 @@ function randomPastTime() {
     return Date.now() - pastTime
 }
 
-// function debounce(func: Function, timeout = 100) {
-//     let timer: ReturnType<typeof setTimeout>
-//     return (...args: any) => {
-//         console.log('debounce');
-//         clearTimeout(timer)
-//         timer = setTimeout(() => { func.apply(this, args) }, timeout)
-//     }
-// }
+function debounce(fn: Function, ms = 300) {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    return function (this: any, ...args: any[]) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn.apply(this, args), ms);
+    };
+};
 
 function saveToStorage(key: string, value: any) {
     return localStorage.setItem(key, JSON.stringify(value))
