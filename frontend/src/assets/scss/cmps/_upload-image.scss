@@ -1,0 +1,27 @@
+.upload-userImg-container {
+    border: 1px $clr2 solid;
+    border-radius: rem(10px);
+    padding: rem(20px);
+    width: rem(258.8px);
+
+    svg {
+        cursor: pointer;
+        position: relative;
+        left: 50%;
+        transform: translate(-50%);
+        height: 100px;
+    }
+
+    .drag {
+        color: lightgray;
+    }
+
+    &.drag-zone {
+        border: none;
+        outline: 5px dashed lightgray;
+        margin: 15px;
+        svg{
+            color: lightgray; 
+        }
+    }
+}

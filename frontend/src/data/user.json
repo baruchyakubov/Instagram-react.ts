@@ -1,0 +1,275 @@
+[
+    {
+        "_id": "63727d458a7f36b53eb8ee2d",
+        "password": "1235",
+        "fullname": "eyes never lie chico",
+        "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg",
+        "following": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2f",
+                "username": "edrikobi",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg"
+            }
+        ],
+        "followers": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2f",
+                "username": "edrikobi",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg"
+            }
+        ],
+        "recentSearchs": [],
+        "isFollowed": false,
+        "username": "eyesneverliechico",
+        "createdAt": "2022-11-14"
+    },
+    {
+        "_id": "63727d458a7f36b53eb8ee2e",
+        "password": "dsf898",
+        "fullname": "🍴בישולים לשבת🍴",
+        "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg",
+        "following": [
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2f",
+                "username": "edrikobi",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "followers": [
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2f",
+                "username": "edrikobi",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "recentSearchs": [],
+        "isFollowed": false,
+        "username": "bishulim_leshabat",
+        "createdAt": "2022-11-14"
+    },
+    {
+        "_id": "63727d458a7f36b53eb8ee2f",
+        "password": "12sdfsdf34",
+        "fullname": "Kobi Edri",
+        "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg",
+        "following": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "followers": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "recentSearchs": [],
+        "isFollowed": true,
+        "username": "edrikobi",
+        "createdAt": "2022-11-14"
+    },
+    {
+        "_id": "63727d458a7f36b53eb8ee30",
+        "password": "1234",
+        "fullname": "Baruch Yakobov",
+        "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg",
+        "following": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            }
+        ],
+        "followers": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee31",
+                "username": "the_goodfilms",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2f",
+                "username": "edrikobi",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "recentSearchs": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "fullname": "🍴בישולים לשבת🍴",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "fullname": "eyes never lie chico",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "isFollowed": true,
+        "username": "baruchyakobov",
+        "createdAt": "2022-11-14"
+    },
+    {
+        "_id": "63727d458a7f36b53eb8ee31",
+        "password": "sdfs435rt",
+        "fullname": "THE GOOD FILMS",
+        "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1676851582/t3yhdskwmydi2sicwoma.jpg",
+        "following": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2f",
+                "username": "edrikobi",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "followers": [
+            {
+                "_id": "63727d458a7f36b53eb8ee2e",
+                "username": "bishulim_leshabat",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677483035/voktnejrnllaih0ktldm.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee30",
+                "username": "baruchyakobov",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1674862746/qcnwvajr88ji7yrqweqv.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2f",
+                "username": "edrikobi",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677718966/w4ifu8ny83nppxikn83t.jpg"
+            },
+            {
+                "_id": "63727d458a7f36b53eb8ee2d",
+                "username": "eyesneverliechico",
+                "imgUrl": "https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677428512/lrd0bzzinvalo07kozr7.jpg"
+            }
+        ],
+        "recentSearchs": [],
+        "isFollowed": true,
+        "username": "the_goodfilms",
+        "createdAt": "2022-11-14"
+    }
+]

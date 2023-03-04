@@ -1,0 +1,240 @@
+.story-details {
+
+    .like-comment-section,
+    .date-details {
+        padding-inline: 16px;
+        padding-block: rem(8px);
+    }
+
+    .likes {
+        margin-top: rem(5px);
+        padding-inline: 16px;
+    }
+
+    position: fixed;
+    z-index: 3000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 90vh;
+    width: 70%;
+    display: flex;
+
+    .img-wrapper {
+        background-color: black;
+        aspect-ratio: 0.7994 !important;
+        width: 50% !important;
+        display: flex;
+    }
+
+    .carousel-root {
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 100% !important;
+    }
+
+    .carousel-slider {
+        width: 100% !important;
+    }
+
+    .slider-wrapper {
+        width: 100% !important;
+
+
+        ul {
+            width: 100%;
+
+            li {
+                width: 100%;
+            }
+        }
+    }
+
+
+    .story-img {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        max-height: 90vh;
+        object-fit: cover;
+    }
+}
+
+.left,
+.right {
+    cursor: pointer;
+    position: fixed;
+    z-index: 5000;
+    top: 50%;
+    transform: translate(-50%);
+    width: 10px;
+
+    svg {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.right {
+    right: 3%;
+    transform: translate(-3%);
+}
+
+.left {
+    left: 3%;
+    transform: translate(-3%);
+}
+
+.details {
+    background-color: white;
+    width: 50%;
+
+    .header-details {
+        border-bottom: 1px solid rgb(219, 219, 219);
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: rem(7px);
+
+            >* {
+                font-size: rem(14px);
+            }
+
+            p {
+                color: $clr1;
+                font-weight: 600;
+            }
+
+            img {
+                width: rem(32px);
+                height: rem(32px);
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .comments {
+        padding: 16px;
+        margin-top: rem(6px);
+        height: 65%;
+        overflow-y: auto;
+        border-bottom: 1px solid rgb(219, 219, 219);
+
+        span {
+            font-size: rem(14px);
+            color: $clr1;
+            font-weight: 600;
+        }
+
+        .comment {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: rem(7px);
+
+            >* {
+                font-size: rem(14px);
+            }
+
+            p {
+                color: $clr1;
+                font-weight: 600;
+            }
+
+            span {
+                font-weight: normal;
+            }
+
+            img {
+                width: rem(32px);
+                height: rem(32px);
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+.date-details {
+    font-size: rem(10px);
+    color: $clr4;
+}
+
+.close-details {
+    cursor: pointer;
+    position: fixed;
+    z-index: 5000;
+    right: 2%;
+    top: 2%;
+}
+
+@media (max-width:1100px) {
+    .story-details {
+        height: 65vh;
+
+        .story-img {
+            max-height: 65vh;
+        }
+    }
+
+    .details {
+        .comments {
+            height: 50%;
+        }
+    }
+}
+
+@media (max-width:650px) {
+    .story-details {
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+
+        .details {
+            height: 60%;
+            width: 100%;
+        }
+
+        .img-wrapper {
+            width: 100% !important;
+            max-height: 40%;
+        }
+
+        .carousel-root {
+            height: 100% !important;
+        }
+
+        .carousel-slider {
+            height: 100% !important;
+        }
+
+        .slider-wrapper {
+            height: 100% !important;
+
+
+            ul {
+                height: 100%;
+
+                li {
+                    height: 100%;
+                }
+            }
+        }
+
+        .story-img {
+            height: 100%;
+        }
+    }
+
+    .left,
+    .right {
+        display: none;
+    }
+}

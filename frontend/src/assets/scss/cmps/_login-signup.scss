@@ -1,0 +1,107 @@
+.login-signup-container {
+    .close-login {
+        display: none;
+    }
+
+    position: fixed;
+    z-index: 5000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: fit-content;
+    padding: rem(60px);
+    background-color: $clr5;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, .15);
+    border-radius: rem(20px);
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        svg {
+            margin-bottom: rem(30px);
+        }
+
+        input {
+            background-color: rgb(250, 250, 250);
+            padding: 9px 0 7px 8px;
+            outline: none;
+            height: rem(36px);
+            width: rem(258.8px);
+            box-shadow: unset;
+            color: rgb(38, 38, 38);
+            border-radius: rem(5px);
+        }
+
+        .username,
+        .fullname {
+            margin-bottom: rem(9px);
+        }
+
+        .password {
+            margin-bottom: 16px;
+        }
+
+        button {
+            width: rem(258.8px);
+            background-color: rgba(0, 149, 246);
+            opacity: .7;
+            color: $clr5;
+            font-weight: 550;
+            border-radius: rem(8px);
+        }
+
+        p {
+            margin-bottom: 16px;
+
+            span {
+                color: #0095F6;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .profile-img {
+        width: rem(258.8px);
+        height: rem(234.8px);
+        object-fit: cover;
+        border-radius: rem(10px);
+
+    }
+}
+
+
+
+@include for-mobile-layout {
+
+    .login-signup-container {
+        .close-login {
+            display: unset;
+            position: relative;
+            left: 97%;
+
+            svg {
+                cursor: pointer;
+                width: rem(24px);
+                height: rem(24px);
+            }
+        }
+
+        padding: rem(30px);
+        height: 100%;
+        width: 100%;
+        border-radius: unset;
+
+        form {
+            margin-top: rem(40px);
+
+            input,
+            .upload-userImg-container,
+            button {
+                width: 100%;
+            }
+        }
+    }
+}

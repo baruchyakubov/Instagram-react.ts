@@ -1,0 +1,41 @@
+.explore-page {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    max-width: 935px;
+    width: calc(100% - 40px);
+    padding-block: 40px;
+    margin-bottom: rem(48px);
+    height: calc(100% - 48px);
+
+    img {
+        width: calc(33.3333% - 28px);
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(85%);
+        }
+    }
+}
+
+@include for-tablet-layout {
+    .explore-page {
+        gap: 1px;
+        padding: 0;
+        margin: 0;
+        margin-top: rem(70px);
+        width: 100vw;
+        position: relative;
+        padding-bottom: 60px;
+
+        img {
+            width: calc(33.3333% - 1px);
+        }
+    }
+}

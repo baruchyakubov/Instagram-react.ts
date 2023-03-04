@@ -1,0 +1,165 @@
+.side-navbar {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    padding-block: rem(40px);
+    padding-inline: rem(12px);
+    border-right: 1px solid rgb(219, 219, 219);
+    width: 244.8px;
+    z-index: 2050;
+    transition: 0.4s width ease-in-out;
+
+    .instagram-logo-mobile {
+        display: none;
+    }
+
+    .instagram-logo {
+        cursor: pointer;
+        margin-bottom: rem(32px);
+        padding-inline: rem(12px);
+        width: rem(220px);
+    }
+
+    nav {
+        margin-top: rem(32px);
+
+        >* {
+            cursor: pointer;
+            padding: rem(12px);
+            margin-block: rem(7px);
+            display: flex;
+            align-items: center;
+
+            img {
+                height: rem(24px);
+                width: rem(24px);
+                border-radius: 50%;
+            }
+
+            h1 {
+                padding-inline-start: rem(16px);
+            }
+
+            &:hover {
+                background-color: $clr4;
+                border-radius: rem(40px);
+                transition: 0.4s;
+
+                svg,
+                img {
+                    scale: 1.1;
+                    transition: 0.4s;
+                }
+            }
+
+            &.active {
+                h1 {
+                    font-weight: 650;
+                }
+
+                &.Home {
+                    path {
+                        fill: rgb(38, 38, 38);
+                    }
+                }
+            }
+        }
+    }
+
+    &.opened {
+
+        width: rem(72px);
+
+        nav {
+            h1 {
+                display: none;
+            }
+        }
+
+        .instagram-logo {
+            display: none;
+        }
+
+        .instagram-logo-mobile {
+            display: unset;
+            cursor: pointer;
+            padding: rem(12px);
+
+            &:hover {
+                background-color: $clr4;
+                border-radius: rem(40px);
+                transition: 0.4s;
+
+                svg {
+                    scale: 1.1;
+                    transition: 0.4s;
+                }
+            }
+        }
+    }
+}
+
+@include for-wide-layout {
+    .side-navbar {
+        width: fit-content;
+
+        nav {
+            h1 {
+                display: none;
+            }
+        }
+
+        .instagram-logo {
+            display: none;
+        }
+
+        .instagram-logo-mobile {
+            display: unset;
+            cursor: pointer;
+            padding: rem(12px);
+
+            &:hover {
+                background-color: $clr4;
+                border-radius: rem(40px);
+                transition: 0.4s;
+
+                svg {
+                    scale: 1.1;
+                    transition: 0.4s;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width:700px) {
+
+    .side-navbar,
+    .side-navbar.opened {
+        border-top: 1px solid rgb(219, 219, 219);
+        background-color: white;
+
+        .instagram-logo-mobile {
+            display: none;
+        }
+
+        height: fit-content;
+        top: 100%;
+        transform: translateY(-100%);
+        width: 100vw;
+        z-index: 1000;
+        padding: unset;
+
+        nav {
+            margin: 0;
+            display: flex;
+            gap: 2%;
+            justify-content: space-around;
+
+            >* {
+                margin: 0;
+                padding: rem(12px);
+            }
+        }
+    }
+}

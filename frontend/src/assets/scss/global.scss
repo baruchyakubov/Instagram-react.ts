@@ -1,0 +1,42 @@
+// Setup
+@import "setup/variables";
+@import "setup/functions";
+@import "setup/mixins";
+
+// Basics
+@import "basics/base";
+@import "basics/modals";
+
+// Views
+@import "views/explore";
+@import "views/story-details";
+@import "views/profile-page";
+
+// Components
+@import "cmps/Navbar";
+@import "cmps/story-list";
+@import "cmps/story-preview";
+@import "cmps/home-header";
+@import "cmps/followers-suggestions";
+@import "cmps/search-container";
+@import "cmps/login-signup";
+@import "cmps/upload-image";
+@import "cmps/loader";
+
+.view-section {
+    width: calc(100% - 244.8px);
+    height: 100vh;
+    margin-left: auto;
+}
+
+@include for-wide-layout {
+    .view-section {
+        width: calc(100% - 72px);
+    }
+}
+
+@include for-tablet-layout {
+    .view-section {
+        width: 100%;
+    }
+}

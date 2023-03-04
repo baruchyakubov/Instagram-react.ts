@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: OpenSans, sans-serif;
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+        "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+    font-weight: normal;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+input {
+    font-family: inherit;
+    text-align: inherit;
+    border: 1px rgba(223, 217, 217, 1) solid;
+    box-shadow: 1px 2px 5px 0px rgba(237, 224, 224, 0.56);
+    -webkit-box-shadow: 1px 2px 5px 0px rgba(237, 224, 224, 0.56);
+    -moz-box-shadow: 1px 2px 5px 0px rgba(237, 224, 224, 0.56);
+}
+
+.opacity-wrapper {
+    position: fixed;
+    z-index: 2500;
+    height: 100vh;
+    width: 100vw;
+    left: 0%;
+    top: 0%;
+    opacity: 0.5;
+    background-color: black;
+}
+
+// MAC like scrollbar
+::-webkit-scrollbar {
+    width: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar:hover {
+    background-color: rgba(0, 0, 0, 0.09);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    background: rgba(0, 0, 0, 0.5);
+    -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+    -webkit-border-radius: 100px;
+}
