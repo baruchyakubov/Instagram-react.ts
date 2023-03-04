@@ -29,7 +29,7 @@ export function FollowersSuggestions({ Users }: Props) {
         <section className="followers-suggestions">
             <div onClick={() => goToProfile(loggedInUser?._id)} className="curr-user">
                 <div className="col-1">
-                    {loggedInUser?._id ? <img src={loggedInUser?.imgUrl} alt="" /> : <img src="../../public/img/user.png" alt="" />}
+                    {loggedInUser?._id ? <img src={loggedInUser?.imgUrl} alt="" /> : <img src="https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677966828/ajwihd1ezvwiezqi4p2y.png" alt="" />}
                     <div className="user-info">
                         {loggedInUser?._id ? <p>{loggedInUser.username}</p> : <p>Log in</p>}
                         {loggedInUser?._id && <span>{loggedInUser.fullname}</span>}

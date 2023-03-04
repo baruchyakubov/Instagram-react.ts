@@ -20,7 +20,7 @@ export function Navbar({ setIsLogin }: Props) {
         {
             id: 'b104',
             name: loggedInUser?._id ? 'Profile' : 'Login',
-            logo: loggedInUser?._id ? <img src={loggedInUser?.imgUrl} alt="" /> : <img src="../../public/img/user.png" alt="" />,
+            logo: loggedInUser?._id ? <img src={loggedInUser?.imgUrl} alt="" /> : <img src="https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677966828/ajwihd1ezvwiezqi4p2y.png" alt="" />,
             route: loggedInUser?._id ? `/profile/${loggedInUser._id}` : '',
         }
     ]
