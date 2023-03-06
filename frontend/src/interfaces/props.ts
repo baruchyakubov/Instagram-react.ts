@@ -1,4 +1,4 @@
-import { Story } from "./story";
+import { LikedBy, Story } from "./story";
 import { User } from "./user";
 
 export interface Props {
@@ -15,6 +15,8 @@ export interface Props {
     imgUrl?: string
     setImgUrl?: Function
     Users?: User[]
+    likeList?: LikedBy[]
+    setIsOpenedLikeList?: Function
 }
 
 interface Preview {

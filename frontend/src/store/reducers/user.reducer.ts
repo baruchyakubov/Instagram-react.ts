@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     users: [],
     searchedUsers: [],
     loggedInUser: userService.getLoggedInUser(),
-    filterBy: { txt: '' }
+    filterBy: { txt: '', limit: null }
 }
 
 export function userReducer(state = INITIAL_STATE, action: { type: string, users: Array<User>, loggedInUser: User, searchedUsers: Array<User>, filterBy: FilterByUsers, user: User }) {
@@ -23,10 +23,15 @@ export function userReducer(state = INITIAL_STATE, action: { type: string, users
                 ...state,
                 searchedUsers: action.searchedUsers
             }
-        case 'SET_FILTER':
+        case 'SET_USER_FILTER':
             return {
                 ...state,
                 filterBy: action.filterBy
+            }
+        case 'RESET_SEARCHED_USERS':
+            return {
+                ...state,
+                searchedUsers: []
             }
         case 'SET_LOGGED_IN_USER':
             return {

@@ -23,8 +23,8 @@ declare global {
 
 window.userService = userService
 
-async function getUsers(filterBy = { txt: '' }) {
-    try {
+async function getUsers(filterBy = { txt: '' ,limit:null}) {
+    try {        
         return await httpService.get('user', filterBy)
     } catch (err) {
         throw err

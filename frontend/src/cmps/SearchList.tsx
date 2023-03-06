@@ -11,7 +11,6 @@ import { CloseBtn3 } from "../svg-cmps/CloseBtn3"
 
 export function SearchList({ closeSearchContainer, isRecentShown, users, clearInput }: Props) {
     const [recentSearchs, setRecentSearchs] = useState<RecentSearchs[]>([])
-    const Users = useSelector((state: RootState) => state.userModule.searchedUsers)
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const navigate = useNavigate()
@@ -38,7 +37,13 @@ export function SearchList({ closeSearchContainer, isRecentShown, users, clearIn
                 return item._id === i._id
             })
             if (!Item) {
-                user.recentSearchs.unshift(item)
+                const recentSearch = {
+                    _id: item._id,
+                    username: item.username,
+                    fullname: item.fullname,
+                    imgUrl: item.imgUrl,
+                }
+                user.recentSearchs.unshift(recentSearch)
                 dispatch(updateUser(user))
             }
         }
@@ -62,7 +67,7 @@ export function SearchList({ closeSearchContainer, isRecentShown, users, clearIn
         <section className="search-list-container">
             {isRecentShown && <p className="recent">Recent</p>}
             {(!recentSearchs.length && isRecentShown) && <p className="no-recent">No recent searchs</p>}
-            {(!Users.length && !isRecentShown) && <p className="no-results">No results found</p>}
+            {(!users?.length && !isRecentShown) && <p className="no-results">No results found</p>}
             {(recentSearchs.length !== 0 && isRecentShown) && <section className="recent-searchs">
                 {recentSearchs.map(item => {
                     return <div onClick={() => goToProfile(item)} className="search-item recent-item" key={item._id}>

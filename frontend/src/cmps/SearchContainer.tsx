@@ -22,7 +22,7 @@ export function SearchContainer({ isSearchOpened, setIsSearchOpened }: Props) {
         const target = ev.target as any
         if (!target.value.length) setIsRecentShown(true)
         else if (target.value.length === 1) setIsRecentShown(false)
-        dispatch(setFilterBy({ txt: target.value }))
+        dispatch(setFilterBy({ txt: target.value, limit: null }))
         dispatch(getSearchedUsers())
     }
 

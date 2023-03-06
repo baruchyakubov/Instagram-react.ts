@@ -4,4 +4,5 @@ export interface FilterBy {
 
 export interface FilterByUsers {
     txt?: string
+    limit?: number | null
 }

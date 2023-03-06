@@ -1,26 +1,33 @@
 export interface Story {
-    _id: string,
-    imgUrls: Array<string>,
-    txt: string,
-    saved: boolean,
-    by: By,
-    loc: { lat: number, lng: number, name: string },
-    createdAt: string,
+    _id: string
+    imgUrls: Array<string>
+    txt: string
+    saved: boolean
+    by: By
+    loc: { lat: number, lng: number, name: string }
+    createdAt: string
     comments: Array<Comment>
-    likedBy: Array<By>
+    likedBy: Array<LikedBy>
     liked: boolean
 }
 
 interface By {
-    _id: string,
-    username: string,
+    _id: string
+    username: string
+    imgUrl: string
+}
+
+export interface LikedBy {
+    _id: string
+    fullname: string
+    username: string
     imgUrl: string
 }
 
 export interface Comment {
-    id: string,
-    by: By,
-    txt: string,
+    id: string
+    by: By
+    txt: string
     createdAt: string
 }
 

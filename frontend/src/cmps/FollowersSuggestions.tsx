@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import { getUsers, logout } from "../store/actions/user.actions";
+import { getUsers, logout, setFilterBy } from "../store/actions/user.actions";
 import { INITIAL_STATE, RootState } from "../interfaces/state";
 import { AnyAction } from "redux"
 import { ThunkDispatch } from "redux-thunk"
@@ -13,6 +13,7 @@ export function FollowersSuggestions({ Users }: Props) {
     let navigate = useNavigate();
 
     useEffect(() => {
+        dispatch(setFilterBy({ txt: '', limit: 5 }))
         dispatch(getUsers())
     }, [])
 

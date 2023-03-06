@@ -7,6 +7,7 @@ import { ShareLogo } from "../svg-cmps/ShareLogo";
 import { SaveLogo } from "../svg-cmps/SaveLogo";
 import { useNavigate } from "react-router-dom";
 import { Props } from "../interfaces/props";
+import { eventBus } from "../services/event-bus.service";
 
 export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
@@ -17,6 +18,10 @@ export function StoryPreview({ storyData }: Props) {
 
     const goToProfile = () => {
         navigate(`/profile/${storyData?.story.by._id}`)
+    }
+
+    const openLikeList = () => {
+        eventBus.emit('openLikeList', storyData?.story.likedBy)
     }
 
     const date = storyData?.story.createdAt
@@ -45,7 +50,7 @@ export function StoryPreview({ storyData }: Props) {
                 </div>
                 <SaveLogo></SaveLogo>
             </div>
-            <p className="likes">{storyData?.story.likedBy.length} likes</p>
+            <p onClick={openLikeList} className="likes">{storyData?.story.likedBy.length} likes</p>
             <p className="top-comment">
                 {storyData?.story.comments.length && <span>{storyData?.story.comments[0].by.username} </span>}
                 {storyData?.story.comments.length && storyData?.story.comments[0].txt}

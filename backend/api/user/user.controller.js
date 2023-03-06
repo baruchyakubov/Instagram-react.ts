@@ -16,6 +16,7 @@ async function getUsers(req, res) {
     try {
         const filterBy = {
             txt: req.query?.txt || '',
+            limit: +req.query?.limit || null
         }
         const users = await userService.query(filterBy)
         res.send(users)

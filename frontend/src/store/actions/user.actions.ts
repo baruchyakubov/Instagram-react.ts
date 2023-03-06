@@ -4,22 +4,22 @@ import { User } from "../../interfaces/user";
 import { userService } from "../../services/user.service"
 
 export function getUsers() {
-    return async (dispatch: Function) => {
-        const users = await userService.getUsers()
+    return async (dispatch: Function, getState: Function) => {
+        const users = await userService.getUsers(getState().userModule.filterBy)
         dispatch({ type: 'GET_USERS', users })
     }
 }
 
 export function getSearchedUsers() {
     return async (dispatch: Function, getState: Function) => {
-        const searchedUsers = await userService.getUsers(getState().storyModule.filterBy)
+        const searchedUsers = await userService.getUsers(getState().userModule.filterBy)
         dispatch({ type: 'GET_SEARCHED_USERS', searchedUsers })
     }
 }
 
 export function setFilterBy(filterBy: FilterByUsers) {
     return (dispatch: Function) => {
-        dispatch({ type: 'SET_FILTER', filterBy })
+        dispatch({ type: 'SET_USER_FILTER', filterBy })
         return 'hello'
     }
 }
