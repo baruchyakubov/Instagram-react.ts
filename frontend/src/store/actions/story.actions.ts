@@ -1,5 +1,6 @@
 import { FilterBy } from "../../interfaces/filterBy"
 import { storyService } from "../../services/story.service"
+import { utilService } from "../../services/util.service"
 
 export function loadStorys() {
     return async (dispatch: Function, getState: Function) => {
@@ -21,7 +22,8 @@ export function resetStorys() {
 }
 
 export function toggleApperance() {
-    return (dispatch: Function) => {
+    return (dispatch: Function, getState: Function) => {
+        utilService.saveToStorage('appearance' , !getState().storyModule.isDarkMode)
         dispatch({ type: 'TOGGLE_APPERANCE' })
         return 'hello'
     }

@@ -10,6 +10,8 @@ import { HeaderMobile } from './cmps/HeaderMobile'
 import { UserListModal } from './cmps/UserListModal'
 import { eventBus } from './services/event-bus.service'
 import { UserInfo } from './interfaces/user'
+import { useSelector } from 'react-redux'
+import { RootState } from './interfaces/state'
 
 interface EmitData {
   userList: UserInfo[]
@@ -21,6 +23,7 @@ function App() {
   const [isOpenedLikeList, setIsOpenedLikeList] = useState(false)
   const [likeList, setlikeList] = useState<UserInfo[] | null>(null)
   const [userListModaltitle, setUserListModaltitle] = useState('')
+  const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
   useEffect(() => {
     eventBus.on('openUserListModal', ({ userList, title }: EmitData) => {
@@ -29,6 +32,12 @@ function App() {
       setIsOpenedLikeList(true)
     })
   }, [])
+  
+  useEffect(() => {
+    const elBody = document.querySelector('body')
+    if (isDarkMode && elBody) elBody.style.backgroundColor = 'rgb(0,0,0)'
+    else if(!isDarkMode && elBody) elBody.style.backgroundColor = 'white'
+  }, [isDarkMode])
 
 
   return (
