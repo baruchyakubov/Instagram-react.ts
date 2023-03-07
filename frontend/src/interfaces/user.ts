@@ -3,26 +3,16 @@ export interface User {
     password: string
     fullname: string
     imgUrl: string
-    following: {
-        _id: string
-        username: string
-        fullname: string
-        imgUrl: string
-    }[],
-    followers: {
-        _id: string
-        username: string
-        fullname: string
-        imgUrl: string
-    }[],
-    recentSearchs: RecentSearchs[]
+    following: UserInfo[],
+    followers: UserInfo[],
+    recentSearchs: UserInfo[]
     notifications: []
     isFollowed: boolean
     username: string
     createdAt: string
 }
 
-export interface RecentSearchs {
+export interface UserInfo {
     _id: string,
     fullname: string
     username: string

@@ -10,6 +10,7 @@ export interface RootState {
 interface storyModule {
     storys: Story[]
     filterBy: FilterBy
+    isDarkMode: boolean
 }
 
 interface UserModule {

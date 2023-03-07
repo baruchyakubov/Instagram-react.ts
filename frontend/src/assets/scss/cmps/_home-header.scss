@@ -29,5 +29,25 @@
                 all: unset;
             }
         }
+
+        &.dark-mode {
+            background-color: rgb(0, 0, 0);
+            border-bottom: 1px solid rgb(38, 38, 38);
+            .search{
+                input{
+                    color: #FAFAFA;
+                }
+            }
+            a {
+                svg {
+                    fill: #FAFAFA;
+                }
+            }
+
+
+            .search {
+                background-color: rgb(38, 38, 38);
+            }
+        }
     }
 }

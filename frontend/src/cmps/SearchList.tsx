@@ -5,12 +5,12 @@ import { AnyAction } from "redux"
 import { ThunkDispatch } from "redux-thunk"
 import { Props } from "../interfaces/props"
 import { INITIAL_STATE, RootState } from "../interfaces/state"
-import { RecentSearchs } from "../interfaces/user"
+import { UserInfo } from "../interfaces/user"
 import { updateUser } from "../store/actions/user.actions"
 import { CloseBtn3 } from "../svg-cmps/CloseBtn3"
 
 export function SearchList({ closeSearchContainer, isRecentShown, users, clearInput }: Props) {
-    const [recentSearchs, setRecentSearchs] = useState<RecentSearchs[]>([])
+    const [recentSearchs, setRecentSearchs] = useState<UserInfo[]>([])
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const navigate = useNavigate()
@@ -19,7 +19,7 @@ export function SearchList({ closeSearchContainer, isRecentShown, users, clearIn
         getLoggedInUser()
     }, [loggedInUser])
 
-    const getLoggedInUser = async () => {
+    const getLoggedInUser = (): void => {
         if (!loggedInUser?._id) {
             setRecentSearchs([])
             return
@@ -29,7 +29,7 @@ export function SearchList({ closeSearchContainer, isRecentShown, users, clearIn
         }
     }
 
-    const goToProfile = (item: RecentSearchs) => {
+    const goToProfile = (item: UserInfo) => {
         if (clearInput) clearInput()
         if (loggedInUser?._id) {
             const user = { ...loggedInUser }
@@ -51,7 +51,7 @@ export function SearchList({ closeSearchContainer, isRecentShown, users, clearIn
         if (closeSearchContainer) closeSearchContainer()
     }
 
-    const deleteRecentSearch = (ev: SyntheticEvent, item: RecentSearchs) => {
+    const deleteRecentSearch = (ev: SyntheticEvent, item: UserInfo) => {
         ev.stopPropagation()
         if (loggedInUser?._id) {
             const user = { ...loggedInUser }

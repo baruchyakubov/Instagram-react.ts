@@ -20,6 +20,13 @@ export function resetStorys() {
     }
 }
 
+export function toggleApperance() {
+    return (dispatch: Function) => {
+        dispatch({ type: 'TOGGLE_APPERANCE' })
+        return 'hello'
+    }
+}
+
 export function setFilterBy(filterBy: FilterBy) {
     return (dispatch: Function) => {
         dispatch({ type: 'SET_FILTER', filterBy })

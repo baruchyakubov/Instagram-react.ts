@@ -8,30 +8,33 @@ import { SaveLogo } from "../svg-cmps/SaveLogo";
 import { useNavigate } from "react-router-dom";
 import { Props } from "../interfaces/props";
 import { eventBus } from "../services/event-bus.service";
+import { useSelector } from "react-redux";
+import { RootState } from "../interfaces/state";
 
 export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
+    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
-    const openDetsils = () => {
+    const openDetsils = (): void => {
         navigate(`/details/${storyData?.story._id}/${storyData?.idx}`)
     }
 
-    const goToProfile = () => {
+    const goToProfile = (): void => {
         navigate(`/profile/${storyData?.story.by._id}`)
     }
 
-    const openLikeList = () => {
-        eventBus.emit('openLikeList', storyData?.story.likedBy)
+    const openUserListModal = (): void => {
+        eventBus.emit('openUserListModal', { userList: storyData?.story.likedBy, title: 'Likes' })
     }
 
     const date = storyData?.story.createdAt
 
     return (
-        <section className="story-preview">
+        <section className={`story-preview ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="header-preview">
                 <div onClick={goToProfile} className="user-info">
                     <img src={storyData?.story.by.imgUrl} alt="" />
-                    <p>{storyData?.story.by.username}</p>
+                    <p className={isDarkMode ? 'dark-mode' : ''}>{storyData?.story.by.username}</p>
                     <span>•</span>
                     <span>{date}</span>
                 </div>
@@ -50,9 +53,9 @@ export function StoryPreview({ storyData }: Props) {
                 </div>
                 <SaveLogo></SaveLogo>
             </div>
-            <p onClick={openLikeList} className="likes">{storyData?.story.likedBy.length} likes</p>
-            <p className="top-comment">
-                {storyData?.story.comments.length && <span>{storyData?.story.comments[0].by.username} </span>}
+            <p onClick={openUserListModal} className={`likes ${isDarkMode ? 'dark-mode' : ''}`} >{storyData?.story.likedBy.length} likes</p>
+            <p className={`top-comment ${isDarkMode ? 'dark-mode' : ''}`}>
+                {storyData?.story.comments.length && <span className={isDarkMode ? 'dark-mode' : ''}>{storyData?.story.comments[0].by.username} </span>}
                 {storyData?.story.comments.length && storyData?.story.comments[0].txt}
             </p>
             <p onClick={openDetsils} className="toggle-comments">View all {storyData?.story.comments.length} comments</p>

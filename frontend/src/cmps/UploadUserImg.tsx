@@ -7,19 +7,19 @@ import { UploadIcon } from "../svg-cmps/UploadIcon";
 export function UploadUserImg({ imgUrl, setImgUrl }: Props) {
     const [isDragover, setIsDragover] = useState(false)
 
-    const handleFileChange = (ev: ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (ev: ChangeEvent<HTMLInputElement>): void => {
         if (!ev.target.files) return;
         let file = ev.target.files[0]
         onUploadFile(file)
     }
 
-    const handleFileDrop = (ev: DragEvent<HTMLInputElement>) => {
+    const handleFileDrop = (ev: DragEvent<HTMLInputElement>): void => {
         ev.preventDefault()
         let file = ev.dataTransfer.files[0]
         onUploadFile(file)
     }
 
-    const onUploadFile = async (file: File) => {
+    const onUploadFile = async (file: File): Promise<void> => {
         const res = await uploadService.uploadImg(file)
         if (setImgUrl) setImgUrl(res.url)
 

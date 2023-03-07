@@ -9,6 +9,7 @@ import { SavedLogo } from "../svg-cmps/SavedLogo";
 import { loadStorys, resetStorys, setFilterBy } from "../store/actions/story.actions";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+import { eventBus } from "../services/event-bus.service";
 
 export function ProfilePage() {
     const [user, setUser] = useState<User | null>(null)
@@ -16,6 +17,7 @@ export function ProfilePage() {
     let navigate = useNavigate();
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const storys = useSelector((state: RootState) => state.storyModule.storys)
+    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
     useEffect(() => {
         if (storys) dispatch(resetStorys())
@@ -30,7 +32,7 @@ export function ProfilePage() {
     }, [params.userId])
 
 
-    const loadUser = async () => {
+    const loadUser = async (): Promise<void> => {
         const userId = params.userId
         if (userId) {
             const User = await userService.getById(userId)
@@ -42,7 +44,12 @@ export function ProfilePage() {
         }
     }
 
-    const goToDetails = (storyId: string, idx: number) => {
+    const openUserListModal = (title: string): void => {
+        const userList = (title === 'Followers') ? user?.followers : user?.following
+        eventBus.emit('openUserListModal', { userList, title })
+    }
+
+    const goToDetails = (storyId: string, idx: number): void => {
         navigate(`/profile/${user?._id}/details/${storyId}/${idx}`)
     }
 
@@ -50,23 +57,23 @@ export function ProfilePage() {
 
     return (
         <>
-            <section className="profile-page">
+            <section className={`profile-page ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="profile-header">
                     <img src={user.imgUrl} alt="" />
                     <div className="user-info">
                         <h1>{user.username}</h1>
                         <div className="activity-data">
                             <p><span>{storys.length}</span> posts</p>
-                            <p><span>{user.followers.length}</span> followers</p>
-                            <p><span>{user.following.length}</span> following</p>
+                            <p onClick={() => openUserListModal('Followers')}><span>{user.followers.length}</span> followers</p>
+                            <p onClick={() => openUserListModal('Following')}><span>{user.following.length}</span> following</p>
                         </div>
                         <p className="fullname">{user.fullname}</p>
                     </div>
                 </div>
                 <div className="activity-data-mobile">
-                    <p><span>2</span> <span>posts</span></p>
-                    <p><span>184</span> <span>followers</span></p>
-                    <p><span>171</span> <span>following</span></p>
+                    <p><span>{storys.length}</span> <span>posts</span></p>
+                    <p onClick={() => openUserListModal('Followers')}><span>{user.followers.length}</span> <span> followers</span></p>
+                    <p onClick={() => openUserListModal('Following')}><span>{user.following.length}</span> <span> following</span></p>
                 </div>
                 <div className="active-btns">
                     <div className="posts">

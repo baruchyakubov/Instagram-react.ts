@@ -51,6 +51,11 @@
 
     border-bottom: 1px solid rgb(219, 219, 219);
 
+    &.dark-mode {
+        border-bottom: 1px solid rgb(38, 38, 38);
+    }
+    
+
     .story-img {
         width: 100%;
         border-radius: rem(4px);
@@ -77,7 +82,9 @@
         p {
             color: $clr1;
             font-weight: 600;
-
+            &.dark-mode {
+                color: #FAFAFA;
+            }
             &:hover {
                 color: $clr2;
             }
@@ -106,7 +113,16 @@
 
         &:hover {
             color: rgb(194, 187, 187);
-            stroke: rgb(194, 187, 187);
+            fill: rgb(194, 187, 187);
+        }
+
+        &.dark-mode {
+            color: #FAFAFA;
+            fill: #FAFAFA;
+            &:hover{
+                color: rgb(38, 38, 38);
+                fill: rgb(38, 38, 38);
+            }
         }
     }
 
@@ -122,6 +138,9 @@
     font-size: rem(14px);
     color: $clr1;
     font-weight: 600;
+    &.dark-mode {
+        color: #FAFAFA;
+    }
 }
 
 .top-comment {
@@ -132,6 +151,9 @@
         font-size: rem(14px);
         color: $clr1;
         font-weight: 600;
+        &.dark-mode {
+            color: #FAFAFA;
+        }
     }
 }
 

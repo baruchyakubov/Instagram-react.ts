@@ -10,6 +10,8 @@ import { Props } from "../interfaces/props";
 export function FollowersSuggestions({ Users }: Props) {
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
+    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
+
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -17,13 +19,20 @@ export function FollowersSuggestions({ Users }: Props) {
         dispatch(getUsers())
     }, [])
 
-    const goToProfile = (userId: string | undefined) => {
+    const goToProfile = (userId: string | undefined): void => {
         navigate(`/profile/${userId}`)
     }
 
-    const Logoot = (ev: SyntheticEvent) => {
+    const Logoot = (ev: SyntheticEvent): void => {
         ev.stopPropagation()
         dispatch(logout())
+    }
+
+    const checkIfFollowing = (userId: string): boolean => {
+        const user = loggedInUser?.following.find(user => {
+            return user._id === userId
+        })
+        return user ? true : false
     }
 
     return (
@@ -32,7 +41,7 @@ export function FollowersSuggestions({ Users }: Props) {
                 <div className="col-1">
                     {loggedInUser?._id ? <img src={loggedInUser?.imgUrl} alt="" /> : <img src="https://res.cloudinary.com/dgvpl7cdq/image/upload/v1677966828/ajwihd1ezvwiezqi4p2y.png" alt="" />}
                     <div className="user-info">
-                        {loggedInUser?._id ? <p>{loggedInUser.username}</p> : <p>Log in</p>}
+                        {loggedInUser?._id ? <p className={isDarkMode ? 'dark-mode' : ''}>{loggedInUser.username}</p> : <p>Log in</p>}
                         {loggedInUser?._id && <span>{loggedInUser.fullname}</span>}
                     </div>
                 </div>
@@ -45,10 +54,10 @@ export function FollowersSuggestions({ Users }: Props) {
                     <div onClick={() => goToProfile(user._id)} className="col-1">
                         <img src={user.imgUrl} alt="" />
                         <div className="user-info">
-                            <p>{user.username}</p>
+                            <p className={isDarkMode ? 'dark-mode' : ''}>{user.username}</p>
                         </div>
                     </div>
-                    <span className="follow-btn">Follow</span>
+                    {(loggedInUser && checkIfFollowing(user._id)) ? <span className="following-btn">Following</span>  : <span className="follow-btn">Follow</span>}
                 </div>
             })}
         </section>

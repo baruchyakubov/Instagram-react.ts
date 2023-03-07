@@ -15,12 +15,13 @@ export function HeaderMobile() {
     const users = useSelector((state: RootState) => state.userModule.searchedUsers)
     const inputEl2 = useRef<HTMLInputElement>(null);
     const ref = useRef<HTMLInputElement>(null);
+    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
     const closeSearchContainer = () => {
         if (setIsSearchOpened) setIsSearchOpened(false)
     }
 
-    const startSearch = (ev: SyntheticEvent) => {
+    const startSearch = (ev: SyntheticEvent): void => {
         const target = ev.target as any
         if (!target.value.length) setIsRecentShown(true)
         else if (target.value.length === 1) setIsRecentShown(false)
@@ -28,13 +29,13 @@ export function HeaderMobile() {
         dispatch(getSearchedUsers())
     }
 
-    const openSearchList = () => {
+    const openSearchList = (): void => {
         if (isSearchOpened) return
         document.addEventListener('click', (ev) => handleClickOutside(ev), true);
         setIsSearchOpened(true)
     }
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent): void => {
         let target = event.target as HTMLTextAreaElement
 
         if (ref.current && !ref.current.contains(target)) {
@@ -45,14 +46,14 @@ export function HeaderMobile() {
 
 
 
-    const clearInput = () => {
+    const clearInput = (): void => {
         if (inputEl2.current) inputEl2.current.value = ''
         setIsRecentShown(true)
     }
 
     return (
         <>
-            <header className="home-header">
+            <header className={`home-header ${isDarkMode ? 'dark-mode' : ''}`}>
                 <NavLink to="/">
                     <InstagramLogoMobile></InstagramLogoMobile>
                 </NavLink>
@@ -61,7 +62,7 @@ export function HeaderMobile() {
                     <input ref={inputEl2} onClick={openSearchList} onInput={startSearch} type="search" placeholder="Search" />
                 </div>
             </header>
-            {isSearchOpened && <div ref={ref} className="search-list-mobile">
+            {isSearchOpened && <div ref={ref} className={`search-list-mobile ${isDarkMode ? 'dark-mode' : ''}`}>
                 <SearchList clearInput={clearInput} users={users} isRecentShown={isRecentShown} closeSearchContainer={closeSearchContainer}></SearchList>
             </div>}
         </>

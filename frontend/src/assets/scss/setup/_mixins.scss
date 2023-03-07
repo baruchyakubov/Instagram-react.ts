@@ -22,3 +22,33 @@
         @content;
     }
 }
+
+
+
+@mixin user-info {
+    display: flex;
+    align-items: center;
+    gap: rem(7px);
+    cursor: pointer;
+
+    >* {
+        font-size: rem(14px);
+    }
+
+    p {
+        color: $clr1;
+        font-weight: 600;
+
+    }
+
+    span {
+        color: $clr2;
+    }
+
+    img {
+        width: rem(44px);
+        height: rem(44px);
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}

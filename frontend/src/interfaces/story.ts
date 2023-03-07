@@ -1,3 +1,5 @@
+import { UserInfo } from "./user"
+
 export interface Story {
     _id: string
     imgUrls: Array<string>
@@ -7,7 +9,7 @@ export interface Story {
     loc: { lat: number, lng: number, name: string }
     createdAt: string
     comments: Array<Comment>
-    likedBy: Array<LikedBy>
+    likedBy: Array<UserInfo>
     liked: boolean
 }
 

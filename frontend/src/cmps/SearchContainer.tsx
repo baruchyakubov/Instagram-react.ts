@@ -13,12 +13,13 @@ export function SearchContainer({ isSearchOpened, setIsSearchOpened }: Props) {
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const users = useSelector((state: RootState) => state.userModule.searchedUsers)
     const inputEl = useRef<HTMLInputElement>(null);
+    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
-    const closeSearchContainer = () => {
+    const closeSearchContainer = (): void => {
         if (setIsSearchOpened) setIsSearchOpened(false)
     }
 
-    const startSearch = (ev: SyntheticEvent) => {
+    const startSearch = (ev: SyntheticEvent): void => {
         const target = ev.target as any
         if (!target.value.length) setIsRecentShown(true)
         else if (target.value.length === 1) setIsRecentShown(false)
@@ -26,14 +27,14 @@ export function SearchContainer({ isSearchOpened, setIsSearchOpened }: Props) {
         dispatch(getSearchedUsers())
     }
 
-    const clearInput = () => {
+    const clearInput = (): void => {
         if (inputEl.current) inputEl.current.value = ''
         setIsRecentShown(true)
     }
 
 
     return (
-        <section className={`search-container ${isSearchOpened ? 'opened' : ''}`}>
+        <section className={`search-container ${isSearchOpened ? 'opened' : ''} ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="row-1">
                 <div className="search-header">
                     <h2>Search</h2>

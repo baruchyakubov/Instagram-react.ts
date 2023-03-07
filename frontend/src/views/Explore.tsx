@@ -16,7 +16,7 @@ export function Explore() {
         dispatch(loadStorys())
     }, [])
 
-    const goToDetails = (storyId: string, idx: number) => {
+    const goToDetails = (storyId: string, idx: number): void => {
         navigate(`/explore/details/${storyId}/${idx}`)
     }
 

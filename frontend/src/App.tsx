@@ -7,18 +7,25 @@ import { ProfilePage } from './views/ProfilePage'
 import { LoginPage } from './cmps/LoginPage'
 import { useEffect, useState } from 'react'
 import { HeaderMobile } from './cmps/HeaderMobile'
-import { LikeList } from './cmps/LikeList'
+import { UserListModal } from './cmps/UserListModal'
 import { eventBus } from './services/event-bus.service'
-import { LikedBy } from './interfaces/story'
+import { UserInfo } from './interfaces/user'
+
+interface EmitData {
+  userList: UserInfo[]
+  title: string
+}
 
 function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [isOpenedLikeList, setIsOpenedLikeList] = useState(false)
-  const [likeList, setlikeList] = useState<LikedBy[] | null>(null)
+  const [likeList, setlikeList] = useState<UserInfo[] | null>(null)
+  const [userListModaltitle, setUserListModaltitle] = useState('')
 
   useEffect(() => {
-    eventBus.on('openLikeList', (likedBy: LikedBy[]) => {
-      setlikeList(likedBy)
+    eventBus.on('openUserListModal', ({ userList, title }: EmitData) => {
+      setlikeList(userList)
+      setUserListModaltitle(title)
       setIsOpenedLikeList(true)
     })
   }, [])
@@ -27,9 +34,10 @@ function App() {
   return (
     <Router>
       <section className='main-page'>
-        {(isOpenedLikeList && likeList) && <LikeList
+        {(isOpenedLikeList && likeList) && <UserListModal
           setIsOpenedLikeList={setIsOpenedLikeList}
           likeList={likeList}
+          title={userListModaltitle}
         />
         }
         {isLogin && <div onClick={() => setIsLogin(false)} className="opacity-wrapper"></div>}

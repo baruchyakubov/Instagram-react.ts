@@ -17,6 +17,7 @@ export interface Props {
     Users?: User[]
     likeList?: LikedBy[]
     setIsOpenedLikeList?: Function
+    title?: string
 }
 
 interface Preview {

@@ -9,6 +9,11 @@
     z-index: 2050;
     transition: 0.4s width ease-in-out;
 
+    &.dark-mode {
+        border-right: 1px solid rgb(38, 38, 38);
+        background-color: rgb(0, 0, 0);
+    }
+
     .instagram-logo-mobile {
         display: none;
     }
@@ -18,6 +23,12 @@
         margin-bottom: rem(32px);
         padding-inline: rem(12px);
         width: rem(220px);
+
+        svg {
+            &.dark-mode {
+                color: #FAFAFA;
+            }
+        }
     }
 
     nav {
@@ -62,6 +73,23 @@
                     path {
                         fill: rgb(38, 38, 38);
                     }
+
+                    &.dark-mode {
+                        path {
+                            fill: #FAFAFA;
+                        }
+                    }
+                }
+            }
+
+            &.dark-mode {
+                &:hover {
+                    background-color: #161616;
+                }
+
+                h1,
+                svg {
+                    color: #FAFAFA;
                 }
             }
         }
@@ -94,6 +122,15 @@
                 svg {
                     scale: 1.1;
                     transition: 0.4s;
+                }
+            }
+
+            &.dark-mode {
+                svg {
+                    fill: #FAFAFA;
+                }
+                &:hover {
+                    background-color: #161616;
                 }
             }
         }
@@ -129,6 +166,12 @@
                     transition: 0.4s;
                 }
             }
+
+            &.dark-mode {
+                svg {
+                    fill: #FAFAFA;
+                }
+            }
         }
     }
 }
@@ -139,6 +182,11 @@
     .side-navbar.opened {
         border-top: 1px solid rgb(219, 219, 219);
         background-color: white;
+
+        &.dark-mode {
+            border-top: 1px solid rgb(38, 38, 38);
+            background-color: rgb(0, 0, 0);
+        }
 
         .instagram-logo-mobile {
             display: none;
@@ -152,6 +200,7 @@
         padding: unset;
 
         nav {
+            width: 100%;
             margin: 0;
             display: flex;
             gap: 2%;

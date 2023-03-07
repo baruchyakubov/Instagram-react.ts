@@ -25,18 +25,18 @@ export function LoginPage({ setIsLogin }: Props) {
         setUserCreds({ ...userCreds, imgUrl })
     }, [imgUrl])
 
-    const handleChange = (ev: SyntheticEvent) => {
+    const handleChange = (ev: SyntheticEvent): void=> {
         let target = ev.target as HTMLTextAreaElement
         const field = target.name
         let value = target.value
         setUserCreds({ ...userCreds, [field]: value })
     }
 
-    const Login = () => {
+    const Login = (): void => {
         dispatch(login(userCreds))
     }
 
-    const Signup = () => {
+    const Signup = (): void => {
         dispatch(signup(userCreds))
     }
 

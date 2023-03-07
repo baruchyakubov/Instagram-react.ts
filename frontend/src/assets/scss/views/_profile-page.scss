@@ -40,6 +40,10 @@
                 gap: rem(40px);
                 margin-bottom: rem(20px);
 
+                :not(:first-child) {
+                    cursor: pointer;
+                }
+
                 p {
                     span {
                         font-weight: 600;
@@ -51,6 +55,18 @@
 
     .activity-data-mobile {
         display: none;
+    }
+    &.dark-mode{
+        .profile-header{
+            p , h1{
+                color: #FAFAFA;
+            }
+        }
+        .activity-data-mobile{
+            span{
+                color: #FAFAFA !important;
+            }
+        }
     }
 }
 

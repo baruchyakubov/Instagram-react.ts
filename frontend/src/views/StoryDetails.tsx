@@ -19,13 +19,14 @@ export function StoryDetails() {
     let navigate = useNavigate();
     const location = useLocation();
     const storys = useSelector((state: RootState) => state.storyModule.storys)
+    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
     useEffect(() => {
         loadPost()
     }, [params.id])
 
 
-    const loadPost = async () => {
+    const loadPost = async (): Promise<void> => {
         const StoryId = params.id
 
         if (StoryId) {
@@ -34,13 +35,13 @@ export function StoryDetails() {
         }
     }
 
-    const closeDetails = () => {
+    const closeDetails = (): void => {
         if (location.pathname === `/details/${params.id}/${params.idx}`) navigate('/')
         if (location.pathname === `/explore/details/${params.id}/${params.idx}`) navigate('/explore')
         if (location.pathname === `/profile/${params.userId}/details/${params.id}/${params.idx}`) navigate(`/profile/${params.userId}`)
     }
 
-    const changeStoryRoute = (diff: number) => {
+    const changeStoryRoute = (diff: number): void => {
         if (params.idx) {
             let idx = JSON.parse(params.idx)
             if (idx === 0 && diff === -1) idx = storys.length
@@ -68,7 +69,7 @@ export function StoryDetails() {
             <button onClick={() => changeStoryRoute(-1)} className="left">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z" /></svg>
             </button>
-            <div className="story-details">
+            <div className={`story-details ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="img-wrapper">
                     <Carousel showStatus={false} showThumbs={false}>
                         {story?.imgUrls.map((img, idx) => {

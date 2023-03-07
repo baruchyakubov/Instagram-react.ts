@@ -3,11 +3,16 @@
     margin-left: rem(50px);
 
     .follow-btn,
+    .following-btn,
     .logout {
         cursor: pointer;
         font-size: rem(12px);
         color: #0095F6;
         font-weight: 700;
+    }
+
+    .following-btn {
+        color: $clr2;
     }
 
     .curr-user {
@@ -35,6 +40,9 @@
             p {
                 color: $clr1;
                 font-weight: 600;
+                &.dark-mode {
+                    color: #FAFAFA;
+                }
             }
 
             span {
@@ -78,6 +86,9 @@
                 font-size: rem(14px);
                 color: $clr1;
                 font-weight: 600;
+                &.dark-mode {
+                    color: #FAFAFA;
+                }
             }
         }
     }

@@ -3,7 +3,8 @@ import { Story } from "../../interfaces/story"
 
 const INITIAL_STATE = {
     storys: null,
-    filterBy: { userId: '' }
+    filterBy: { userId: '' },
+    isDarkMode: false
 }
 
 export function storyReducer(state = INITIAL_STATE, action: { type: string, storys: Array<Story>, filterBy: FilterBy }) {
@@ -23,6 +24,11 @@ export function storyReducer(state = INITIAL_STATE, action: { type: string, stor
             return {
                 ...state,
                 filterBy: action.filterBy
+            }
+        case 'TOGGLE_APPERANCE':
+            return {
+                ...state,
+                isDarkMode: !state.isDarkMode
             }
         default:
             return state

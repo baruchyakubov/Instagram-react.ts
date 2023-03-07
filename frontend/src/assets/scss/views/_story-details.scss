@@ -59,6 +59,20 @@
         max-height: 90vh;
         object-fit: cover;
     }
+    &.dark-mode {
+        .details {
+            p , span{
+                color: #FAFAFA !important;
+            }
+            background-color: rgb(0, 0, 0);
+            .header-details{
+                border-bottom: 1px solid rgb(38, 38, 38);
+            }
+            .comments{
+                border-bottom: 1px solid rgb(38, 38, 38);
+            }
+        }
+    }
 }
 
 .left,
@@ -160,6 +174,8 @@
             }
         }
     }
+
+
 }
 
 .date-details {
