@@ -1,6 +1,7 @@
 import { Login, Signup } from '../interfaces/login-signupCred';
 import { User } from '../interfaces/user';
 import { httpService } from './http.service';
+import { socketService } from './socket.service';
 import { utilService } from './util.service';
 
 
@@ -12,7 +13,8 @@ export const userService = {
     logout,
     signup,
     updateUser,
-    setLoggedInUser
+    setLoggedInUser,
+    updateFollowStatus
 }
 
 declare global {
@@ -23,8 +25,8 @@ declare global {
 
 window.userService = userService
 
-async function getUsers(filterBy = { txt: '' ,limit:null}) {
-    try {        
+async function getUsers(filterBy = { txt: '', limit: null }) {
+    try {
         return await httpService.get('user', filterBy)
     } catch (err) {
         throw err
@@ -43,6 +45,7 @@ async function login(userCred: Login) {
     try {
         const user = await httpService.post('auth/login', userCred)
         if (user) {
+            socketService.login(user._id)
             return setLoggedInUser(user)
         } else throw 'User does not match'
 
@@ -63,7 +66,8 @@ async function signup(userCred: Signup) {
 async function logout() {
     try {
         localStorage.removeItem('loggedInUser')
-        return await httpService.post('auth/logout')
+        socketService.logout()
+        await httpService.post('auth/logout')
     } catch (err) {
         throw err
     }
@@ -82,6 +86,16 @@ function setLoggedInUser(user: User) {
 async function updateUser(user: User) {
     try {
         return await httpService.put(`user/${user._id}`, user)
+    } catch (err) {
+        throw err
+    }
+}
+
+async function updateFollowStatus(updatedStatus: string, userId: string) {
+    try {
+        const user = await httpService.put(`user/follow-status/${userId}`, { updatedStatus })
+        setLoggedInUser(user)
+        return user
     } catch (err) {
         throw err
     }

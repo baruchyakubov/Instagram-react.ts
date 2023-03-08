@@ -65,3 +65,25 @@ export function updateUser(user: User) {
         dispatch({ type: 'UPDATE_USER', user })
     }
 }
+
+export function updateFollowStatus(updatedStatus: string, userId: string) {
+    return async (dispatch: Function) => {
+        try {
+            const user = await userService.updateFollowStatus(updatedStatus, userId)
+            console.log(user);
+            dispatch({ type: 'UPDATE_USER', user })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export function updateOtherUserFollowStatus(user:User) {
+    return async (dispatch: Function) => {
+        try {
+            dispatch({ type: 'SET_LOGGED_IN_USER', user })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}

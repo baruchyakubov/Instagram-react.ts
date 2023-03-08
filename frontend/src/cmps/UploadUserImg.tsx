@@ -3,7 +3,6 @@ import { Props } from "../interfaces/props";
 import { uploadService } from "../services/upload.service";
 import { UploadIcon } from "../svg-cmps/UploadIcon";
 
-
 export function UploadUserImg({ imgUrl, setImgUrl }: Props) {
     const [isDragover, setIsDragover] = useState(false)
 
@@ -32,11 +31,11 @@ export function UploadUserImg({ imgUrl, setImgUrl }: Props) {
             className={`upload-userImg-container ${isDragover ? 'drag-zone' : ''}`
             }
             onDrop={handleFileDrop}
-            onDragOver={(ev: SyntheticEvent) => {
+            onDragOver={(ev: DragEvent<HTMLElement>) => {
                 ev.preventDefault()
                 setIsDragover(true)
             }}
-            onDragLeave={(ev: SyntheticEvent) => {
+            onDragLeave={(ev: DragEvent<HTMLElement>) => {
                 ev.preventDefault()
                 setIsDragover(false)
             }}

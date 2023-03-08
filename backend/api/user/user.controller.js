@@ -1,6 +1,7 @@
 const userService = require('./user.service')
 const socketService = require('../../services/socket.service')
 const logger = require('../../services/logger.service')
+const { validateToken } = require('../auth/auth.service')
 
 async function getUser(req, res) {
     try {
@@ -48,9 +49,26 @@ async function updateUser(req, res) {
     }
 }
 
+async function updateFollowStatus(req, res) {
+    try {
+        let loggedinUser = validateToken(req.cookies.loginToken)
+        loggedinUser = await userService.getById(loggedinUser._id)
+        const otherUser = await userService.getById(req.params.id)
+        console.log(loggedinUser);
+        console.log(otherUser);
+        const user = await userService.updateFollowStatus(loggedinUser , otherUser , req.body.updatedStatus)
+        logger.info('updating follow status')
+        res.send(user)
+    } catch (err) {
+        logger.error('Failed to update follow status', err)
+        res.status(500).send({ err: 'Failed to update follow status' })
+    }
+}
+
 module.exports = {
     getUser,
     getUsers,
     deleteUser,
-    updateUser
+    updateUser,
+    updateFollowStatus
 }

@@ -1,5 +1,7 @@
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
+const utilService = require('../../services/util.service')
+const socketService = require('../../services/socket.service')
 const ObjectId = require('mongodb').ObjectId
 
 module.exports = {
@@ -8,16 +10,17 @@ module.exports = {
     getByUsername,
     remove,
     update,
-    add
+    add,
+    updateFollowStatus
 }
 
 async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     try {
         const collection = await dbService.getCollection('user')
-        if (filterBy.limit){
+        if (filterBy.limit) {
             var users = await collection.find(criteria).limit(filterBy.limit).toArray()
-        } 
+        }
         else var users = await collection.find(criteria).toArray()
         users = users.map(user => {
             delete user.password
@@ -86,6 +89,46 @@ async function update(user) {
     } catch (err) {
         logger.error(`cannot update user ${user._id}`, err)
         throw err
+    }
+}
+
+async function updateFollowStatus(loggedinUser, otherUser, updatedStatus) {
+    otherUser._id = otherUser._id.toString()
+    loggedinUser._id = loggedinUser._id.toString()
+    const loggedinUserInsert = { _id: otherUser._id, fullname: otherUser.fullname, username: otherUser.username, imgUrl: otherUser.imgUrl }
+    const otherUserInsert = { _id: loggedinUser._id, fullname: loggedinUser.fullname, username: loggedinUser.username, imgUrl: loggedinUser.imgUrl }
+    const collection = await dbService.getCollection('user')
+
+    try {
+        (updatedStatus === 'Following') ?
+            await setStatusToFollowing(loggedinUser, otherUser, collection, loggedinUserInsert, otherUserInsert) :
+            await setStatusToUnfollow(loggedinUser, otherUser, collection, loggedinUserInsert, otherUserInsert)
+
+        return getById(loggedinUser._id)
+    } catch (err) {
+        logger.error(`cannot update follow status`, err)
+        throw err
+    }
+}
+
+async function setStatusToFollowing(loggedinUser, otherUser, collection, loggedinUserInsert, otherUserInsert) {
+    const notification = { id: utilService.makeId(10), by: getUserInfo(loggedinUser), txt: `${loggedinUser.username} started following you`, createdAt: Date.now() }
+    await collection.updateOne({ _id: ObjectId(loggedinUser._id) }, { $push: { following: loggedinUserInsert } })
+    await collection.updateOne({ _id: ObjectId(otherUser._id) }, { $push: { followers: otherUserInsert, notifications: notification } })
+    socketService.emitToUser({ type: 'send-notification', data: notification, userId: otherUser._id })
+}
+
+async function setStatusToUnfollow(loggedinUser, otherUser, collection, loggedinUserInsert, otherUserInsert) {
+    await collection.updateOne({ _id: ObjectId(loggedinUser._id) }, { $pull: { following: loggedinUserInsert } })
+    await collection.updateOne({ _id: ObjectId(otherUser._id) }, { $pull: { followers: otherUserInsert } })
+}
+
+function getUserInfo({ _id, fullname, username, imgUrl }) {
+    return {
+        _id,
+        fullname,
+        username,
+        imgUrl
     }
 }
 

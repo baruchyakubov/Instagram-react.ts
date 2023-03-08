@@ -6,6 +6,6 @@ if (process.env.NODE_ENV === 'production') {
   // config = require('./dev')
   config = require('./prod')
 }
-config.isGuestMode = true
+config.isGuestMode = false
 
 module.exports = config
