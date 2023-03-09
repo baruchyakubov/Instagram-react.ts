@@ -65,9 +65,9 @@ async function signup(userCred: Signup) {
 
 async function logout() {
     try {
+        await httpService.post('auth/logout')
         localStorage.removeItem('loggedInUser')
         socketService.logout()
-        await httpService.post('auth/logout')
     } catch (err) {
         throw err
     }
@@ -79,7 +79,7 @@ function getLoggedInUser() {
 }
 
 function setLoggedInUser(user: User) {
-    utilService.saveToStorage('loggedInUser', user)
+    utilService.saveToStorage('loggedInUser', {...user})
     return user
 }
 

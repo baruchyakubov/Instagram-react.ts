@@ -112,7 +112,7 @@ async function updateFollowStatus(loggedinUser, otherUser, updatedStatus) {
 }
 
 async function setStatusToFollowing(loggedinUser, otherUser, collection, loggedinUserInsert, otherUserInsert) {
-    const notification = { id: utilService.makeId(10), by: getUserInfo(loggedinUser), txt: `${loggedinUser.username} started following you`, createdAt: Date.now() }
+    const notification = { id: utilService.makeId(10), type: "follow", by: getUserInfo(loggedinUser), txt: 'started following you', createdAt: Date.now() }
     await collection.updateOne({ _id: ObjectId(loggedinUser._id) }, { $push: { following: loggedinUserInsert } })
     await collection.updateOne({ _id: ObjectId(otherUser._id) }, { $push: { followers: otherUserInsert, notifications: notification } })
     socketService.emitToUser({ type: 'send-notification', data: notification, userId: otherUser._id })

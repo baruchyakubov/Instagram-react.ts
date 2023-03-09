@@ -54,8 +54,6 @@ async function updateFollowStatus(req, res) {
         let loggedinUser = validateToken(req.cookies.loginToken)
         loggedinUser = await userService.getById(loggedinUser._id)
         const otherUser = await userService.getById(req.params.id)
-        console.log(loggedinUser);
-        console.log(otherUser);
         const user = await userService.updateFollowStatus(loggedinUser , otherUser , req.body.updatedStatus)
         logger.info('updating follow status')
         res.send(user)

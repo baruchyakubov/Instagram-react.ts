@@ -1,0 +1,9 @@
+.user-msg{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 3%;
+    padding: rem(10px);
+    background-color: $clr3;
+    border-radius: rem(3px);
+}

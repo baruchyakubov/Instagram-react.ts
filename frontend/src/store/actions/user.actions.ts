@@ -27,8 +27,8 @@ export function setFilterBy(filterBy: FilterByUsers) {
 export function login(userCreds: Login) {
     return async (dispatch: Function) => {
         try {
-            const loggedInUser = await userService.login(userCreds)
-            dispatch({ type: 'SET_LOGGED_IN_USER', loggedInUser })
+            const loggedInUser = await userService.login(userCreds)            
+            dispatch({ type: 'UPDATE_USER', user:{...loggedInUser} })
         } catch (err) {
             console.log(err);
         }
@@ -42,7 +42,7 @@ export function signup(userCreds: Signup) {
             const users = await userService.getUsers()
             dispatch({ type: 'GET_USERS', users })
             const loggedInUser = await userService.login(userCreds)
-            dispatch({ type: 'SET_LOGGED_IN_USER', loggedInUser })
+            dispatch({ type: 'UPDATE_USER', user:{...loggedInUser} })
         } catch (err) {
             console.log(err);
         }
@@ -56,6 +56,7 @@ export function logout() {
     }
 }
 
+
 export function updateUser(user: User) {
     return async (dispatch: Function) => {
         userService.updateUser(user)
@@ -66,11 +67,16 @@ export function updateUser(user: User) {
     }
 }
 
+export function setLoggedInUser(user: User) {
+    return (dispatch: Function) => {
+        dispatch({ type: 'UPDATE_USER', user: userService.setLoggedInUser(user) })
+    }
+}
+
 export function updateFollowStatus(updatedStatus: string, userId: string) {
     return async (dispatch: Function) => {
         try {
             const user = await userService.updateFollowStatus(updatedStatus, userId)
-            console.log(user);
             dispatch({ type: 'UPDATE_USER', user })
         } catch (err) {
             console.log(err);
@@ -78,10 +84,10 @@ export function updateFollowStatus(updatedStatus: string, userId: string) {
     }
 }
 
-export function updateOtherUserFollowStatus(user:User) {
+export function updateOtherUserFollowStatus(user: User) {
     return async (dispatch: Function) => {
         try {
-            dispatch({ type: 'SET_LOGGED_IN_USER', user })
+            dispatch({ type: 'UPDATE_USER', user })
         } catch (err) {
             console.log(err);
         }

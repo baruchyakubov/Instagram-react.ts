@@ -9,10 +9,15 @@ import { useEffect, useState } from 'react'
 import { HeaderMobile } from './cmps/HeaderMobile'
 import { UserListModal } from './cmps/UserListModal'
 import { eventBus, showSuccessMsg } from './services/event-bus.service'
-import { UserInfo } from './interfaces/user'
-import { useSelector } from 'react-redux'
-import { RootState } from './interfaces/state'
+import { Notification, UserInfo } from './interfaces/user'
+import { useDispatch, useSelector } from 'react-redux'
+import { INITIAL_STATE, RootState } from './interfaces/state'
 import { socketService } from './services/socket.service'
+import { NotificationsPage } from './views/NotificationsPage'
+import { setLoggedInUser, updateFollowStatus } from './store/actions/user.actions'
+import { AnyAction } from 'redux'
+import { ThunkDispatch } from 'redux-thunk'
+import { UserMsg } from './cmps/UserMsg'
 
 interface EmitData {
   userList: UserInfo[]
@@ -25,15 +30,48 @@ function App() {
   const [likeList, setlikeList] = useState<UserInfo[] | null>(null)
   const [userListModaltitle, setUserListModaltitle] = useState('')
   const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
+  const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
+  const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
 
   useEffect(() => {
-    eventBus.on('openUserListModal', ({ userList, title }: EmitData) => {
+    const listener = eventBus.on('openUserListModal', ({ userList, title }: EmitData) => {
       setlikeList(userList)
       setUserListModaltitle(title)
       setIsOpenedLikeList(true)
     })
-    socketService.on('send-notification', console.log)
+    const listener2 = eventBus.on('updateFollowStatus', ({ updatedStatus, userId }: { updatedStatus: string, userId: string }) => UpdateFollowStatus(updatedStatus, userId))
+    return () => {
+      listener()
+      listener2()
+    }
   }, [])
+
+  useEffect(() => {
+    if (loggedInUser) {
+      socketService.on('send-notification', addNotification)
+    }
+    else socketService.off('send-notification')
+  }, [loggedInUser?._id])
+
+  const addNotification = (notification: Notification): void => {
+    if (loggedInUser) {
+      const updatedLoggedInUser = { ...loggedInUser }
+      updatedLoggedInUser.notifications?.unshift(notification)
+      dispatch(setLoggedInUser(updatedLoggedInUser))
+      showSuccessMsg(`${notification.by.username} started following you`)
+    }
+  }
+
+  const checkIfFollowing = (userId: string): boolean => {
+    const user = loggedInUser?.following.find(user => {
+      return user._id === userId
+    })
+    return user ? true : false
+  }
+
+  const UpdateFollowStatus = (updatedStatus: string, userId: string): void => {
+    dispatch(updateFollowStatus(updatedStatus, userId))
+  }
 
   useEffect(() => {
     const elBody = document.querySelector('body')
@@ -45,14 +83,18 @@ function App() {
   return (
     <Router>
       <section className='main-page'>
-        {(isOpenedLikeList && likeList) && <UserListModal
-          setIsOpenedLikeList={setIsOpenedLikeList}
-          likeList={likeList}
-          title={userListModaltitle}
-        />
+        <UserMsg></UserMsg>
+        {(isOpenedLikeList && likeList)
+          && <UserListModal
+            setIsOpenedLikeList={setIsOpenedLikeList}
+            UpdateFollowStatus={UpdateFollowStatus}
+            checkIfFollowing={checkIfFollowing}
+            likeList={likeList}
+            title={userListModaltitle}
+          />
         }
         {isLogin && <div onClick={() => setIsLogin(false)} className="opacity-wrapper"></div>}
-        {isLogin && <div className='login-signup-container'>
+        {isLogin && <div className={`login-signup-container ${isDarkMode ? 'dark-mode' : ''}`}>
           <LoginPage setIsLogin={setIsLogin}></LoginPage>
         </div>}
         <HeaderMobile></HeaderMobile>
@@ -68,6 +110,7 @@ function App() {
             <Route path='/' element={<Home />}>
               <Route path='details/:id/:idx' element={<StoryDetails />}></Route>
             </Route>
+            <Route path='/Notifications' element={<NotificationsPage />} />
           </Routes>
         </section>
       </section>

@@ -12,6 +12,37 @@
     &.dark-mode {
         border-right: 1px solid rgb(38, 38, 38);
         background-color: rgb(0, 0, 0);
+
+        h1,
+        svg {
+            color: #FAFAFA;
+            fill: #FAFAFA;
+        }
+
+        nav {
+            >* {
+                &:hover {
+                    background-color: #161616;
+                }
+
+                &.active {
+                    svg {
+                        fill: #FAFAFA;
+                    }
+
+                    &.Home {
+                        path {
+                            fill: #FAFAFA;
+                        }
+                    }
+
+                    svg {
+                        stroke: #FAFAFA;
+                    }
+                }
+            }
+        }
+
     }
 
     .instagram-logo-mobile {
@@ -23,12 +54,6 @@
         margin-bottom: rem(32px);
         padding-inline: rem(12px);
         width: rem(220px);
-
-        svg {
-            &.dark-mode {
-                color: #FAFAFA;
-            }
-        }
     }
 
     nav {
@@ -73,23 +98,11 @@
                     path {
                         fill: rgb(38, 38, 38);
                     }
-
-                    &.dark-mode {
-                        path {
-                            fill: #FAFAFA;
-                        }
-                    }
-                }
-            }
-
-            &.dark-mode {
-                &:hover {
-                    background-color: #161616;
                 }
 
-                h1,
                 svg {
-                    color: #FAFAFA;
+                    stroke: rgb(38, 38, 38);
+                    stroke-width: 2px;
                 }
             }
         }
@@ -122,15 +135,6 @@
                 svg {
                     scale: 1.1;
                     transition: 0.4s;
-                }
-            }
-
-            &.dark-mode {
-                svg {
-                    fill: #FAFAFA;
-                }
-                &:hover {
-                    background-color: #161616;
                 }
             }
         }
@@ -166,17 +170,11 @@
                     transition: 0.4s;
                 }
             }
-
-            &.dark-mode {
-                svg {
-                    fill: #FAFAFA;
-                }
-            }
         }
     }
 }
 
-@media (max-width:700px) {
+@include for-tablet-layout {
 
     .side-navbar,
     .side-navbar.opened {

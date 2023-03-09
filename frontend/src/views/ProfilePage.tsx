@@ -18,6 +18,7 @@ export function ProfilePage() {
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const storys = useSelector((state: RootState) => state.storyModule.storys)
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
+    const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
 
     useEffect(() => {
         if (storys) dispatch(resetStorys())
@@ -31,11 +32,16 @@ export function ProfilePage() {
         loadUser()
     }, [params.userId])
 
+    useEffect(() => {
+        if (loggedInUser?._id !== user?._id) return
+        setUser(loggedInUser)
+    }, [loggedInUser])
+
 
     const loadUser = async (): Promise<void> => {
         const userId = params.userId
         if (userId) {
-            const User = await userService.getById(userId)
+            const User = (loggedInUser?._id === userId) ? loggedInUser : await userService.getById(userId)
             if (User) {
                 setUser(User)
                 dispatch(setFilterBy({ userId: User._id }))

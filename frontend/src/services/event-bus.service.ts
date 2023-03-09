@@ -3,7 +3,7 @@ export const SHOW_MSG = 'show-msg'
 function createEventEmitter() {
     const listenersMap: any = {}
     return {
-        on(evName: string, listener: Function) {
+        on(evName: string, listener: Function): Function  {
             listenersMap[evName] = (listenersMap[evName]) ? [...listenersMap[evName], listener] : [listener]
             return () => {
                 listenersMap[evName] = listenersMap[evName].filter((func: Function) => func !== listener)

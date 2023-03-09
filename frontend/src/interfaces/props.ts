@@ -1,5 +1,5 @@
 import { LikedBy, Story } from "./story";
-import { User } from "./user";
+import { Notification, User } from "./user";
 
 export interface Props {
     storys?: Array<Story>,
@@ -18,6 +18,10 @@ export interface Props {
     likeList?: LikedBy[]
     setIsOpenedLikeList?: Function
     title?: string
+    notificationList?: Notification[]
+    notification?: Notification
+    UpdateFollowStatus?: Function
+    checkIfFollowing?: Function
 }
 
 interface Preview {

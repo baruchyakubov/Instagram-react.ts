@@ -70,6 +70,21 @@
         border-radius: rem(10px);
 
     }
+
+    &.dark-mode {
+        background-color: rgb(38, 38, 38);
+        input{
+            background-color: rgb(19, 18, 18);
+        }
+        p,input , button{
+            color: #FAFAFA;
+        }
+        form{
+            svg{
+                color: #FAFAFA;
+            }
+        }
+    }
 }
 
 

@@ -33,11 +33,6 @@ export function userReducer(state = INITIAL_STATE, action: { type: string, users
                 ...state,
                 searchedUsers: []
             }
-        case 'SET_LOGGED_IN_USER':
-            return {
-                ...state,
-                loggedInUser: action.loggedInUser
-            }
         case 'LOGOUT':
             return {
                 ...state,

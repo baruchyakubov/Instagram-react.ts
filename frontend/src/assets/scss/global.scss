@@ -11,6 +11,7 @@
 @import "views/explore";
 @import "views/story-details";
 @import "views/profile-page";
+@import "views/notification-page";
 
 // Components
 @import "cmps/Navbar";
@@ -23,6 +24,7 @@
 @import "cmps/upload-image";
 @import "cmps/like-list";
 @import "cmps/loader";
+@import "cmps/user-msg";
 
 .view-section {
     width: calc(100% - 244.8px);
