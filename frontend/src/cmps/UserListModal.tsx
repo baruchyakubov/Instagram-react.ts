@@ -1,9 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
 import { Props } from "../interfaces/props";
-import { INITIAL_STATE, RootState } from "../interfaces/state";
+import { RootState } from "../interfaces/state";
 import { LikedBy } from "../interfaces/story";
 import { User } from "../interfaces/user";
 import { CloseBtn3 } from "../svg-cmps/CloseBtn3";
@@ -12,7 +10,6 @@ export function UserListModal({ setIsOpenedLikeList, UpdateFollowStatus, checkIf
     let navigate = useNavigate();
     const loggedInUser = useSelector((state: RootState): (User | null) => state.userModule.loggedInUser)
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
-    const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
 
     const closeModal = (): void => {
         if (setIsOpenedLikeList) setIsOpenedLikeList(false)
@@ -22,7 +19,7 @@ export function UserListModal({ setIsOpenedLikeList, UpdateFollowStatus, checkIf
         closeModal()
         navigate(`/profile/${userId}`)
     }
-    
+
     return (
         <>
             <div onClick={closeModal} className="opacity-wrapper"></div>

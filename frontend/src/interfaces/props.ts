@@ -22,6 +22,7 @@ export interface Props {
     notification?: Notification
     UpdateFollowStatus?: Function
     checkIfFollowing?: Function
+    imgUrls?: string[]
 }
 
 interface Preview {

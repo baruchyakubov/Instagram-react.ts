@@ -51,15 +51,35 @@
 
     border-bottom: 1px solid rgb(219, 219, 219);
 
-    &.dark-mode {
-        border-bottom: 1px solid rgb(38, 38, 38);
-    }
-    
-
     .story-img {
         width: 100%;
         border-radius: rem(4px);
         object-fit: cover;
+    }
+
+    &.dark-mode {
+        border-bottom: 1px solid rgb(38, 38, 38);
+
+        .user-info {
+            p {
+                color: #FAFAFA;
+            }
+        }
+
+        p,
+        span,
+        svg {
+            color: #FAFAFA;
+        }
+
+        svg {
+            fill: #FAFAFA;
+
+            &:hover {
+                color: rgb(38, 38, 38);
+                fill: rgb(38, 38, 38);
+            }
+        }
     }
 }
 
@@ -82,9 +102,7 @@
         p {
             color: $clr1;
             font-weight: 600;
-            &.dark-mode {
-                color: #FAFAFA;
-            }
+
             &:hover {
                 color: $clr2;
             }
@@ -115,15 +133,6 @@
             color: rgb(194, 187, 187);
             fill: rgb(194, 187, 187);
         }
-
-        &.dark-mode {
-            color: #FAFAFA;
-            fill: #FAFAFA;
-            &:hover{
-                color: rgb(38, 38, 38);
-                fill: rgb(38, 38, 38);
-            }
-        }
     }
 
     .col-1 {
@@ -138,9 +147,6 @@
     font-size: rem(14px);
     color: $clr1;
     font-weight: 600;
-    &.dark-mode {
-        color: #FAFAFA;
-    }
 }
 
 .top-comment {
@@ -151,9 +157,6 @@
         font-size: rem(14px);
         color: $clr1;
         font-weight: 600;
-        &.dark-mode {
-            color: #FAFAFA;
-        }
     }
 }
 

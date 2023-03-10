@@ -6,6 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { INITIAL_STATE, RootState } from "../interfaces/state";
 import { setFilterBy, getSearchedUsers } from "../store/actions/user.actions";
 import { InstagramLogoMobile } from "../svg-cmps/InstagramLogoMobile";
+import { SearchLogo2 } from "../svg-cmps/SearchLogo2";
 import { SearchList } from "./SearchList";
 
 export function HeaderMobile() {
@@ -61,7 +62,7 @@ export function HeaderMobile() {
                     <InstagramLogoMobile></InstagramLogoMobile>
                 </NavLink>
                 <div className="search">
-                    <svg aria-label="Search" color="rgb(142, 142, 142)" fill="rgb(142, 142, 142)" height="16" role="img" viewBox="0 0 24 24" width="16"><path d="M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path><line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="16.511" x2="22" y1="16.511" y2="22"></line></svg>
+                    <SearchLogo2></SearchLogo2>
                     <input
                         ref={inputEl2}
                         onClick={openSearchList}

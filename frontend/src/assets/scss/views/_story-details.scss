@@ -59,16 +59,31 @@
         max-height: 90vh;
         object-fit: cover;
     }
+
     &.dark-mode {
         .details {
-            p , span{
+
+            p,
+            span,
+            svg {
                 color: #FAFAFA !important;
             }
+            svg {
+                fill: #FAFAFA;
+    
+                &:hover {
+                    color: rgb(38, 38, 38) !important;
+                    fill: rgb(38, 38, 38);
+                }
+            }
+
             background-color: rgb(0, 0, 0);
-            .header-details{
+
+            .header-details {
                 border-bottom: 1px solid rgb(38, 38, 38);
             }
-            .comments{
+
+            .comments {
                 border-bottom: 1px solid rgb(38, 38, 38);
             }
         }

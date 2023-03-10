@@ -3,15 +3,14 @@ import { useParams, useNavigate, useLocation } from "react-router-dom"
 import { Comment, Story } from "../interfaces/story"
 import { storyService } from "../services/story.service"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
 import { StorySettingsLogo } from "../svg-cmps/storySettingsLogo";
 import { CloseBtnLogo } from "../svg-cmps/CloseBtnLogo";
-import { LikeLogo } from "../svg-cmps/LikeLogo";
-import { CommentLogo } from "../svg-cmps/CommentLogo";
-import { ShareLogo } from "../svg-cmps/ShareLogo";
-import { SaveLogo } from "../svg-cmps/SaveLogo";
 import { useSelector } from "react-redux";
 import { RootState } from "../interfaces/state";
+import { PostBtnsAction } from "../cmps/PostBtnsAction";
+import { LeftArrowLogo } from "../svg-cmps/LeftArrowLogo";
+import { RightArrowLogo } from "../svg-cmps/RightArrowLogo";
+import { ImgCarousel } from "../cmps/ImgCarousel";
 
 export function StoryDetails() {
     const [story, setStory] = useState<Story | null>(null)
@@ -64,18 +63,14 @@ export function StoryDetails() {
                 <CloseBtnLogo></CloseBtnLogo>
             </div>
             <button onClick={() => changeStoryRoute(1)} className="right">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z" /></svg>
+                <RightArrowLogo></RightArrowLogo>
             </button>
             <button onClick={() => changeStoryRoute(-1)} className="left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z" /></svg>
+                <LeftArrowLogo></LeftArrowLogo>
             </button>
             <div className={`story-details ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="img-wrapper">
-                    <Carousel showStatus={false} showThumbs={false}>
-                        {story?.imgUrls.map((img, idx) => {
-                            return <img key={idx} className="story-img" src={img} alt="" />
-                        })}
-                    </Carousel>
+                    <ImgCarousel imgUrls={story?.imgUrls}></ImgCarousel>
                 </div>
                 <div className="details">
                     <div className="header-details">
@@ -97,14 +92,7 @@ export function StoryDetails() {
                             </div>
                         })}
                     </div>
-                    <div className="like-comment-section">
-                        <div className="col-1">
-                            <LikeLogo></LikeLogo>
-                            <CommentLogo></CommentLogo>
-                            <ShareLogo></ShareLogo>
-                        </div>
-                        <SaveLogo></SaveLogo>
-                    </div>
+                    <PostBtnsAction></PostBtnsAction>
                     <p className="likes">{story?.likedBy.length} likes</p>
                     <span className="date-details">{date}</span>
                 </div>
