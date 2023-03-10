@@ -38,7 +38,7 @@ export function StoryPreview({ storyData }: Props) {
                 <StorySettingsLogo></StorySettingsLogo>
             </div>
             <ImgCarousel imgUrls={storyData?.story.imgUrls}></ImgCarousel>
-            <PostBtnsAction></PostBtnsAction>
+            <PostBtnsAction storyId={storyData?.story._id}></PostBtnsAction>
             <p onClick={openUserListModal} className="likes" >{storyData?.story.likedBy.length} likes</p>
             <p className="top-comment">
                 {storyData?.story.comments.length && <span>{storyData?.story.comments[0].by.username} </span>}

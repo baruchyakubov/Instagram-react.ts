@@ -92,7 +92,7 @@ export function StoryDetails() {
                             </div>
                         })}
                     </div>
-                    <PostBtnsAction></PostBtnsAction>
+                    <PostBtnsAction storyId={story._id}></PostBtnsAction>
                     <p className="likes">{story?.likedBy.length} likes</p>
                     <span className="date-details">{date}</span>
                 </div>

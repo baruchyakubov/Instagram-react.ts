@@ -144,6 +144,7 @@ async function add({ username, password, fullname, imgUrl }) {
             recentSearchs: [],
             isFollowed: false,
             username,
+            likedPosts: [],
             createdAt: Date.now()
         }
         const collection = await dbService.getCollection('user')

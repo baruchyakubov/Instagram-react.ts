@@ -126,14 +126,20 @@
     justify-content: space-between;
     align-items: center;
 
-    svg {
-        cursor: pointer;
+    div {
+        height: rem(24px);
+        width: rem(24px);
 
-        &:hover {
-            color: rgb(194, 187, 187);
-            fill: rgb(194, 187, 187);
+        svg {
+            cursor: pointer;
+
+            &:hover {
+                color: rgb(194, 187, 187);
+                fill: rgb(194, 187, 187);
+            }
         }
     }
+
 
     .col-1 {
         display: flex;

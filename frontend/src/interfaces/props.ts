@@ -23,6 +23,8 @@ export interface Props {
     UpdateFollowStatus?: Function
     checkIfFollowing?: Function
     imgUrls?: string[]
+    likeStatus?: boolean
+    storyId?:string
 }
 
 interface Preview {

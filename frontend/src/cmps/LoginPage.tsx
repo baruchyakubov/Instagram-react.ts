@@ -16,7 +16,6 @@ export function LoginPage({ setIsLogin }: Props) {
     const [isSignup, setIsSignUp] = useState(false)
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
-    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
     useEffect(() => {
         if (setIsLogin && loggedInUser?._id) setIsLogin(false)

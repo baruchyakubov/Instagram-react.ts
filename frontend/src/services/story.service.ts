@@ -3,6 +3,7 @@ import { httpService } from './http.service';
 export const storyService = {
   query,
   getById,
+  changeLikeStatus
 }
 
 const STORAGE_KEY = 'story'
@@ -18,6 +19,14 @@ async function query(filterBy = { userId: '' }) {
 async function getById(storyId: string) {
   try {
     return await httpService.get(`story/${storyId}`)
+  } catch (err) {
+    throw err
+  }
+}
+
+async function changeLikeStatus(updatedStatus: boolean, storyId: string) {
+  try {    
+    return await httpService.put(`story/like-status-change/${storyId}`, {updatedStatus})
   } catch (err) {
     throw err
   }

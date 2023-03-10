@@ -1,6 +1,7 @@
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
 const utilService = require('../../services/util.service')
+const userService = require('../user/user.service')
 const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy = { userId: '' }) {
@@ -20,7 +21,7 @@ async function query(filterBy = { userId: '' }) {
 async function getById(storyId) {
     try {
         const collection = await dbService.getCollection('story')
-        const story = collection.findOne({ _id: ObjectId(storyId) })
+        const story = await collection.findOne({ _id: ObjectId(storyId) })
         return story
     } catch (err) {
         logger.error(`while finding story ${storyId}`, err)
@@ -65,6 +66,47 @@ async function update(story) {
     }
 }
 
+async function ChangeLikeStatus(updatedStatus, storyId, loggedinUser) {
+    try {
+        const storyCollection = await dbService.getCollection('story')
+        const userCollection = await dbService.getCollection('user')
+        updatedStatus ?
+            await addLike(storyId, storyCollection, userCollection, loggedinUser) :
+            await removeLike(storyId, storyCollection, userCollection, loggedinUser)
+            return {updatedStory: await getById(storyId) , updatedUser: await userService.getById(loggedinUser._id)}
+    } catch (err) {
+        logger.error(`cannot update story ${storyId}`, err)
+        throw err
+    }
+}
+
+async function addLike(storyId, storyCollection, userCollection, loggedinUser) {
+    try {
+        const userInfo = {
+            _id: loggedinUser._id,
+            fullname: loggedinUser.fullname,
+            username: loggedinUser.username,
+            imgUrl: loggedinUser.imgUrl
+        }
+
+        await userCollection.updateOne({ _id: ObjectId(userInfo._id) }, { $push: { likedPosts: { $each: [storyId], $position: 0 } } })
+        await storyCollection.updateOne({ _id: ObjectId(storyId) }, { $push: { likedBy: { $each: [userInfo], $position: 0 } } })
+    } catch (err) {
+        console.log(err);
+        throw err
+    }
+}
+
+async function removeLike(storyId, storyCollection, userCollection, loggedinUser) {
+    try {
+        await userCollection.updateOne({ _id: ObjectId(loggedinUser._id) }, { $pull: { likedPosts: { $in: [storyId] } } })
+        await storyCollection.updateOne({ _id: ObjectId(storyId) }, { $pull: { likedBy: { _id: loggedinUser._id } } })
+    } catch (err) {
+        console.log(err);
+        throw err
+    }
+}
+
 async function addStoryMsg(storyId, msg) {
     try {
         msg.id = utilService.makeId()
@@ -95,5 +137,6 @@ module.exports = {
     add,
     update,
     addStoryMsg,
-    removeStoryMsg
+    removeStoryMsg,
+    ChangeLikeStatus
 }

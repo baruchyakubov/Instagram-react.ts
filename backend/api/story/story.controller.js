@@ -1,6 +1,7 @@
 const storyService = require('./story.service.js')
 
 const logger = require('../../services/logger.service')
+const { validateToken } = require('../auth/auth.service.js')
 
 async function getStorys(req, res) {
   try {
@@ -28,7 +29,7 @@ async function getStoryById(req, res) {
 }
 
 async function addStory(req, res) {
-  const {loggedinUser} = req
+  const { loggedinUser } = req
 
   try {
     const story = req.body
@@ -65,8 +66,20 @@ async function removeStory(req, res) {
   }
 }
 
+async function changeLikeStatus(req, res) {
+  try {
+    const storyId = req.params.id
+    let loggedinUser = validateToken(req.cookies.loginToken)
+    const userNstoryData = await storyService.ChangeLikeStatus(req.body.updatedStatus, storyId, loggedinUser)
+    res.send(userNstoryData)
+  } catch (err) {
+    logger.error('Failed to remove story', err)
+    res.status(500).send({ err: 'Failed to remove story' })
+  }
+}
+
 async function addStoryMsg(req, res) {
-  const {loggedinUser} = req
+  const { loggedinUser } = req
   try {
     const storyId = req.params.id
     const msg = {
@@ -83,10 +96,10 @@ async function addStoryMsg(req, res) {
 }
 
 async function removeStoryMsg(req, res) {
-  const {loggedinUser} = req
+  const { loggedinUser } = req
   try {
     const storyId = req.params.id
-    const {msgId} = req.params
+    const { msgId } = req.params
 
     const removedId = await storyService.removeStoryMsg(storyId, msgId)
     res.send(removedId)
@@ -104,5 +117,6 @@ module.exports = {
   updateStory,
   removeStory,
   addStoryMsg,
-  removeStoryMsg
+  removeStoryMsg,
+  changeLikeStatus
 }
