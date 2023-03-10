@@ -1,3 +1,4 @@
+import { Story } from '../interfaces/story';
 import { httpService } from './http.service';
 
 export const storyService = {
@@ -24,9 +25,9 @@ async function getById(storyId: string) {
   }
 }
 
-async function changeLikeStatus(updatedStatus: boolean, storyId: string) {
+async function changeLikeStatus(updatedStatus: boolean, story: Story) {
   try {    
-    return await httpService.put(`story/like-status-change/${storyId}`, {updatedStatus})
+    return await httpService.put(`story/like-status-change/${story._id}`, {updatedStatus , story})
   } catch (err) {
     throw err
   }

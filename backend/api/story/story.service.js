@@ -66,21 +66,21 @@ async function update(story) {
     }
 }
 
-async function ChangeLikeStatus(updatedStatus, storyId, loggedinUser) {
+async function ChangeLikeStatus(updatedStatus, story, loggedinUser) {
     try {
         const storyCollection = await dbService.getCollection('story')
-        const userCollection = await dbService.getCollection('user')
         updatedStatus ?
-            await addLike(storyId, storyCollection, userCollection, loggedinUser) :
-            await removeLike(storyId, storyCollection, userCollection, loggedinUser)
-            return {updatedStory: await getById(storyId) , updatedUser: await userService.getById(loggedinUser._id)}
+            await addLike(story._id, storyCollection, loggedinUser) :
+            await removeLike(story._id, storyCollection, loggedinUser)
+
+        return await getById(story._id)
     } catch (err) {
         logger.error(`cannot update story ${storyId}`, err)
         throw err
     }
 }
 
-async function addLike(storyId, storyCollection, userCollection, loggedinUser) {
+async function addLike(storyId, storyCollection, loggedinUser) {
     try {
         const userInfo = {
             _id: loggedinUser._id,
@@ -88,8 +88,6 @@ async function addLike(storyId, storyCollection, userCollection, loggedinUser) {
             username: loggedinUser.username,
             imgUrl: loggedinUser.imgUrl
         }
-
-        await userCollection.updateOne({ _id: ObjectId(userInfo._id) }, { $push: { likedPosts: { $each: [storyId], $position: 0 } } })
         await storyCollection.updateOne({ _id: ObjectId(storyId) }, { $push: { likedBy: { $each: [userInfo], $position: 0 } } })
     } catch (err) {
         console.log(err);
@@ -97,9 +95,8 @@ async function addLike(storyId, storyCollection, userCollection, loggedinUser) {
     }
 }
 
-async function removeLike(storyId, storyCollection, userCollection, loggedinUser) {
+async function removeLike(storyId, storyCollection, loggedinUser) {
     try {
-        await userCollection.updateOne({ _id: ObjectId(loggedinUser._id) }, { $pull: { likedPosts: { $in: [storyId] } } })
         await storyCollection.updateOne({ _id: ObjectId(storyId) }, { $pull: { likedBy: { _id: loggedinUser._id } } })
     } catch (err) {
         console.log(err);

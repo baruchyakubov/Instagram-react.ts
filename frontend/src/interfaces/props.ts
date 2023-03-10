@@ -24,7 +24,7 @@ export interface Props {
     checkIfFollowing?: Function
     imgUrls?: string[]
     likeStatus?: boolean
-    storyId?:string
+    story?:Story
 }
 
 interface Preview {

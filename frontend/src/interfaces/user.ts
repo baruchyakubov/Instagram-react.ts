@@ -10,7 +10,6 @@ export interface User {
     isFollowed: boolean
     username: string
     createdAt: string
-    likedPosts: string[]
 }
 
 export interface UserInfo {

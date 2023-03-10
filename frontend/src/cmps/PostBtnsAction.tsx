@@ -11,30 +11,37 @@ import { LikeLogo } from "../svg-cmps/LikeLogo";
 import { SaveLogo } from "../svg-cmps/SaveLogo";
 import { ShareLogo } from "../svg-cmps/ShareLogo";
 
-export function PostBtnsAction({ storyId }: Props) {
+export function PostBtnsAction({ story }: Props) {
     const [isLiked, setIsLiked] = useState<boolean>(false)
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
+    const storys = useSelector((state: RootState) => state.storyModule.storys)
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
 
     useEffect(() => {
         checkIfLiked()
-    }, [loggedInUser])
+    }, [storys, loggedInUser?._id])
 
     const checkIfLiked = (): void => {
         if (!loggedInUser) {
             setIsLiked(false)
             return
         }
-        if (!storyId) return
-        if (loggedInUser.likedPosts.includes(storyId)) setIsLiked(true)
+        if (!story) return
+        const user = story.likedBy.find(user => {
+            return user._id === loggedInUser._id
+        })
+        if (user) setIsLiked(true)
         else setIsLiked(false)
     }
 
     const ChangeLikeStatus = (): void => {
+        if (!loggedInUser) {
+            showErrorMsg('login required')
+            return
+        }
+        if (!story) return
         setIsLiked(!isLiked)
-        if (!loggedInUser) showErrorMsg('login required')
-        if (!storyId) return
-        dispatch(changeLikeStatus(!isLiked, storyId))
+        dispatch(changeLikeStatus(!isLiked, story))
     }
 
     return (

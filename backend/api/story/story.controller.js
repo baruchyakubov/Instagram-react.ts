@@ -68,10 +68,9 @@ async function removeStory(req, res) {
 
 async function changeLikeStatus(req, res) {
   try {
-    const storyId = req.params.id
     let loggedinUser = validateToken(req.cookies.loginToken)
-    const userNstoryData = await storyService.ChangeLikeStatus(req.body.updatedStatus, storyId, loggedinUser)
-    res.send(userNstoryData)
+    const updatedStory = await storyService.ChangeLikeStatus(req.body.updatedStatus, req.body.story, loggedinUser)
+    res.send(updatedStory)
   } catch (err) {
     logger.error('Failed to remove story', err)
     res.status(500).send({ err: 'Failed to remove story' })

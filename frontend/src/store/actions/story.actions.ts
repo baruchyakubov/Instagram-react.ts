@@ -38,11 +38,10 @@ export function setFilterBy(filterBy: FilterBy) {
     }
 }
 
-export function changeLikeStatus(updatedStatus: boolean, storyId: string) {
+export function changeLikeStatus(updatedStatus: boolean, story: Story) {
     return async (dispatch: Function) => {
         try {
-            const { updatedStory, updatedUser } = await storyService.changeLikeStatus(updatedStatus, storyId)
-            dispatch({ type: 'UPDATE_USER', user: userService.setLoggedInUser(updatedUser) })
+            const updatedStory = await storyService.changeLikeStatus(updatedStatus, story)
             dispatch({ type: 'UPDATE_STORY', updatedStory })
             return 'hello'
         } catch (err) {
