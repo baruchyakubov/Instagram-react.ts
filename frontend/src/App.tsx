@@ -18,6 +18,8 @@ import { setLoggedInUser, updateFollowStatus } from './store/actions/user.action
 import { AnyAction } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { UserMsg } from './cmps/UserMsg'
+import { updatedStory } from './store/actions/story.actions'
+import { Story } from './interfaces/story'
 
 interface EmitData {
   userList: UserInfo[]
@@ -34,6 +36,7 @@ function App() {
   const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
 
   useEffect(() => {
+    socketService.on('show-comment-to-all', (story: Story) => dispatch(updatedStory(story)))
     const listener = eventBus.on('openUserListModal', ({ userList, title }: EmitData) => {
       setlikeList(userList)
       setUserListModaltitle(title)

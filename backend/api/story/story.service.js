@@ -3,6 +3,7 @@ const logger = require('../../services/logger.service')
 const utilService = require('../../services/util.service')
 const userService = require('../user/user.service')
 const socketService = require("../../services/socket.service")
+const { validateToken } = require('../auth/auth.service')
 const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy = { userId: '' }) {
@@ -92,7 +93,7 @@ async function addLike(storyId, storyCollection, loggedinUser, story) {
         const userCollection = await dbService.getCollection('user')
         await storyCollection.updateOne({ _id: ObjectId(storyId) }, { $push: { likedBy: { $each: [userInfo], $position: 0 } } })
         const notification = { id: utilService.makeId(10), type: "like", by: userInfo, storyInfo: { _id: story._id, imgUrl: story.imgUrls[0] }, txt: 'liked your post', createdAt: Date.now() }
-        await userCollection.updateOne({ _id: ObjectId(story.by._id) }, { $push: { notifications: notification } })
+        await userCollection.updateOne({ _id: ObjectId(story.by._id) }, { $push: { notifications: { $each: [notification], $position: 0 } } })
         socketService.emitToUser({ type: 'send-notification', data: notification, userId: story.by._id })
     } catch (err) {
         console.log(err);
@@ -109,14 +110,30 @@ async function removeLike(storyId, storyCollection, loggedinUser) {
     }
 }
 
-async function addStoryMsg(storyId, msg) {
+async function addStoryComment(story, commentToAdd, loggedinUser) {
     try {
-        msg.id = utilService.makeId()
+        const userCollection = await dbService.getCollection('user')
         const collection = await dbService.getCollection('story')
-        await collection.updateOne({ _id: ObjectId(storyId) }, { $push: { msgs: msg } })
-        return msg
+        await collection.updateOne({ _id: ObjectId(story._id) }, { $push: { comments: { $each: [commentToAdd], $position: 0 } } })
+        const Story = await getById(story._id)
+        if (loggedinUser._id !== story.by._id) {
+            console.log(loggedinUser.username);
+            const notification = {
+                id: utilService.makeId(10),
+                type: "comment",
+                by: { _id: loggedinUser._id, fullname: loggedinUser.fullname, username: loggedinUser.username, imgUrl: loggedinUser.imgUrl },
+                storyInfo: { _id: story._id, imgUrl: story.imgUrls[0] },
+                txt: 'commented on your post',
+                createdAt: Date.now()
+            }
+            await userCollection.updateOne({ _id: ObjectId(story.by._id) }, { $push: { notifications: { $each: [notification], $position: 0 } } })
+            socketService.emitToUser({ type: 'send-notification', data: notification, userId: story.by._id })
+        }
+        socketService.broadcast({ type: 'show-comment-to-all', data: Story, userId: commentToAdd.by._id })
+
+        return Story
     } catch (err) {
-        logger.error(`cannot add story msg ${storyId}`, err)
+        logger.error(`cannot add story comment ${story._id}`, err)
         throw err
     }
 }
@@ -138,7 +155,7 @@ module.exports = {
     getById,
     add,
     update,
-    addStoryMsg,
+    addStoryComment,
     removeStoryMsg,
     ChangeLikeStatus
 }

@@ -2,6 +2,7 @@ const storyService = require('./story.service.js')
 
 const logger = require('../../services/logger.service')
 const { validateToken } = require('../auth/auth.service.js')
+const utilService = require("../../services/util.service")
 
 async function getStorys(req, res) {
   try {
@@ -77,15 +78,21 @@ async function changeLikeStatus(req, res) {
   }
 }
 
-async function addStoryMsg(req, res) {
-  const { loggedinUser } = req
+async function addStoryComment(req, res) {
+  const { comment, story , loggedInUserInfo } = req.body
   try {
-    const storyId = req.params.id
-    const msg = {
-      txt: req.body.txt,
-      by: loggedinUser
+    const commentToAdd = {
+      id: utilService.makeId(10),
+      by: {
+        _id: loggedInUserInfo._id,
+        username: loggedInUserInfo.username,
+        imgUrl: loggedInUserInfo.imgUrl
+      },
+      txt: comment,
+      createdAt: Date.now()
     }
-    const savedMsg = await storyService.addStoryMsg(storyId, msg)
+    let loggedinUser = await validateToken(req.cookies.loginToken)
+    const savedMsg = await storyService.addStoryComment(story, commentToAdd , loggedinUser)
     res.json(savedMsg)
   } catch (err) {
     logger.error('Failed to update story', err)
@@ -115,7 +122,7 @@ module.exports = {
   addStory,
   updateStory,
   removeStory,
-  addStoryMsg,
+  addStoryComment,
   removeStoryMsg,
   changeLikeStatus
 }

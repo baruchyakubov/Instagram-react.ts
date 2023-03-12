@@ -19,7 +19,7 @@ export function UserMsg() {
 
     if (!isOpen) return <div></div>
     return (
-        <div className="user-msg">
+        <div className={`user-msg ${(msg?.type === 'error') ? 'error' : ''}`}>
             <p>{msg?.txt}</p>
         </div>
     )

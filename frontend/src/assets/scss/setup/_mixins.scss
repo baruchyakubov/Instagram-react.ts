@@ -80,12 +80,16 @@
     justify-content: space-between;
     align-items: center;
 
-    p {
-        cursor: pointer;
-        font-size: rem(14px);
-        color: #0095F6;
-        font-weight: 700;
+    button {
+        all: unset;
+        p {
+            cursor: pointer;
+            font-size: rem(14px);
+            color: #0095F6;
+            font-weight: 700;
+        }
     }
+
 
     .comment-input {
         all: unset;

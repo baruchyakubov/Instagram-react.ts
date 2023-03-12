@@ -8,9 +8,14 @@
     color: $clr1;
     font-size: rem(16px);
     background-color: $clr5;
-    // border: rgb(58, 114, 58) solid 3px;
     box-shadow: 1px -1px 5px 0px rgba(63, 167, 80, 0.75);
     -webkit-box-shadow: 1px -1px 5px 0px rgba(63, 167, 80, 0.75);
     -moz-box-shadow: 1px -1px 5px 0px rgba(63, 167, 80, 0.75);
     border-radius: rem(2px);
+
+    &.error {
+        box-shadow: 1px -1px 5px 0px rgba(150, 2, 2, 0.75);
+        -webkit-box-shadow: 1px -1px 5px 0px rgba(150, 2, 2, 0.75);
+        -moz-box-shadow: 1px -1px 5px 0px rgba(150, 2, 2, 0.75);
+    }
 }

@@ -12,7 +12,7 @@ import { LeftArrowLogo } from "../svg-cmps/LeftArrowLogo";
 import { RightArrowLogo } from "../svg-cmps/RightArrowLogo";
 import { ImgCarousel } from "../cmps/ImgCarousel";
 import { showErrorMsg } from "../services/event-bus.service";
-import { changeLikeStatus } from "../store/actions/story.actions";
+import { addUserComment, changeLikeStatus } from "../store/actions/story.actions";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { CommentInputBox } from "../cmps/CommentInputBox";
@@ -87,6 +87,11 @@ export function StoryDetails() {
         dispatch(changeLikeStatus(!isLiked, story))
     }
 
+    const AddUserComment = (comment: string,) => {
+        if (story)
+            dispatch(addUserComment(comment, story))
+    }
+
     const date = story?.createdAt
 
     if (!story) return <div></div>
@@ -133,7 +138,7 @@ export function StoryDetails() {
                     />
                     <p className="likes">{story?.likedBy.length} likes</p>
                     <span className="date-details">{date}</span>
-                    <CommentInputBox></CommentInputBox>
+                    <CommentInputBox AddUserComment={AddUserComment}></CommentInputBox>
                 </div>
             </div>
         </>

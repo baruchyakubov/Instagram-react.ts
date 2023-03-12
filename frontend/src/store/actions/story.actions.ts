@@ -23,6 +23,13 @@ export function resetStorys() {
     }
 }
 
+export function updatedStory(updatedStory: Story) {
+    return (dispatch: Function) => {                
+        dispatch({ type: 'UPDATE_STORY', updatedStory })
+        return 'hello'
+    }
+}
+
 export function toggleApperance() {
     return (dispatch: Function, getState: Function) => {
         utilService.saveToStorage('appearance', !getState().storyModule.isDarkMode)
@@ -30,13 +37,28 @@ export function toggleApperance() {
         return 'hello'
     }
 }
-
 export function setFilterBy(filterBy: FilterBy) {
     return (dispatch: Function) => {
         dispatch({ type: 'SET_FILTER', filterBy })
         return 'hello'
     }
 }
+
+export function addUserComment(comment: string, story: Story) {
+    return async (dispatch: Function, getState: Function) => {
+        try {
+            const loggedInUser = { ...getState().userModule.loggedInUser }
+            const loggedInUserInfo = { _id: loggedInUser._id, username: loggedInUser.username, imgUrl: loggedInUser.imgUrl }
+            const updatedStory = await storyService.addStoryComment(loggedInUserInfo, comment, story)
+            dispatch({ type: 'UPDATE_STORY', updatedStory })
+        } catch (err) {
+            console.log(err);
+
+        }
+        return 'hello'
+    }
+}
+
 
 export function changeLikeStatus(updatedStatus: boolean, story: Story) {
     return async (dispatch: Function) => {

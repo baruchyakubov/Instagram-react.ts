@@ -1,10 +1,11 @@
-import { Story } from '../interfaces/story';
+import { By, Story } from '../interfaces/story';
 import { httpService } from './http.service';
 
 export const storyService = {
   query,
   getById,
-  changeLikeStatus
+  changeLikeStatus,
+  addStoryComment
 }
 
 const STORAGE_KEY = 'story'
@@ -28,6 +29,14 @@ async function getById(storyId: string) {
 async function changeLikeStatus(updatedStatus: boolean, story: Story) {
   try {    
     return await httpService.put(`story/like-status-change/${story._id}`, {updatedStatus , story})
+  } catch (err) {
+    throw err
+  }
+}
+
+async function addStoryComment(loggedInUserInfo: By , comment: string, story: Story) {
+  try {    
+    return await httpService.post(`story/comment/${loggedInUserInfo._id}`, {comment , story , loggedInUserInfo})
   } catch (err) {
     throw err
   }

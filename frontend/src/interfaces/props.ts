@@ -28,6 +28,7 @@ export interface Props {
     checkIfLiked?:Function
     ChangeLikeStatus?: Function
     isLiked?: boolean
+    AddUserComment?: Function
 }
 
 interface Preview {

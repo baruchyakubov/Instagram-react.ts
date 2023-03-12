@@ -13,7 +13,7 @@ export interface Story {
     liked: boolean
 }
 
-interface By {
+export interface By {
     _id: string
     username: string
     imgUrl: string

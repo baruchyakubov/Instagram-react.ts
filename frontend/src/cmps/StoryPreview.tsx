@@ -11,7 +11,7 @@ import { utilService } from "../services/util.service";
 import { useEffect, useState } from "react";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { changeLikeStatus } from "../store/actions/story.actions";
+import { addUserComment, changeLikeStatus } from "../store/actions/story.actions";
 import { CommentInputBox } from "./CommentInputBox";
 
 export function StoryPreview({ storyData }: Props) {
@@ -60,6 +60,11 @@ export function StoryPreview({ storyData }: Props) {
         dispatch(changeLikeStatus(!isLiked, storyData?.story))
     }
 
+    const AddUserComment = (comment: string,) => {
+        if (storyData?.story)
+            dispatch(addUserComment(comment, storyData?.story))
+    }
+
     const date = utilService.getDateFormat(storyData?.story.createdAt)
 
     return (
@@ -84,7 +89,7 @@ export function StoryPreview({ storyData }: Props) {
                 {storyData?.story.comments.length && storyData?.story.comments[0].txt}
             </p>
             <p onClick={openDetsils} className="toggle-comments">View all {storyData?.story.comments.length} comments</p>
-            <CommentInputBox></CommentInputBox>
+            <CommentInputBox AddUserComment={AddUserComment}></CommentInputBox>
         </section>
     )
 }

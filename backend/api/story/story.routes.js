@@ -1,7 +1,7 @@
 const express = require('express')
 const { requireAuth, requireAdmin } = require('../../middlewares/requireAuth.middleware')
 const { log } = require('../../middlewares/logger.middleware')
-const { getStorys, getStoryById, addStory, updateStory, removeStory, addStoryMsg, removeStoryMsg, changeLikeStatus } = require('./story.controller')
+const { getStorys, getStoryById, addStory, updateStory, removeStory, addStoryComment, removeStoryMsg, changeLikeStatus } = require('./story.controller')
 const router = express.Router()
 
 // middleware that is specific to this router
@@ -15,7 +15,7 @@ router.put('/like-status-change/:id', requireAuth, changeLikeStatus)
 router.delete('/:id', requireAuth, removeStory)
 // router.delete('/:id', requireAuth, requireAdmin, removeStory)
 
-router.post('/:id/msg', requireAuth, addStoryMsg)
+router.post('/comment/:id', requireAuth, addStoryComment)
 router.delete('/:id/msg/:msgId', requireAuth, removeStoryMsg)
 
 module.exports = router
