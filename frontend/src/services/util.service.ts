@@ -77,7 +77,7 @@ function getDateFormat(timestamps: number | undefined): String | undefined {
     const SECONDS = 60, MINUTES = 3600, HOURS = 86400, YEAR = 365
 
     if (SECONDS >= timePassed)
-        return timePassed + 's'
+        return Math.floor(timePassed) + 's'
     else if (MINUTES >= timePassed)
         return Math.floor(timePassed / 60) + 'm'
     else if (HOURS >= timePassed)

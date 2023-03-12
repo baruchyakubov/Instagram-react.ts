@@ -58,7 +58,7 @@ function App() {
       const updatedLoggedInUser = { ...loggedInUser }
       updatedLoggedInUser.notifications?.unshift(notification)
       dispatch(setLoggedInUser(updatedLoggedInUser))
-      showSuccessMsg(`${notification.by.username} started following you`)
+      showSuccessMsg(`${notification.by.username} ${notification.txt}`)
     }
   }
 

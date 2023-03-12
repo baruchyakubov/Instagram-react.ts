@@ -24,5 +24,6 @@ export interface Notification {
     type: string
     by: UserInfo
     txt: string
+    storyInfo?: { _id: string, imgUrl: string }
     createdAt: number
 }

@@ -1,9 +1,16 @@
-.user-msg{
+.user-msg {
     position: fixed;
+    z-index: 7000;
     left: 50%;
     transform: translateX(-50%);
     top: 3%;
-    padding: rem(10px);
-    background-color: $clr3;
-    border-radius: rem(3px);
+    padding: rem(30px);
+    color: $clr1;
+    font-size: rem(16px);
+    background-color: $clr5;
+    // border: rgb(58, 114, 58) solid 3px;
+    box-shadow: 1px -1px 5px 0px rgba(63, 167, 80, 0.75);
+    -webkit-box-shadow: 1px -1px 5px 0px rgba(63, 167, 80, 0.75);
+    -moz-box-shadow: 1px -1px 5px 0px rgba(63, 167, 80, 0.75);
+    border-radius: rem(2px);
 }

@@ -22,6 +22,7 @@ export function NotificationPreview({ notification }: Props) {
                     <button className="Follow">Follow</button>
             case 'like':
             case 'comment':
+                return <img className="Photo-liked" src={notification.storyInfo?.imgUrl} alt="" />
         }
     }
 

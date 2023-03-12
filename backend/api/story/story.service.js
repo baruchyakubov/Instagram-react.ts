@@ -2,6 +2,7 @@ const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
 const utilService = require('../../services/util.service')
 const userService = require('../user/user.service')
+const socketService = require("../../services/socket.service")
 const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy = { userId: '' }) {
@@ -70,7 +71,7 @@ async function ChangeLikeStatus(updatedStatus, story, loggedinUser) {
     try {
         const storyCollection = await dbService.getCollection('story')
         updatedStatus ?
-            await addLike(story._id, storyCollection, loggedinUser) :
+            await addLike(story._id, storyCollection, loggedinUser, story) :
             await removeLike(story._id, storyCollection, loggedinUser)
 
         return await getById(story._id)
@@ -80,7 +81,7 @@ async function ChangeLikeStatus(updatedStatus, story, loggedinUser) {
     }
 }
 
-async function addLike(storyId, storyCollection, loggedinUser) {
+async function addLike(storyId, storyCollection, loggedinUser, story) {
     try {
         const userInfo = {
             _id: loggedinUser._id,
@@ -88,7 +89,11 @@ async function addLike(storyId, storyCollection, loggedinUser) {
             username: loggedinUser.username,
             imgUrl: loggedinUser.imgUrl
         }
+        const userCollection = await dbService.getCollection('user')
         await storyCollection.updateOne({ _id: ObjectId(storyId) }, { $push: { likedBy: { $each: [userInfo], $position: 0 } } })
+        const notification = { id: utilService.makeId(10), type: "like", by: userInfo, storyInfo: { _id: story._id, imgUrl: story.imgUrls[0] }, txt: 'liked your post', createdAt: Date.now() }
+        await userCollection.updateOne({ _id: ObjectId(story.by._id) }, { $push: { notifications: notification } })
+        socketService.emitToUser({ type: 'send-notification', data: notification, userId: story.by._id })
     } catch (err) {
         console.log(err);
         throw err

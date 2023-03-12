@@ -65,6 +65,11 @@
         button {
             @include follow-btn;
         }
+        .Photo-liked{
+            height: 45px;
+            width: 45px;
+            object-fit: cover;
+        }
     }
 }
 
