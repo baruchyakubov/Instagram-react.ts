@@ -47,7 +47,7 @@ export function PostBtnsAction({ story }: Props) {
     return (
         <div className="like-comment-section">
             <div className="col-1">
-                <div onClick={ChangeLikeStatus} className="liked">
+                <div onClick={ChangeLikeStatus} className="like">
                     <LikeLogo likeStatus={isLiked}></LikeLogo>
                 </div>
                 <div>
@@ -57,7 +57,9 @@ export function PostBtnsAction({ story }: Props) {
                     <ShareLogo></ShareLogo>
                 </div>
             </div>
-            <SaveLogo></SaveLogo>
+            <div>
+                <SaveLogo></SaveLogo>
+            </div>
         </div>
     )
 }

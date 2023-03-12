@@ -74,11 +74,6 @@
 
         svg {
             fill: #FAFAFA;
-
-            &:hover {
-                color: rgb(38, 38, 38);
-                fill: rgb(38, 38, 38);
-            }
         }
     }
 }
@@ -134,8 +129,10 @@
             cursor: pointer;
 
             &:hover {
-                color: rgb(194, 187, 187);
-                fill: rgb(194, 187, 187);
+                &:not(.liked){
+                    color: rgb(194, 187, 187);
+                    fill: rgb(194, 187, 187);
+                }
             }
         }
     }
