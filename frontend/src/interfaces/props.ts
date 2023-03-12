@@ -25,6 +25,9 @@ export interface Props {
     imgUrls?: string[]
     likeStatus?: boolean
     story?:Story
+    checkIfLiked?:Function
+    ChangeLikeStatus?: Function
+    isLiked?: boolean
 }
 
 interface Preview {

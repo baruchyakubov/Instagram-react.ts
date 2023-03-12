@@ -5,24 +5,35 @@ import { storyService } from "../services/story.service"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { StorySettingsLogo } from "../svg-cmps/storySettingsLogo";
 import { CloseBtnLogo } from "../svg-cmps/CloseBtnLogo";
-import { useSelector } from "react-redux";
-import { RootState } from "../interfaces/state";
+import { useDispatch, useSelector } from "react-redux";
+import { INITIAL_STATE, RootState } from "../interfaces/state";
 import { PostBtnsAction } from "../cmps/PostBtnsAction";
 import { LeftArrowLogo } from "../svg-cmps/LeftArrowLogo";
 import { RightArrowLogo } from "../svg-cmps/RightArrowLogo";
 import { ImgCarousel } from "../cmps/ImgCarousel";
+import { showErrorMsg } from "../services/event-bus.service";
+import { changeLikeStatus } from "../store/actions/story.actions";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 export function StoryDetails() {
+    const [isLiked, setIsLiked] = useState<boolean>(false)
     const [story, setStory] = useState<Story | null>(null)
     const params = useParams()
     let navigate = useNavigate();
     const location = useLocation();
     const storys = useSelector((state: RootState) => state.storyModule.storys)
+    const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
+    const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
 
     useEffect(() => {
         loadPost()
-    }, [params.id])
+    }, [params.id, storys])
+
+    useEffect(() => {
+        checkIfLiked()
+    }, [story, loggedInUser?._id])
 
 
     const loadPost = async (): Promise<void> => {
@@ -50,6 +61,29 @@ export function StoryDetails() {
             else if (location.pathname === `/profile/${params.userId}/details/${params.id}/${params.idx}`) navigate(`/profile/${params.userId}/details/${id}/${idx + diff}`)
             else navigate(`/details/${id}/${idx + diff}`)
         }
+    }
+
+    const checkIfLiked = (): void => {
+        if (!loggedInUser) {
+            setIsLiked(false)
+            return
+        }
+        if (!story) return
+        const user = story.likedBy.find(user => {
+            return user._id === loggedInUser._id
+        })
+        if (user) setIsLiked(true)
+        else setIsLiked(false)
+    }
+
+    const ChangeLikeStatus = (): void => {
+        if (!loggedInUser) {
+            showErrorMsg('login required')
+            return
+        }
+        if (!story) return
+        setIsLiked(!isLiked)
+        dispatch(changeLikeStatus(!isLiked, story))
     }
 
     const date = story?.createdAt
@@ -92,7 +126,10 @@ export function StoryDetails() {
                             </div>
                         })}
                     </div>
-                    <PostBtnsAction story={story}></PostBtnsAction>
+                    <PostBtnsAction
+                        ChangeLikeStatus={ChangeLikeStatus}
+                        isLiked={isLiked}
+                    />
                     <p className="likes">{story?.likedBy.length} likes</p>
                     <span className="date-details">{date}</span>
                 </div>
