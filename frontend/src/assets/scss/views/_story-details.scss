@@ -88,6 +88,14 @@
             }
         }
     }
+    .comment-box {
+        @include comment-box;
+        border-top: 1px solid rgb(219, 219, 219);
+        padding-inline: 16px;
+        padding-block: rem(8px);
+        margin-top: auto;
+        margin-bottom: auto;
+    }
 }
 
 .left,
@@ -234,6 +242,10 @@
             width: 100%;
         }
 
+        .comments{
+            height: 35%;
+        }
+
         .img-wrapper {
             width: 100% !important;
             max-height: 40%;
@@ -262,6 +274,7 @@
 
         .story-img {
             height: 100%;
+            object-fit: cover;
         }
     }
 

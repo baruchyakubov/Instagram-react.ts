@@ -115,6 +115,10 @@
     }
 }
 
+.comment-box {
+    @include comment-box;
+}
+
 .like-comment-section {
     margin-top: rem(12px);
     display: flex;
@@ -129,7 +133,7 @@
             cursor: pointer;
 
             &:hover {
-                &:not(.liked){
+                &:not(.liked) {
                     color: rgb(194, 187, 187);
                     fill: rgb(194, 187, 187);
                 }
@@ -176,7 +180,8 @@
     .likes,
     .top-comment,
     .toggle-comments,
-    .header-preview {
+    .header-preview,
+    .comment-box {
         padding-inline: rem(16px);
     }
 

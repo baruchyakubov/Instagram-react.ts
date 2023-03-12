@@ -15,6 +15,7 @@ import { showErrorMsg } from "../services/event-bus.service";
 import { changeLikeStatus } from "../store/actions/story.actions";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { CommentInputBox } from "../cmps/CommentInputBox";
 
 export function StoryDetails() {
     const [isLiked, setIsLiked] = useState<boolean>(false)
@@ -132,6 +133,7 @@ export function StoryDetails() {
                     />
                     <p className="likes">{story?.likedBy.length} likes</p>
                     <span className="date-details">{date}</span>
+                    <CommentInputBox></CommentInputBox>
                 </div>
             </div>
         </>

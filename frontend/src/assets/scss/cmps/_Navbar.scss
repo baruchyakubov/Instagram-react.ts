@@ -5,7 +5,7 @@
     padding-block: rem(40px);
     padding-inline: rem(12px);
     border-right: 1px solid rgb(219, 219, 219);
-    width: 244.8px;
+    width: 335px;
     z-index: 2050;
     transition: 0.4s width ease-in-out;
 
@@ -138,6 +138,12 @@
                 }
             }
         }
+    }
+}
+
+@media (max-width:1900px) {
+    .side-navbar {
+        width: 244.8px;
     }
 }
 

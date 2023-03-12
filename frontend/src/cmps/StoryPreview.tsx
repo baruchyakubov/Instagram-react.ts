@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { changeLikeStatus } from "../store/actions/story.actions";
+import { CommentInputBox } from "./CommentInputBox";
 
 export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
@@ -83,6 +84,7 @@ export function StoryPreview({ storyData }: Props) {
                 {storyData?.story.comments.length && storyData?.story.comments[0].txt}
             </p>
             <p onClick={openDetsils} className="toggle-comments">View all {storyData?.story.comments.length} comments</p>
+            <CommentInputBox></CommentInputBox>
         </section>
     )
 }

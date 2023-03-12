@@ -73,3 +73,24 @@
         }
     }
 }
+
+@mixin comment-box {
+    margin-top: rem(5px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+        cursor: pointer;
+        font-size: rem(14px);
+        color: #0095F6;
+        font-weight: 700;
+    }
+
+    .comment-input {
+        all: unset;
+        margin-top: rem(6px);
+        color: $clr2;
+        font-size: rem(14px);
+    }
+}
