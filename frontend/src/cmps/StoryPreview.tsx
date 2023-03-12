@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../interfaces/state";
 import { PostBtnsAction } from "./PostBtnsAction";
 import { ImgCarousel } from "./ImgCarousel";
+import { utilService } from "../services/util.service";
 
 export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
@@ -24,7 +25,7 @@ export function StoryPreview({ storyData }: Props) {
         eventBus.emit('openUserListModal', { userList: storyData?.story.likedBy, title: 'Likes' })
     }
 
-    const date = storyData?.story.createdAt
+    const date = utilService.getDateFormat(storyData?.story.createdAt)
 
     return (
         <section className={`story-preview ${isDarkMode ? 'dark-mode' : ''}`}>

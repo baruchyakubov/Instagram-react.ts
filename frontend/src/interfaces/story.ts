@@ -7,7 +7,7 @@ export interface Story {
     saved: boolean
     by: By
     loc: { lat: number, lng: number, name: string }
-    createdAt: string
+    createdAt: number
     comments: Array<Comment>
     likedBy: Array<UserInfo>
     liked: boolean

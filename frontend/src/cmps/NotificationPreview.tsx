@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { RootState } from "../interfaces/state"
 import { Props } from "../interfaces/props"
 import { Notification } from "../interfaces/user"
+import { utilService } from "../services/util.service"
 
 export function NotificationPreview({ notification }: Props) {
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
@@ -12,13 +13,6 @@ export function NotificationPreview({ notification }: Props) {
     useEffect(() => {
         if (!loggedInUser) navigate(-1)
     }, [])
-
-    const dateFormat = (timestamps: number | undefined): string | undefined => {
-        if (timestamps) {
-            const date = new Date(timestamps)
-            return date.toLocaleDateString()
-        }
-    }
 
     const dynamicItem = (notification: Notification | undefined) => {
         switch (notification?.type) {
@@ -44,8 +38,8 @@ export function NotificationPreview({ notification }: Props) {
                 <img src={notification?.by.imgUrl} alt="" />
                 <p>
                     {notification?.by.username}
-                    <span> {notification?.txt}.</span>
-                    <span>{dateFormat(notification?.createdAt)}</span>
+                    <span> {notification?.txt}. </span>
+                    <span>{utilService.getDateFormat(notification?.createdAt)}</span>
                 </p>
             </div>
             <div className="col-2">{dynamicItem(notification)}</div>

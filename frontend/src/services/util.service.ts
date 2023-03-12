@@ -6,7 +6,8 @@ export const utilService = {
     randomPastTime,
     saveToStorage,
     loadFromStorage,
-    loadFromSession
+    loadFromSession,
+    getDateFormat
 }
 
 function makeId(length = 6) {
@@ -66,4 +67,23 @@ function loadFromStorage(key: string) {
 function loadFromSession(key: string) {
     const data = sessionStorage.getItem(key)
     return (data) ? JSON.parse(data) : undefined
+}
+
+function getDateFormat(timestamps: number | undefined): String | undefined {
+    if (!timestamps) return
+    const currDate = Date.now()
+    let timePassed = currDate - timestamps
+    timePassed /= 1000
+    const SECONDS = 60, MINUTES = 3600, HOURS = 86400, YEAR = 365
+
+    if (SECONDS >= timePassed)
+        return timePassed + 's'
+    else if (MINUTES >= timePassed)
+        return Math.floor(timePassed / 60) + 'm'
+    else if (HOURS >= timePassed)
+        return Math.floor((timePassed / 60) / 60) + 'h'
+    else if (Math.floor(timePassed / 60 / 60 / 24) <= YEAR)
+        return Math.floor(timePassed / 60 / 60 / 24) + 'd'
+    else
+        return Math.floor((timePassed / 60 / 60 / 24) / 365) + 'y'
 }
