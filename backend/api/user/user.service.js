@@ -11,7 +11,8 @@ module.exports = {
     remove,
     update,
     add,
-    updateFollowStatus
+    updateFollowStatus,
+    changeSavedStatus
 }
 
 async function query(filterBy = {}) {
@@ -61,6 +62,18 @@ async function remove(userId) {
     try {
         const collection = await dbService.getCollection('user')
         await collection.deleteOne({ _id: ObjectId(userId) })
+    } catch (err) {
+        logger.error(`cannot remove user ${userId}`, err)
+        throw err
+    }
+}
+
+async function changeSavedStatus(updatedStatus, story, loggedInUserId) {
+    try {
+        const collection = await dbService.getCollection('user')
+        updatedStatus ?
+            await collection.updateOne({ _id: ObjectId(loggedInUserId) }, { $push: { savedPosts: { $each: [story], $position: 0 } } }) :
+            await collection.updateOne({ _id: ObjectId(loggedInUserId) }, { $pull: { savedPosts: { _id: story._id } } })
     } catch (err) {
         logger.error(`cannot remove user ${userId}`, err)
         throw err
@@ -140,6 +153,7 @@ async function add({ username, password, fullname, imgUrl }) {
             following: [],
             followers: [],
             recentSearchs: [],
+            savedPosts: [],
             isFollowed: false,
             username,
             createdAt: Date.now()

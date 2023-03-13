@@ -56,14 +56,18 @@
     .activity-data-mobile {
         display: none;
     }
-    &.dark-mode{
-        .profile-header{
-            p , h1{
+
+    &.dark-mode {
+        .profile-header {
+
+            p,
+            h1 {
                 color: #FAFAFA;
             }
         }
-        .activity-data-mobile{
-            span{
+
+        .activity-data-mobile {
+            span {
                 color: #FAFAFA !important;
             }
         }
@@ -89,6 +93,19 @@
             color: $clr2;
             font-size: rem(12px);
             font-weight: 600;
+        }
+
+        &.active {
+            border-top: 1px solid $clr1;
+
+            p {
+                color: $clr1;
+            }
+
+            svg {
+                color: $clr1;
+                fill: $clr1;
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ import { LikeLogo } from "../svg-cmps/LikeLogo";
 import { SaveLogo } from "../svg-cmps/SaveLogo";
 import { ShareLogo } from "../svg-cmps/ShareLogo";
 
-export function PostBtnsAction({ isLiked, ChangeLikeStatus }: Props) {
+export function PostBtnsAction({ isLiked, ChangeLikeStatus, isSaved , ChangeSaveStatus }: Props) {
     return (
         <div className="like-comment-section">
             <div className="col-1">
@@ -18,7 +18,7 @@ export function PostBtnsAction({ isLiked, ChangeLikeStatus }: Props) {
                     <ShareLogo></ShareLogo>
                 </div>
             </div>
-            <div>
+            <div onClick={() => { if (ChangeSaveStatus) ChangeSaveStatus() }} className={`save ${isSaved ? 'saved' : ''}`}>
                 <SaveLogo></SaveLogo>
             </div>
         </div>

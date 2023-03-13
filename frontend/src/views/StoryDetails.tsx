@@ -16,9 +16,11 @@ import { addUserComment, changeLikeStatus } from "../store/actions/story.actions
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { CommentInputBox } from "../cmps/CommentInputBox";
+import { changeSaveStatus } from "../store/actions/user.actions";
 
 export function StoryDetails() {
     const [isLiked, setIsLiked] = useState<boolean>(false)
+    const [isSaved, setIsSaved] = useState<boolean>(false)
     const [story, setStory] = useState<Story | null>(null)
     const params = useParams()
     let navigate = useNavigate();
@@ -34,6 +36,7 @@ export function StoryDetails() {
 
     useEffect(() => {
         checkIfLiked()
+        checkIfSaved()
     }, [story, loggedInUser?._id])
 
 
@@ -64,6 +67,21 @@ export function StoryDetails() {
         }
     }
 
+    const checkIfSaved = () => {
+        if (!loggedInUser) {
+            setIsSaved(false)
+            return
+        }
+        if (!story) return
+        const IsSaved = loggedInUser.savedPosts.find(s => {
+            return story._id === s._id
+        })
+        if (IsSaved)
+            setIsSaved(true)
+        else
+            setIsSaved(false)
+    }
+
     const checkIfLiked = (): void => {
         if (!loggedInUser) {
             setIsLiked(false)
@@ -75,6 +93,16 @@ export function StoryDetails() {
         })
         if (user) setIsLiked(true)
         else setIsLiked(false)
+    }
+
+    const ChangeSaveStatus = (): void => {
+        if (!loggedInUser) {
+            showErrorMsg('login required')
+            return
+        }
+        if (!story) return
+        setIsSaved(!isSaved)
+        dispatch(changeSaveStatus(!isSaved, loggedInUser._id , {_id: story._id , imgUrl: story.imgUrls[0]}))
     }
 
     const ChangeLikeStatus = (): void => {
@@ -91,8 +119,6 @@ export function StoryDetails() {
         if (story)
             dispatch(addUserComment(comment, story))
     }
-
-    const date = story?.createdAt
 
     if (!story) return <div></div>
 
@@ -135,9 +161,10 @@ export function StoryDetails() {
                     <PostBtnsAction
                         ChangeLikeStatus={ChangeLikeStatus}
                         isLiked={isLiked}
+                        isSaved={isSaved}
+                        ChangeSaveStatus={ChangeSaveStatus}
                     />
                     <p className="likes">{story?.likedBy.length} likes</p>
-                    <span className="date-details">{date}</span>
                     <CommentInputBox AddUserComment={AddUserComment}></CommentInputBox>
                 </div>
             </div>

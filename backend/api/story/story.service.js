@@ -92,9 +92,17 @@ async function addLike(storyId, storyCollection, loggedinUser, story) {
         }
         const userCollection = await dbService.getCollection('user')
         await storyCollection.updateOne({ _id: ObjectId(storyId) }, { $push: { likedBy: { $each: [userInfo], $position: 0 } } })
-        const notification = { id: utilService.makeId(10), type: "like", by: userInfo, storyInfo: { _id: story._id, imgUrl: story.imgUrls[0] }, txt: 'liked your post', createdAt: Date.now() }
-        await userCollection.updateOne({ _id: ObjectId(story.by._id) }, { $push: { notifications: { $each: [notification], $position: 0 } } })
-        socketService.emitToUser({ type: 'send-notification', data: notification, userId: story.by._id })
+        if (loggedinUser._id !== story.by._id) {
+            const notification = {
+                id: utilService.makeId(10),
+                type: "like",
+                by: userInfo,
+                storyInfo: { _id: story._id, imgUrl: story.imgUrls[0] },
+                txt: 'liked your post', createdAt: Date.now()
+            }
+            await userCollection.updateOne({ _id: ObjectId(story.by._id) }, { $push: { notifications: { $each: [notification], $position: 0 } } })
+            socketService.emitToUser({ type: 'send-notification', data: notification, userId: story.by._id })
+        }
     } catch (err) {
         console.log(err);
         throw err

@@ -29,6 +29,8 @@ export interface Props {
     ChangeLikeStatus?: Function
     isLiked?: boolean
     AddUserComment?: Function
+    isSaved?: boolean
+    ChangeSaveStatus?: Function
 }
 
 interface Preview {

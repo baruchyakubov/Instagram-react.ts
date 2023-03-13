@@ -13,17 +13,23 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { addUserComment, changeLikeStatus } from "../store/actions/story.actions";
 import { CommentInputBox } from "./CommentInputBox";
+import { changeSaveStatus } from "../store/actions/user.actions";
 
 export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
     const [isLiked, setIsLiked] = useState<boolean>(false)
+    const [isSaved, setIsSaved] = useState<boolean>(false)
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
 
     useEffect(() => {
-        if (checkIfLiked) checkIfLiked()
+        checkIfLiked()
     }, [storyData?.story, loggedInUser?._id])
+
+    useEffect(() => {
+        checkIfSaved()
+    }, [loggedInUser])
 
     const openDetsils = (): void => {
         navigate(`/details/${storyData?.story._id}/${storyData?.idx}`)
@@ -37,6 +43,21 @@ export function StoryPreview({ storyData }: Props) {
         eventBus.emit('openUserListModal', { userList: storyData?.story.likedBy, title: 'Likes' })
     }
 
+    const checkIfSaved = () => {
+        if (!loggedInUser) {
+            setIsSaved(false)
+            return
+        }
+        if (!storyData?.story) return
+        const IsSaved = loggedInUser.savedPosts.find(story => {
+            return storyData?.story._id === story._id
+        })
+        if (IsSaved)
+            setIsSaved(true)
+        else
+            setIsSaved(false)
+    }
+
     const checkIfLiked = (): void => {
         if (!loggedInUser) {
             setIsLiked(false)
@@ -48,6 +69,16 @@ export function StoryPreview({ storyData }: Props) {
         })
         if (user) setIsLiked(true)
         else setIsLiked(false)
+    }
+
+    const ChangeSaveStatus = (): void => {
+        if (!loggedInUser) {
+            showErrorMsg('login required')
+            return
+        }
+        if (!storyData?.story) return
+        setIsSaved(!isSaved)
+        dispatch(changeSaveStatus(!isSaved, loggedInUser._id, { _id: storyData.story._id, imgUrl: storyData.story.imgUrls[0] }))
     }
 
     const ChangeLikeStatus = (): void => {
@@ -82,6 +113,8 @@ export function StoryPreview({ storyData }: Props) {
             <PostBtnsAction
                 isLiked={isLiked}
                 ChangeLikeStatus={ChangeLikeStatus}
+                isSaved={isSaved}
+                ChangeSaveStatus={ChangeSaveStatus}
             />
             <p onClick={openUserListModal} className="likes" >{storyData?.story.likedBy.length} likes</p>
             <p className="top-comment">

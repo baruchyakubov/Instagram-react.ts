@@ -1,6 +1,7 @@
 import { FilterByUsers } from "../../interfaces/filterBy";
 import { Login, Signup } from "../../interfaces/login-signupCred";
-import { User } from "../../interfaces/user";
+import { SavedPosts, User } from "../../interfaces/user";
+import { showSuccessMsg } from "../../services/event-bus.service";
 import { userService } from "../../services/user.service"
 
 export function getUsers() {
@@ -27,8 +28,8 @@ export function setFilterBy(filterBy: FilterByUsers) {
 export function login(userCreds: Login) {
     return async (dispatch: Function) => {
         try {
-            const loggedInUser = await userService.login(userCreds)            
-            dispatch({ type: 'UPDATE_USER', user:{...loggedInUser} })
+            const loggedInUser = await userService.login(userCreds)
+            dispatch({ type: 'UPDATE_USER', user: { ...loggedInUser } })
         } catch (err) {
             console.log(err);
         }
@@ -42,7 +43,7 @@ export function signup(userCreds: Signup) {
             const users = await userService.getUsers()
             dispatch({ type: 'GET_USERS', users })
             const loggedInUser = await userService.login(userCreds)
-            dispatch({ type: 'UPDATE_USER', user:{...loggedInUser} })
+            dispatch({ type: 'UPDATE_USER', user: { ...loggedInUser } })
         } catch (err) {
             console.log(err);
         }
@@ -92,4 +93,35 @@ export function updateOtherUserFollowStatus(user: User) {
             console.log(err);
         }
     }
+}
+
+export function changeSaveStatus(updatedStatus: boolean, loggedInUserId: string, story: SavedPosts) {
+    return async (dispatch: Function, getState: Function) => {
+        try {
+            await userService.changeSaveStatus(updatedStatus, loggedInUserId, story)
+            const loggedInUser = { ...getState().userModule.loggedInUser }
+            updatedStatus ?
+                addSavedStory(loggedInUser, story) :
+                removeSavedStory(loggedInUser, story)
+            userService.setLoggedInUser(loggedInUser)
+            dispatch({ type: 'UPDATE_USER', user: loggedInUser })
+            return 'hello'
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+}
+
+function addSavedStory(loggedInUser: User, story: SavedPosts): void {
+    loggedInUser.savedPosts.unshift(story)
+    showSuccessMsg('you saved the post succesfully')
+}
+
+function removeSavedStory(loggedInUser: User, story: SavedPosts): void {
+    const idx = loggedInUser.savedPosts.findIndex(s => {
+        return s._id = story._id
+    })
+    loggedInUser.savedPosts.splice(idx, 1)
+    showSuccessMsg('you removed the post succesfully')
 }

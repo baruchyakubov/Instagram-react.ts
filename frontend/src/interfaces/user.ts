@@ -6,10 +6,16 @@ export interface User {
     following: UserInfo[],
     followers: UserInfo[],
     recentSearchs: UserInfo[]
+    savedPosts: SavedPosts[]
     notifications: Notification[]
     isFollowed: boolean
     username: string
     createdAt: string
+}
+
+export interface SavedPosts {
+    _id: string
+    imgUrl: string
 }
 
 export interface UserInfo {

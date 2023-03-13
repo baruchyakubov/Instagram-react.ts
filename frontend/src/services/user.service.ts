@@ -1,5 +1,5 @@
 import { Login, Signup } from '../interfaces/login-signupCred';
-import { User } from '../interfaces/user';
+import { SavedPosts, User } from '../interfaces/user';
 import { httpService } from './http.service';
 import { socketService } from './socket.service';
 import { utilService } from './util.service';
@@ -14,7 +14,8 @@ export const userService = {
     signup,
     updateUser,
     setLoggedInUser,
-    updateFollowStatus
+    updateFollowStatus,
+    changeSaveStatus
 }
 
 declare global {
@@ -101,6 +102,13 @@ async function updateFollowStatus(updatedStatus: string, userId: string) {
     }
 }
 
+async function changeSaveStatus(updatedStatus: boolean, loggedInUserId: string , story: SavedPosts) {
+    try {    
+      await httpService.put(`user/save-status-change/${loggedInUserId}`, {updatedStatus , story})
+    } catch (err) {
+      throw err
+    }
+  }
 
 
 

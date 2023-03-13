@@ -49,6 +49,19 @@ async function updateUser(req, res) {
     }
 }
 
+async function changeSavedStatus(req, res) {
+    try {
+        const { updatedStatus , story } = req.body
+        const loggedInUserId = req.params.id
+        await userService.changeSavedStatus(updatedStatus , story , loggedInUserId)
+        logger.info('updating save status')
+        res.send({ msg: 'save status updated successfully' })
+    } catch (err) {
+        logger.error('Failed to update user', err)
+        res.status(500).send({ err: 'Failed to update user' })
+    }
+}
+
 async function updateFollowStatus(req, res) {
     try {
         let loggedinUser = validateToken(req.cookies.loginToken)
@@ -68,5 +81,6 @@ module.exports = {
     getUsers,
     deleteUser,
     updateUser,
-    updateFollowStatus
+    updateFollowStatus,
+    changeSavedStatus
 }

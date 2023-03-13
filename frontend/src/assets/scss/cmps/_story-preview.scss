@@ -75,6 +75,15 @@
         svg {
             fill: #FAFAFA;
         }
+        .like-comment-section{
+            .saved{
+                svg{
+                    polygon{
+                        fill: #FAFAFA;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -136,6 +145,14 @@
                 &:not(.liked) {
                     color: rgb(194, 187, 187);
                     fill: rgb(194, 187, 187);
+                }
+            }
+        }
+
+        &.saved{
+            svg{
+                polygon{
+                    fill: rgb(38, 38, 38);
                 }
             }
         }

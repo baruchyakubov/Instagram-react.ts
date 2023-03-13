@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { INITIAL_STATE, RootState } from "../interfaces/state";
-import { User } from "../interfaces/user";
+import { SavedPosts, User } from "../interfaces/user";
 import { userService } from "../services/user.service";
 import { StorysLogo } from "../svg-cmps/storysLogo";
 import { SavedLogo } from "../svg-cmps/SavedLogo";
@@ -13,6 +13,8 @@ import { eventBus } from "../services/event-bus.service";
 
 export function ProfilePage() {
     const [user, setUser] = useState<User | null>(null)
+    const [isActive, setIsActive] = useState<string>('posts')
+    const [savedStorys, setSavedStorys] = useState<SavedPosts[]>([])
     const params = useParams()
     let navigate = useNavigate();
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
@@ -37,7 +39,6 @@ export function ProfilePage() {
         setUser(loggedInUser)
     }, [loggedInUser])
 
-
     const loadUser = async (): Promise<void> => {
         const userId = params.userId
         if (userId) {
@@ -46,6 +47,8 @@ export function ProfilePage() {
                 setUser(User)
                 dispatch(setFilterBy({ userId: User._id }))
                 dispatch(loadStorys())
+                if (loggedInUser)
+                    setSavedStorys(loggedInUser.savedPosts)
             }
         }
     }
@@ -57,6 +60,11 @@ export function ProfilePage() {
 
     const goToDetails = (storyId: string, idx: number): void => {
         navigate(`/profile/${user?._id}/details/${storyId}/${idx}`)
+    }
+
+    const changeStatus = (status: string): void => {      
+        if (isActive !== status)
+            setIsActive(status)
     }
 
     if (!user || !storys) return <div className="loader"></div>
@@ -82,22 +90,30 @@ export function ProfilePage() {
                     <p onClick={() => openUserListModal('Following')}><span>{user.following.length}</span> <span> following</span></p>
                 </div>
                 <div className="active-btns">
-                    <div className="posts">
+                    <div onClick={() => changeStatus('posts')} className={`posts ${(isActive === 'posts') ? 'active' : ''}`}>
                         <StorysLogo></StorysLogo>
                         <p>POSTS</p>
                     </div>
-                    <div className="saved">
+                    {(loggedInUser?._id === user._id) && <div onClick={() => changeStatus('saved')} className={`saved ${(isActive === 'saved') ? 'active' : ''}`}>
                         <SavedLogo></SavedLogo>
                         <p>SAVED</p>
-                    </div>
+                    </div>}
                 </div>
-                <div className="profile-post-list">
+                {(isActive === 'posts') && <div className="profile-post-list">
                     {
                         storys.map((story, idx) => {
                             return <img onClick={() => goToDetails(story._id, idx)} key={story._id} src={story.imgUrls[0]} alt="" />
                         })
                     }
-                </div>
+                </div>}
+                {((loggedInUser?._id === user._id) && isActive === 'saved') && <div className="profile-post-list">
+                    {
+                        savedStorys.map((story, idx) => {
+                            return <img onClick={() => goToDetails(story._id, idx)} key={story._id} src={story.imgUrl} alt="" />
+                        })
+                    }
+                </div>}
+
             </section>
             <Outlet></Outlet>
         </>
