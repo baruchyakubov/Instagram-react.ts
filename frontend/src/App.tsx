@@ -8,7 +8,7 @@ import { LoginPage } from './cmps/LoginPage'
 import { useEffect, useState } from 'react'
 import { HeaderMobile } from './cmps/HeaderMobile'
 import { UserListModal } from './cmps/UserListModal'
-import { eventBus, showSuccessMsg } from './services/event-bus.service'
+import { eventBus, showErrorMsg, showSuccessMsg } from './services/event-bus.service'
 import { Notification, UserInfo } from './interfaces/user'
 import { useDispatch, useSelector } from 'react-redux'
 import { INITIAL_STATE, RootState } from './interfaces/state'
@@ -30,6 +30,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [isOpenedLikeList, setIsOpenedLikeList] = useState(false)
   const [likeList, setlikeList] = useState<UserInfo[] | null>(null)
+  const [isSettingFollowStatus, setIsSettingFollowStatus] = useState<boolean>(false)
   const [userListModaltitle, setUserListModaltitle] = useState('')
   const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
   const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
@@ -42,10 +43,8 @@ function App() {
       setUserListModaltitle(title)
       setIsOpenedLikeList(true)
     })
-    const listener2 = eventBus.on('updateFollowStatus', ({ updatedStatus, userId }: { updatedStatus: string, userId: string }) => UpdateFollowStatus(updatedStatus, userId))
     return () => {
       listener()
-      listener2()
     }
   }, [])
 
@@ -72,8 +71,14 @@ function App() {
     return user ? true : false
   }
 
-  const UpdateFollowStatus = (updatedStatus: string, userId: string): void => {
-    dispatch(updateFollowStatus(updatedStatus, userId))
+  const UpdateFollowStatus = (updatedStatus: string, userId: string, username: string): void => {
+    if (isSettingFollowStatus) return
+    if (!loggedInUser) {
+      showErrorMsg('Login required')
+      return
+    }
+    setIsSettingFollowStatus(true)
+    dispatch(updateFollowStatus(updatedStatus, userId, setIsSettingFollowStatus, username))
   }
 
   useEffect(() => {
@@ -104,16 +109,16 @@ function App() {
         <Navbar setIsLogin={setIsLogin}></Navbar>
         <section className='view-section'>
           <Routes>
-            <Route path='profile/:userId' element={<ProfilePage />}>
+            <Route path='profile/:userId' element={<ProfilePage UpdateFollowStatus={UpdateFollowStatus} />}>
               <Route path='details/:id/:idx' element={<StoryDetails />}></Route>
             </Route>
             <Route path='/explore' element={<Explore />}>
               <Route path='details/:id/:idx' element={<StoryDetails />}></Route>
             </Route>
-            <Route path='/' element={<Home />}>
+            <Route path='/' element={<Home UpdateFollowStatus={UpdateFollowStatus} />}>
               <Route path='details/:id/:idx' element={<StoryDetails />}></Route>
             </Route>
-            <Route path='/Notifications' element={<NotificationsPage />} />
+            <Route path='/Notifications' element={<NotificationsPage UpdateFollowStatus={UpdateFollowStatus} />} />
           </Routes>
         </section>
       </section>

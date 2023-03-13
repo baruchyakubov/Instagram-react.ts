@@ -11,6 +11,15 @@
         align-items: center;
         gap: 10vw;
 
+        button {
+            margin-top: rem(20px);
+
+            &.Following,
+            &.Follow {
+                @include follow-btn;
+            }
+        }
+
         img {
             height: rem(150px);
             width: rem(150px);

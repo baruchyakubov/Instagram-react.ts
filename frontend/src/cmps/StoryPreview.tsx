@@ -19,6 +19,8 @@ export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
     const [isLiked, setIsLiked] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
+    const [isSettingLikeStatus, setIsSettingLikeStatus] = useState<boolean>(false)
+    const [isSettingSaveStatus, setIsSettingSaveStatus] = useState<boolean>(false)
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
@@ -73,22 +75,26 @@ export function StoryPreview({ storyData }: Props) {
 
     const ChangeSaveStatus = (): void => {
         if (!loggedInUser) {
-            showErrorMsg('login required')
+            showErrorMsg('Login required')
             return
         }
-        if (!storyData?.story) return
+        if (!storyData?.story) return        
+          if(isSettingSaveStatus) return
+        setIsSettingSaveStatus(true)
         setIsSaved(!isSaved)
-        dispatch(changeSaveStatus(!isSaved, loggedInUser._id, { _id: storyData.story._id, imgUrl: storyData.story.imgUrls[0] }))
+        dispatch(changeSaveStatus(!isSaved, loggedInUser._id, { _id: storyData.story._id, imgUrl: storyData.story.imgUrls[0] } , setIsSettingSaveStatus))
     }
 
     const ChangeLikeStatus = (): void => {
         if (!loggedInUser) {
-            showErrorMsg('login required')
+            showErrorMsg('Login required')
             return
         }
-        if (!storyData?.story) return
+        if (!storyData?.story) return   
+        if(isSettingLikeStatus) return
+        setIsSettingLikeStatus(true)
         setIsLiked(!isLiked)
-        dispatch(changeLikeStatus(!isLiked, storyData?.story))
+        dispatch(changeLikeStatus(!isLiked, storyData?.story , setIsSettingLikeStatus))
     }
 
     const AddUserComment = (comment: string,) => {

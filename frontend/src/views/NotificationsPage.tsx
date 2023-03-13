@@ -3,8 +3,9 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { RootState } from "../interfaces/state"
 import { NotificationList } from "../cmps/NotificationList"
+import { Props } from "../interfaces/props"
 
-export function NotificationsPage() {
+export function NotificationsPage({ UpdateFollowStatus }: Props) {
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
     const navigate = useNavigate()
@@ -13,11 +14,12 @@ export function NotificationsPage() {
         if (!loggedInUser) navigate(-1)
     }, [])
 
-    if(!loggedInUser?.notifications.length) return <div>No notifications yet</div>
+    if (!loggedInUser?.notifications.length) return <div>No notifications yet</div>
 
     return (
         <section className={`notifications-page ${isDarkMode ? 'dark-mode' : ''}`}>
             <NotificationList
+                UpdateFollowStatus={UpdateFollowStatus}
                 notificationList={loggedInUser?.notifications}
             />
         </section>

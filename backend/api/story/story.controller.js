@@ -1,5 +1,4 @@
 const storyService = require('./story.service.js')
-
 const logger = require('../../services/logger.service')
 const { validateToken } = require('../auth/auth.service.js')
 const utilService = require("../../services/util.service")
@@ -101,21 +100,6 @@ async function addStoryComment(req, res) {
   }
 }
 
-async function removeStoryMsg(req, res) {
-  const { loggedinUser } = req
-  try {
-    const storyId = req.params.id
-    const { msgId } = req.params
-
-    const removedId = await storyService.removeStoryMsg(storyId, msgId)
-    res.send(removedId)
-  } catch (err) {
-    logger.error('Failed to remove story msg', err)
-    res.status(500).send({ err: 'Failed to remove story msg' })
-
-  }
-}
-
 module.exports = {
   getStorys,
   getStoryById,
@@ -123,6 +107,5 @@ module.exports = {
   updateStory,
   removeStory,
   addStoryComment,
-  removeStoryMsg,
   changeLikeStatus
 }

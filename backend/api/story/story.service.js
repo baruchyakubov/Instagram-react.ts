@@ -1,9 +1,7 @@
 const dbService = require('../../services/db.service')
 const logger = require('../../services/logger.service')
 const utilService = require('../../services/util.service')
-const userService = require('../user/user.service')
 const socketService = require("../../services/socket.service")
-const { validateToken } = require('../auth/auth.service')
 const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy = { userId: '' }) {
@@ -146,17 +144,6 @@ async function addStoryComment(story, commentToAdd, loggedinUser) {
     }
 }
 
-async function removeStoryMsg(storyId, msgId) {
-    try {
-        const collection = await dbService.getCollection('story')
-        await collection.updateOne({ _id: ObjectId(storyId) }, { $pull: { msgs: { id: msgId } } })
-        return msgId
-    } catch (err) {
-        logger.error(`cannot add story msg ${storyId}`, err)
-        throw err
-    }
-}
-
 module.exports = {
     remove,
     query,
@@ -164,6 +151,5 @@ module.exports = {
     add,
     update,
     addStoryComment,
-    removeStoryMsg,
     ChangeLikeStatus
 }

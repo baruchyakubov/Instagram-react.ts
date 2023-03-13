@@ -1,7 +1,7 @@
 import { FilterBy } from "../../interfaces/filterBy"
 import { Story } from "../../interfaces/story"
+import { showErrorMsg } from "../../services/event-bus.service"
 import { storyService } from "../../services/story.service"
-import { userService } from "../../services/user.service"
 import { utilService } from "../../services/util.service"
 
 export function loadStorys() {
@@ -11,7 +11,7 @@ export function loadStorys() {
             dispatch({ type: 'SET_STORYS', storys })
             return 'hello'
         } catch (err) {
-            console.log('err:', err)
+            showErrorMsg('Failed to get posts')
         }
     }
 }
@@ -24,7 +24,7 @@ export function resetStorys() {
 }
 
 export function updatedStory(updatedStory: Story) {
-    return (dispatch: Function) => {                
+    return (dispatch: Function) => {
         dispatch({ type: 'UPDATE_STORY', updatedStory })
         return 'hello'
     }
@@ -52,7 +52,7 @@ export function addUserComment(comment: string, story: Story) {
             const updatedStory = await storyService.addStoryComment(loggedInUserInfo, comment, story)
             dispatch({ type: 'UPDATE_STORY', updatedStory })
         } catch (err) {
-            console.log(err);
+            showErrorMsg('Failed to add comment')
 
         }
         return 'hello'
@@ -60,14 +60,15 @@ export function addUserComment(comment: string, story: Story) {
 }
 
 
-export function changeLikeStatus(updatedStatus: boolean, story: Story) {
+export function changeLikeStatus(updatedStatus: boolean, story: Story, setIsSettingLikeStatus: Function) {
     return async (dispatch: Function) => {
         try {
             const updatedStory = await storyService.changeLikeStatus(updatedStatus, story)
             dispatch({ type: 'UPDATE_STORY', updatedStory })
+            setIsSettingLikeStatus(false)
             return 'hello'
         } catch (err) {
-            console.log(err);
+            showErrorMsg('Failed to add like')
         }
 
     }

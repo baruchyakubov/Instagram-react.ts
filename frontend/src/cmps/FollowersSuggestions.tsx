@@ -6,9 +6,9 @@ import { AnyAction } from "redux"
 import { ThunkDispatch } from "redux-thunk"
 import { useNavigate } from "react-router-dom";
 import { Props } from "../interfaces/props";
-import { eventBus } from "../services/event-bus.service";
+import { User } from "../interfaces/user";
 
-export function FollowersSuggestions({ Users }: Props) {
+export function FollowersSuggestions({ Users, UpdateFollowStatus }: Props) {
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
@@ -21,6 +21,7 @@ export function FollowersSuggestions({ Users }: Props) {
     }, [])
 
     const goToProfile = (userId: string | undefined): void => {
+        if(!loggedInUser) return
         navigate(`/profile/${userId}`)
     }
 
@@ -36,8 +37,14 @@ export function FollowersSuggestions({ Users }: Props) {
         return user ? true : false
     }
 
-    const updateFollowStatus = (updatedStatus: string, userId: string) => {
-        eventBus.emit('updateFollowStatus', { updatedStatus, userId })
+    const dynamicItem = (user: User) => {
+        if (!checkIfFollowing) return
+        if (loggedInUser?._id === user._id) return
+        if (loggedInUser && checkIfFollowing(user._id)) {
+            return <span onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Follow', user._id, user.username) }} className="following-btn">Following</span>
+        } else {
+            return <span onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Following', user._id, user.username) }} className="follow-btn">Follow</span>
+        }
     }
 
     return (
@@ -67,9 +74,7 @@ export function FollowersSuggestions({ Users }: Props) {
                             <p>{user.username}</p>
                         </div>
                     </div>
-                    {(loggedInUser && checkIfFollowing(user._id)) ?
-                        <span onClick={() => updateFollowStatus('Follow', user._id)} className="following-btn">Following</span> :
-                        <span onClick={() => updateFollowStatus('Following', user._id)} className="follow-btn">Follow</span>}
+                    <div className="dynamic-item">{dynamicItem(user)}</div>
                 </div>
             })}
         </section>

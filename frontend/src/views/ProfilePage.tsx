@@ -10,8 +10,10 @@ import { loadStorys, resetStorys, setFilterBy } from "../store/actions/story.act
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { eventBus } from "../services/event-bus.service";
+import { Props } from "../interfaces/props";
+import { logout } from "../store/actions/user.actions";
 
-export function ProfilePage() {
+export function ProfilePage({ UpdateFollowStatus }: Props) {
     const [user, setUser] = useState<User | null>(null)
     const [isActive, setIsActive] = useState<string>('posts')
     const [savedStorys, setSavedStorys] = useState<SavedPosts[]>([])
@@ -37,6 +39,7 @@ export function ProfilePage() {
     useEffect(() => {
         if (loggedInUser?._id !== user?._id) return
         setUser(loggedInUser)
+        if (loggedInUser) setSavedStorys(loggedInUser.savedPosts)
     }, [loggedInUser])
 
     const loadUser = async (): Promise<void> => {
@@ -62,10 +65,36 @@ export function ProfilePage() {
         navigate(`/profile/${user?._id}/details/${storyId}/${idx}`)
     }
 
-    const changeStatus = (status: string): void => {      
+    const changeStatus = (status: string): void => {
         if (isActive !== status)
             setIsActive(status)
     }
+
+    const checkIfFollowing = (userId: string): boolean => {
+        const user = loggedInUser?.following.find(user => {
+            return user._id === userId
+        })
+        return user ? true : false
+    }
+
+    const Logout = () => {
+        dispatch(logout())
+        navigate('/')
+    }
+
+    const dynamicItem = () => {
+        if(loggedInUser?._id === user?._id){
+            return <button onClick={Logout} className="logout">Logout</button>
+        }
+        if (!checkIfFollowing) return
+        if (!user) return
+        if (loggedInUser && checkIfFollowing(user._id)) {
+            return <button onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Follow', user._id, user.username) }} className="Following">Following</button>
+        } else {
+            return <button onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Following', user._id, user.username) }} className="Follow">Follow</button>
+        }
+    }
+
 
     if (!user || !storys) return <div className="loader"></div>
 
@@ -82,6 +111,7 @@ export function ProfilePage() {
                             <p onClick={() => openUserListModal('Following')}><span>{user.following.length}</span> following</p>
                         </div>
                         <p className="fullname">{user.fullname}</p>
+                        <div>{dynamicItem()}</div>
                     </div>
                 </div>
                 <div className="activity-data-mobile">

@@ -20,6 +20,8 @@ import { changeSaveStatus } from "../store/actions/user.actions";
 
 export function StoryDetails() {
     const [isLiked, setIsLiked] = useState<boolean>(false)
+    const [isSettingLikeStatus, setIsSettingLikeStatus] = useState<boolean>(false)
+    const [isSettingSaveStatus, setIsSettingSaveStatus] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
     const [story, setStory] = useState<Story | null>(null)
     const params = useParams()
@@ -97,22 +99,26 @@ export function StoryDetails() {
 
     const ChangeSaveStatus = (): void => {
         if (!loggedInUser) {
-            showErrorMsg('login required')
+            showErrorMsg('Login required')
             return
         }
+        if(isSettingSaveStatus) return
+        setIsSettingSaveStatus(true)
         if (!story) return
         setIsSaved(!isSaved)
-        dispatch(changeSaveStatus(!isSaved, loggedInUser._id , {_id: story._id , imgUrl: story.imgUrls[0]}))
+        dispatch(changeSaveStatus(!isSaved, loggedInUser._id , {_id: story._id , imgUrl: story.imgUrls[0]} , setIsSettingSaveStatus))
     }
 
     const ChangeLikeStatus = (): void => {
         if (!loggedInUser) {
-            showErrorMsg('login required')
+            showErrorMsg('Login required')
             return
         }
         if (!story) return
+        if(isSettingLikeStatus) return
+        setIsSettingLikeStatus(true)
         setIsLiked(!isLiked)
-        dispatch(changeLikeStatus(!isLiked, story))
+        dispatch(changeLikeStatus(!isLiked, story , setIsSettingLikeStatus))
     }
 
     const AddUserComment = (comment: string,) => {

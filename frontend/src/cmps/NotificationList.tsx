@@ -6,7 +6,7 @@ import { Props } from "../interfaces/props"
 import { NotificationPreview } from "./NotificationPreview"
 import { Notification } from "../interfaces/user"
 
-export function NotificationList({ notificationList }: Props) {
+export function NotificationList({ UpdateFollowStatus, notificationList }: Props) {
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const navigate = useNavigate()
 
@@ -20,6 +20,7 @@ export function NotificationList({ notificationList }: Props) {
             {notificationList?.map((notification: Notification) => {
                 return <NotificationPreview
                     key={notification.id}
+                    UpdateFollowStatus={UpdateFollowStatus}
                     notification={notification}
                 />
             })}

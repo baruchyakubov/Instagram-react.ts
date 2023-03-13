@@ -6,7 +6,7 @@ import { Props } from "../interfaces/props"
 import { Notification } from "../interfaces/user"
 import { utilService } from "../services/util.service"
 
-export function NotificationPreview({ notification }: Props) {
+export function NotificationPreview({ UpdateFollowStatus, notification }: Props) {
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const navigate = useNavigate()
 
@@ -18,8 +18,16 @@ export function NotificationPreview({ notification }: Props) {
         switch (notification?.type) {
             case 'follow':
                 return checkIfFollowing(notification.by._id) ?
-                    <button className="Following">Following</button> :
-                    <button className="Follow">Follow</button>
+                    <button
+                        onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Follow', notification.by._id, notification.by.username) }}
+                        className="Following">
+                        Following
+                    </button> :
+                    <button
+                        onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Following', notification.by._id, notification.by.username) }}
+                        className="Follow">
+                        Follow
+                    </button>
             case 'like':
             case 'comment':
                 return <img className="Photo-liked" src={notification.storyInfo?.imgUrl} alt="" />

@@ -1,20 +1,28 @@
 import { FilterByUsers } from "../../interfaces/filterBy";
 import { Login, Signup } from "../../interfaces/login-signupCred";
 import { SavedPosts, User } from "../../interfaces/user";
-import { showSuccessMsg } from "../../services/event-bus.service";
+import { showErrorMsg, showSuccessMsg } from "../../services/event-bus.service";
 import { userService } from "../../services/user.service"
 
 export function getUsers() {
     return async (dispatch: Function, getState: Function) => {
-        const users = await userService.getUsers(getState().userModule.filterBy)
-        dispatch({ type: 'GET_USERS', users })
+        try {
+            const users = await userService.getUsers(getState().userModule.filterBy)
+            dispatch({ type: 'GET_USERS', users })
+        } catch (err) {
+            showErrorMsg('Failed to get users')
+        }
     }
 }
 
 export function getSearchedUsers() {
     return async (dispatch: Function, getState: Function) => {
-        const searchedUsers = await userService.getUsers(getState().userModule.filterBy)
-        dispatch({ type: 'GET_SEARCHED_USERS', searchedUsers })
+        try {
+            const searchedUsers = await userService.getUsers(getState().userModule.filterBy)
+            dispatch({ type: 'GET_SEARCHED_USERS', searchedUsers })
+        } catch (err) {
+            showErrorMsg('Failed to get users')
+        }
     }
 }
 
@@ -30,8 +38,9 @@ export function login(userCreds: Login) {
         try {
             const loggedInUser = await userService.login(userCreds)
             dispatch({ type: 'UPDATE_USER', user: { ...loggedInUser } })
+            showSuccessMsg('You logged in succesfully')
         } catch (err) {
-            console.log(err);
+            showErrorMsg('Login failed')
         }
     }
 }
@@ -44,27 +53,39 @@ export function signup(userCreds: Signup) {
             dispatch({ type: 'GET_USERS', users })
             const loggedInUser = await userService.login(userCreds)
             dispatch({ type: 'UPDATE_USER', user: { ...loggedInUser } })
+            showSuccessMsg('You logged in succesfully')
         } catch (err) {
-            console.log(err);
+            showErrorMsg('Login failed')
         }
     }
 }
 
 export function logout() {
-    return (dispatch: Function) => {
-        userService.logout()
-        dispatch({ type: 'LOGOUT' })
+    return async (dispatch: Function) => {
+        try {
+            await userService.logout()
+            dispatch({ type: 'LOGOUT' })
+            showSuccessMsg('You logged out succesfully')
+        } catch (err) {
+            showErrorMsg('Logout failed')
+        }
+
     }
 }
 
 
 export function updateUser(user: User) {
     return async (dispatch: Function) => {
-        userService.updateUser(user)
-        userService.setLoggedInUser(user)
-        const users = await userService.getUsers()
-        dispatch({ type: 'GET_USERS', users })
-        dispatch({ type: 'UPDATE_USER', user })
+        try {
+            await userService.updateUser(user)
+            userService.setLoggedInUser(user)
+            const users = await userService.getUsers()
+            dispatch({ type: 'GET_USERS', users })
+            dispatch({ type: 'UPDATE_USER', user })
+        } catch (err) {
+            showErrorMsg('Update user failed')
+        }
+
     }
 }
 
@@ -74,13 +95,16 @@ export function setLoggedInUser(user: User) {
     }
 }
 
-export function updateFollowStatus(updatedStatus: string, userId: string) {
+export function updateFollowStatus(updatedStatus: string, userId: string, setIsSettingFollowStatus: Function, username: string) {
     return async (dispatch: Function) => {
         try {
             const user = await userService.updateFollowStatus(updatedStatus, userId)
             dispatch({ type: 'UPDATE_USER', user })
+            setIsSettingFollowStatus(false)
+            if (updatedStatus === 'Following')
+                showSuccessMsg(`You are now following ${username}`)
         } catch (err) {
-            console.log(err);
+            showErrorMsg('Follow status update failed')
         }
     }
 }
@@ -95,7 +119,7 @@ export function updateOtherUserFollowStatus(user: User) {
     }
 }
 
-export function changeSaveStatus(updatedStatus: boolean, loggedInUserId: string, story: SavedPosts) {
+export function changeSaveStatus(updatedStatus: boolean, loggedInUserId: string, story: SavedPosts, setIsSettingSaveStatus: Function) {
     return async (dispatch: Function, getState: Function) => {
         try {
             await userService.changeSaveStatus(updatedStatus, loggedInUserId, story)
@@ -105,9 +129,10 @@ export function changeSaveStatus(updatedStatus: boolean, loggedInUserId: string,
                 removeSavedStory(loggedInUser, story)
             userService.setLoggedInUser(loggedInUser)
             dispatch({ type: 'UPDATE_USER', user: loggedInUser })
+            setIsSettingSaveStatus(false)
             return 'hello'
         } catch (err) {
-            console.log(err);
+            showErrorMsg('Failed to save the post')
         }
 
     }
@@ -115,7 +140,7 @@ export function changeSaveStatus(updatedStatus: boolean, loggedInUserId: string,
 
 function addSavedStory(loggedInUser: User, story: SavedPosts): void {
     loggedInUser.savedPosts.unshift(story)
-    showSuccessMsg('you saved the post succesfully')
+    showSuccessMsg('You saved the post succesfully')
 }
 
 function removeSavedStory(loggedInUser: User, story: SavedPosts): void {
@@ -123,5 +148,5 @@ function removeSavedStory(loggedInUser: User, story: SavedPosts): void {
         return s._id = story._id
     })
     loggedInUser.savedPosts.splice(idx, 1)
-    showSuccessMsg('you removed the post succesfully')
+    showSuccessMsg('You removed the post succesfully')
 }

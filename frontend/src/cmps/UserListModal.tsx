@@ -20,34 +20,42 @@ export function UserListModal({ setIsOpenedLikeList, UpdateFollowStatus, checkIf
         navigate(`/profile/${userId}`)
     }
 
-    return (
-        <>
-            <div onClick={closeModal} className="opacity-wrapper"></div>
-            <section className={`like-list-modal ${isDarkMode ? 'dark-mode' : ''}`}>
-                <div className={`header ${isDarkMode ? 'dark-mode' : ''}`}>
-                    <h2>{title}</h2>
-                    <div onClick={closeModal}>
-                        <CloseBtn3></CloseBtn3>
-                    </div>
-                </div>
-                <div className="like-list-scroll">
-                    {likeList?.map((item: LikedBy) => {
-                        return <div key={item._id} className="item-preview">
-                            <div onClick={() => goToProfile(item._id)} className={`user-info ${isDarkMode ? 'dark-mode' : ''}`}>
-                                <img src={item.imgUrl} alt="" />
-                                <div>
-                                    <p>{item.username}</p>
-                                    <span>{item.fullname}</span>
-                                </div>
-                            </div>
-                            {(loggedInUser && checkIfFollowing) && checkIfFollowing(item._id) ?
-                                <button onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Follow', item._id) }} className="Following">Following</button> :
-                                <button onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Following', item._id) }} className="Follow">Follow</button>}
+    const dynamicItem = (item: LikedBy) => {
+        if (!checkIfFollowing) return
+        if (loggedInUser?._id === item._id) return
+        if (loggedInUser && checkIfFollowing(item._id)) {
+            return <button onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Follow', item._id, item.username) }} className="Following">Following</button>
+        } else {
+            return <button onClick={() => { if (UpdateFollowStatus) UpdateFollowStatus('Following', item._id, item.username) }} className="Follow">Follow</button>
+        }
+    }
 
-                        </div>
-                    })}
+
+return (
+    <>
+        <div onClick={closeModal} className="opacity-wrapper"></div>
+        <section className={`like-list-modal ${isDarkMode ? 'dark-mode' : ''}`}>
+            <div className={`header ${isDarkMode ? 'dark-mode' : ''}`}>
+                <h2>{title}</h2>
+                <div onClick={closeModal}>
+                    <CloseBtn3></CloseBtn3>
                 </div>
-            </section>
-        </>
-    )
+            </div>
+            <div className="like-list-scroll">
+                {likeList?.map((item: LikedBy) => {
+                    return <div key={item._id} className="item-preview">
+                        <div onClick={() => goToProfile(item._id)} className={`user-info ${isDarkMode ? 'dark-mode' : ''}`}>
+                            <img src={item.imgUrl} alt="" />
+                            <div>
+                                <p>{item.username}</p>
+                                <span>{item.fullname}</span>
+                            </div>
+                        </div>
+                        <div>{dynamicItem(item)}</div>
+                    </div>
+                })}
+            </div>
+        </section>
+    </>
+)
 }
