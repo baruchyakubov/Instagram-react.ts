@@ -10,7 +10,7 @@ async function query(filterBy = { userId: '' }) {
             'by._id': { $regex: filterBy.userId, $options: 'i' }
         }
         const collection = await dbService.getCollection('story')
-        var storys = await collection.find(criteria).toArray()
+        var storys = await collection.find(criteria).sort({"createdAt":-1}).toArray()
         return storys
     } catch (err) {
         logger.error('cannot find storys', err)
@@ -40,11 +40,31 @@ async function remove(storyId) {
     }
 }
 
-async function add(story) {
+async function add({ text, imgUrls, createdBy }) {
     try {
+        console.log(text);
         const collection = await dbService.getCollection('story')
-        await collection.insertOne(story)
-        return story
+        const story = {
+            imgUrls,
+            txt: text,
+            saved: false,
+            by: {
+                _id: createdBy._id,
+                username: createdBy.username,
+                imgUrl: createdBy.imgUrl
+            },
+            loc: {
+                lat: 11.11,
+                lng: 22.22,
+                name: 'Holewood'
+            },
+            createdAt: Date.now(),
+            comments: [],
+            likedBy: [],
+            liked: false
+        }
+        const { insertedId } = await collection.insertOne(story)
+        return getById(insertedId)
     } catch (err) {
         logger.error('cannot insert story', err)
         throw err

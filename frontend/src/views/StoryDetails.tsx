@@ -12,14 +12,16 @@ import { LeftArrowLogo } from "../svg-cmps/LeftArrowLogo";
 import { RightArrowLogo } from "../svg-cmps/RightArrowLogo";
 import { ImgCarousel } from "../cmps/ImgCarousel";
 import { showErrorMsg } from "../services/event-bus.service";
-import { addUserComment, changeLikeStatus } from "../store/actions/story.actions";
+import { addUserComment, changeLikeStatus, deleteStory } from "../store/actions/story.actions";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { CommentInputBox } from "../cmps/CommentInputBox";
 import { changeSaveStatus } from "../store/actions/user.actions";
+import { SettingsCmp } from "../cmps/SettingsCmp";
 
 export function StoryDetails() {
     const [isLiked, setIsLiked] = useState<boolean>(false)
+    const [isOpenSettings, setIsOpenSettings] = useState<boolean>(false)
     const [isSettingLikeStatus, setIsSettingLikeStatus] = useState<boolean>(false)
     const [isSettingSaveStatus, setIsSettingSaveStatus] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
@@ -43,11 +45,17 @@ export function StoryDetails() {
 
 
     const loadPost = async (): Promise<void> => {
-        const StoryId = params.id
+        try {
+            const StoryId = params.id
 
-        if (StoryId) {
-            const Story = await storyService.getById(StoryId)
-            if (Story) setStory(Story)
+            if (StoryId) {
+                const Story = await storyService.getById(StoryId)               
+                if (!Story) throw 'Post does not exict'
+                if (Story) setStory(Story)
+            }
+        } catch {
+            showErrorMsg('Post does not exict')
+            navigate(`/profile/${params.userId}`)
         }
     }
 
@@ -102,11 +110,11 @@ export function StoryDetails() {
             showErrorMsg('Login required')
             return
         }
-        if(isSettingSaveStatus) return
+        if (isSettingSaveStatus) return
         setIsSettingSaveStatus(true)
         if (!story) return
         setIsSaved(!isSaved)
-        dispatch(changeSaveStatus(!isSaved, loggedInUser._id , {_id: story._id , imgUrl: story.imgUrls[0]} , setIsSettingSaveStatus))
+        dispatch(changeSaveStatus(!isSaved, loggedInUser._id, { _id: story._id, imgUrl: story.imgUrls[0] }, setIsSettingSaveStatus))
     }
 
     const ChangeLikeStatus = (): void => {
@@ -115,15 +123,25 @@ export function StoryDetails() {
             return
         }
         if (!story) return
-        if(isSettingLikeStatus) return
+        if (isSettingLikeStatus) return
         setIsSettingLikeStatus(true)
         setIsLiked(!isLiked)
-        dispatch(changeLikeStatus(!isLiked, story , setIsSettingLikeStatus))
+        dispatch(changeLikeStatus(!isLiked, story, setIsSettingLikeStatus))
     }
 
     const AddUserComment = (comment: string,) => {
         if (story)
             dispatch(addUserComment(comment, story))
+    }
+
+    const toggleSettings = () => {
+        if (story?.by._id !== loggedInUser?._id) return
+        setIsOpenSettings(!isOpenSettings)
+    }
+
+    const DeletePost = () => {
+        closeDetails()
+        dispatch(deleteStory(story?._id))
     }
 
     if (!story) return <div></div>
@@ -150,7 +168,10 @@ export function StoryDetails() {
                             <img src={story?.by.imgUrl} alt="" />
                             <p>{story?.by.username}</p>
                         </div>
-                        <StorySettingsLogo></StorySettingsLogo>
+                        <div className="settings-section">
+                            <StorySettingsLogo toggleSettings={toggleSettings}></StorySettingsLogo>
+                            {isOpenSettings && <SettingsCmp DeletePost={DeletePost}></SettingsCmp>}
+                        </div>
                     </div>
                     <div className="comments">
                         <div className="comment">

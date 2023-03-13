@@ -31,6 +31,10 @@ export interface Props {
     AddUserComment?: Function
     isSaved?: boolean
     ChangeSaveStatus?: Function
+    setIsCreateModalOpen?: Function
+    setImgUrls?: Function
+    toggleSettings?: Function
+    DeletePost?: Function
 }
 
 interface Preview {

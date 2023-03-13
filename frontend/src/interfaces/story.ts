@@ -19,6 +19,12 @@ export interface By {
     imgUrl: string
 }
 
+export interface createdBy{
+    _id: string | undefined
+    username: string | undefined
+    imgUrl: string | undefined
+}
+
 export interface LikedBy {
     _id: string
     fullname: string

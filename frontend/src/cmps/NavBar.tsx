@@ -14,21 +14,24 @@ import { AnyAction } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { toggleApperance } from '../store/actions/story.actions'
 import { NotificationsLogo } from '../svg-cmps/NotificationsLogo'
+import { CreateLogo } from '../svg-cmps/CreateLogo'
+import { showErrorMsg } from '../services/event-bus.service'
 
-export function Navbar({ setIsLogin }: Props) {
+export function Navbar({ setIsCreateModalOpen, setIsLogin }: Props) {
     const [isSearchOpened, setIsSearchOpened] = useState(false)
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
-    
+
     const navItems = [
         { id: 'b101', name: 'Home', logo: <HomeSvg></HomeSvg>, route: '/' },
         { id: 'b102', name: 'Search', logo: <SearchLogo></SearchLogo>, route: '' },
         { id: 'b103', name: 'Explore', logo: <ExploreLogo></ExploreLogo>, route: '/explore' },
-        { id: 'b104', name: 'Appearance', logo: <SwitchAppearance></SwitchAppearance>, route: '' },
-        { id: 'b105', name: 'Notifications', logo: <NotificationsLogo></NotificationsLogo>, route: '/Notifications' },
+        { id: 'b104', name: 'Create', logo: <CreateLogo></CreateLogo>, route: '' },
+        { id: 'b105', name: 'Appearance', logo: <SwitchAppearance></SwitchAppearance>, route: '' },
+        { id: 'b106', name: 'Notifications', logo: <NotificationsLogo></NotificationsLogo>, route: '/Notifications' },
         {
-            id: 'b106',
+            id: 'b107',
             name: loggedInUser?._id ? 'Profile' : 'Login',
             logo: loggedInUser?._id ?
                 <img src={loggedInUser?.imgUrl} alt="" /> :
@@ -44,6 +47,15 @@ export function Navbar({ setIsLogin }: Props) {
         else document.querySelector('body')?.classList.add('dark-mode')
 
         dispatch(toggleApperance())
+    }
+
+    const openCreateModal = () => {
+        if (!loggedInUser) {
+            showErrorMsg('Login required')
+            return
+        }
+        if (setIsCreateModalOpen)
+            setIsCreateModalOpen(true)
     }
 
     return (
@@ -62,6 +74,7 @@ export function Navbar({ setIsLogin }: Props) {
                             return <div
                                 onClick={() => setIsSearchOpened(true)}
                                 key={item.id}
+                                className="search-nav-item"
                             >
                                 {item.logo}
                                 <h1>{item.name}</h1>
@@ -85,6 +98,15 @@ export function Navbar({ setIsLogin }: Props) {
                                 <h1>{item.name}</h1>
                             </div>
                         }
+                        if (item.name === 'Create') {
+                            return <div
+                                onClick={openCreateModal}
+                                key={item.id}
+                            >
+                                {item.logo}
+                                < h1 > {item.name}</h1>
+                            </div>
+                        }
                         if (item.name === 'Notifications' && !loggedInUser) return
                         return (
                             <NavLink
@@ -98,7 +120,7 @@ export function Navbar({ setIsLogin }: Props) {
                         )
                     })}
                 </nav>
-            </section>
+            </section >
         </>
     )
 }

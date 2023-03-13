@@ -157,6 +157,10 @@
                 border-radius: 50%;
             }
         }
+
+        .settings-section{
+           @include settings-modal
+        }
     }
 
     .comments {

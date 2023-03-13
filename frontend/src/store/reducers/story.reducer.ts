@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     isDarkMode: utilService.loadFromStorage('appearance') || false
 }
 
-export function storyReducer(state = INITIAL_STATE, action: { type: string, storys: Array<Story>, filterBy: FilterBy, updatedStory: Story }) {
+export function storyReducer(state = INITIAL_STATE, action: { type: string, storys: Array<Story>, filterBy: FilterBy, updatedStory: Story, story: Story, StoryId: string }) {
 
     switch (action.type) {
         case 'SET_STORYS':
@@ -20,6 +20,16 @@ export function storyReducer(state = INITIAL_STATE, action: { type: string, stor
             return {
                 ...state,
                 storys: (state.storys as unknown as Story[]).map((story: Story) => story._id === action.updatedStory._id ? action.updatedStory : story)
+            }
+        case 'ADD_STORY':
+            return {
+                ...state,
+                storys: [action.story, ...(state.storys as any)]
+            }
+        case 'DELETE_STORY':
+            return {
+                ...state,
+                storys: (state.storys as unknown as Story[]).filter((story: Story) => story._id !== action.StoryId)
             }
         case 'RESET_STORYS':
             return {

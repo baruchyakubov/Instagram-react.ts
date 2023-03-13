@@ -21,7 +21,6 @@ export function UploadUserImg({ imgUrl, setImgUrl }: Props) {
     const onUploadFile = async (file: File): Promise<void> => {
         const res = await uploadService.uploadImg(file)
         if (setImgUrl) setImgUrl(res.url)
-
     }
 
     if (imgUrl) return <img className="profile-img" src={imgUrl} alt="" />

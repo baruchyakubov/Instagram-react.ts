@@ -20,6 +20,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { UserMsg } from './cmps/UserMsg'
 import { updatedStory } from './store/actions/story.actions'
 import { Story } from './interfaces/story'
+import { CreateStoryModal } from './cmps/CreateStoryModal'
 
 interface EmitData {
   userList: UserInfo[]
@@ -28,6 +29,7 @@ interface EmitData {
 
 function App() {
   const [isLogin, setIsLogin] = useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isOpenedLikeList, setIsOpenedLikeList] = useState(false)
   const [likeList, setlikeList] = useState<UserInfo[] | null>(null)
   const [isSettingFollowStatus, setIsSettingFollowStatus] = useState<boolean>(false)
@@ -45,6 +47,7 @@ function App() {
     })
     return () => {
       listener()
+      socketService.terminate()
     }
   }, [])
 
@@ -92,6 +95,7 @@ function App() {
     <Router>
       <section className='main-page'>
         <UserMsg></UserMsg>
+        {isCreateModalOpen && <CreateStoryModal setIsCreateModalOpen={setIsCreateModalOpen} ></CreateStoryModal>}
         {(isOpenedLikeList && likeList)
           && <UserListModal
             setIsOpenedLikeList={setIsOpenedLikeList}
@@ -106,7 +110,7 @@ function App() {
           <LoginPage setIsLogin={setIsLogin}></LoginPage>
         </div>}
         <HeaderMobile></HeaderMobile>
-        <Navbar setIsLogin={setIsLogin}></Navbar>
+        <Navbar setIsCreateModalOpen={setIsCreateModalOpen} setIsLogin={setIsLogin}></Navbar>
         <section className='view-section'>
           <Routes>
             <Route path='profile/:userId' element={<ProfilePage UpdateFollowStatus={UpdateFollowStatus} />}>

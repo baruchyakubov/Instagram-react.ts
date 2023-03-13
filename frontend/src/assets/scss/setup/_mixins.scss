@@ -98,3 +98,17 @@
         font-size: rem(14px);
     }
 }
+
+@mixin settings-modal {
+    >*{
+        cursor: pointer;
+    }
+    .settings{
+        position: absolute;
+        right: 16px;
+        padding: rem(10px);
+        color: $clr3;
+        background-color: rgb(160, 110, 110);
+        border-radius: rem(5px);
+    }
+}

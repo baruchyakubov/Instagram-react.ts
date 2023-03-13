@@ -122,6 +122,15 @@
             border-radius: 50%;
         }
     }
+    
+    .settings-section{
+        direction: rtl;
+        @include settings-modal;
+        .settings{
+            z-index: 1000;
+            right: unset
+        }
+    }
 }
 
 .comment-box {
@@ -129,7 +138,7 @@
 }
 
 .like-comment-section {
-    margin-top: rem(12px);
+    margin-block: rem(12px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -167,7 +176,6 @@
 
 .likes {
     cursor: pointer;
-    margin-top: rem(12px);
     font-size: rem(14px);
     color: $clr1;
     font-weight: 600;

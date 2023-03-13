@@ -10,7 +10,7 @@ import { ThunkDispatch } from "redux-thunk"
 import { getUsers } from "../store/actions/user.actions";
 import { Props } from "../interfaces/props";
 
-export function Home({UpdateFollowStatus}: Props) {
+export function Home({ UpdateFollowStatus }: Props) {
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const storys = useSelector((state: RootState) => state.storyModule.storys)
     const users = useSelector((state: RootState) => state.userModule.users)

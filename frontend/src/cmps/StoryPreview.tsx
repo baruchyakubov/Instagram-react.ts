@@ -11,13 +11,15 @@ import { utilService } from "../services/util.service";
 import { useEffect, useState } from "react";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { addUserComment, changeLikeStatus } from "../store/actions/story.actions";
+import { addUserComment, changeLikeStatus, deleteStory } from "../store/actions/story.actions";
 import { CommentInputBox } from "./CommentInputBox";
 import { changeSaveStatus } from "../store/actions/user.actions";
+import { SettingsCmp } from "./SettingsCmp";
 
 export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
     const [isLiked, setIsLiked] = useState<boolean>(false)
+    const [isOpenSettings, setIsOpenSettings] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
     const [isSettingLikeStatus, setIsSettingLikeStatus] = useState<boolean>(false)
     const [isSettingSaveStatus, setIsSettingSaveStatus] = useState<boolean>(false)
@@ -78,11 +80,11 @@ export function StoryPreview({ storyData }: Props) {
             showErrorMsg('Login required')
             return
         }
-        if (!storyData?.story) return        
-          if(isSettingSaveStatus) return
+        if (!storyData?.story) return
+        if (isSettingSaveStatus) return
         setIsSettingSaveStatus(true)
         setIsSaved(!isSaved)
-        dispatch(changeSaveStatus(!isSaved, loggedInUser._id, { _id: storyData.story._id, imgUrl: storyData.story.imgUrls[0] } , setIsSettingSaveStatus))
+        dispatch(changeSaveStatus(!isSaved, loggedInUser._id, { _id: storyData.story._id, imgUrl: storyData.story.imgUrls[0] }, setIsSettingSaveStatus))
     }
 
     const ChangeLikeStatus = (): void => {
@@ -90,16 +92,25 @@ export function StoryPreview({ storyData }: Props) {
             showErrorMsg('Login required')
             return
         }
-        if (!storyData?.story) return   
-        if(isSettingLikeStatus) return
+        if (!storyData?.story) return
+        if (isSettingLikeStatus) return
         setIsSettingLikeStatus(true)
         setIsLiked(!isLiked)
-        dispatch(changeLikeStatus(!isLiked, storyData?.story , setIsSettingLikeStatus))
+        dispatch(changeLikeStatus(!isLiked, storyData?.story, setIsSettingLikeStatus))
     }
 
     const AddUserComment = (comment: string,) => {
         if (storyData?.story)
             dispatch(addUserComment(comment, storyData?.story))
+    }
+
+    const toggleSettings = () => {
+        if (storyData?.story.by._id !== loggedInUser?._id) return
+        setIsOpenSettings(!isOpenSettings)
+    }
+
+    const DeletePost = () => {
+        dispatch(deleteStory(storyData?.story._id))
     }
 
     const date = utilService.getDateFormat(storyData?.story.createdAt)
@@ -113,7 +124,10 @@ export function StoryPreview({ storyData }: Props) {
                     <span>•</span>
                     <span>{date}</span>
                 </div>
-                <StorySettingsLogo></StorySettingsLogo>
+                <div className="settings-section">
+                    <StorySettingsLogo toggleSettings={toggleSettings}></StorySettingsLogo>
+                    {isOpenSettings && <SettingsCmp DeletePost={DeletePost}></SettingsCmp>}
+                </div>
             </div>
             <ImgCarousel imgUrls={storyData?.story.imgUrls}></ImgCarousel>
             <PostBtnsAction
@@ -122,12 +136,12 @@ export function StoryPreview({ storyData }: Props) {
                 isSaved={isSaved}
                 ChangeSaveStatus={ChangeSaveStatus}
             />
-            <p onClick={openUserListModal} className="likes" >{storyData?.story.likedBy.length} likes</p>
-            <p className="top-comment">
-                {storyData?.story.comments.length && <span>{storyData?.story.comments[0].by.username} </span>}
-                {storyData?.story.comments.length && storyData?.story.comments[0].txt}
-            </p>
-            <p onClick={openDetsils} className="toggle-comments">View all {storyData?.story.comments.length} comments</p>
+            {storyData?.story.likedBy.length ? <p onClick={openUserListModal} className="likes" >{storyData?.story.likedBy.length} likes</p> : <p></p>}
+            {storyData?.story.txt && <p className="top-comment">
+                <span>{storyData?.story.by.username} </span>
+                {storyData?.story.txt}
+            </p>}
+            {storyData?.story.comments.length ? <p onClick={openDetsils} className="toggle-comments">View all {storyData?.story.comments.length} comments</p> : <p></p>}
             <CommentInputBox AddUserComment={AddUserComment}></CommentInputBox>
         </section>
     )

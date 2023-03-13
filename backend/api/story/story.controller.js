@@ -29,11 +29,9 @@ async function getStoryById(req, res) {
 }
 
 async function addStory(req, res) {
-  const { loggedinUser } = req
-
   try {
     const story = req.body
-    story.owner = loggedinUser
+    console.log(story);
     const addedStory = await storyService.add(story)
     res.json(addedStory)
   } catch (err) {

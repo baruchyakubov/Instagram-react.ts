@@ -20,7 +20,7 @@ export const httpService = {
     put(endpoint: string, data: any) {
         return ajax(endpoint, 'PUT', data)
     },
-    delete(endpoint: string, data: any) {
+    delete(endpoint: string, data?: any) {
         return ajax(endpoint, 'DELETE', data)
     }
 }

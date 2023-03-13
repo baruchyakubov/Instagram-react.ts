@@ -21,7 +21,7 @@ export function FollowersSuggestions({ Users, UpdateFollowStatus }: Props) {
     }, [])
 
     const goToProfile = (userId: string | undefined): void => {
-        if(!loggedInUser) return
+        if (!loggedInUser) return
         navigate(`/profile/${userId}`)
     }
 
