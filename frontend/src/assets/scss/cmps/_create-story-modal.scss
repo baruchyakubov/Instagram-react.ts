@@ -9,16 +9,62 @@
     height: rem(545.6px);
     width: rem(503px);
 
+    &.dark-mode{
+        background-color: rgb(38, 38, 38);
+        p , svg {
+            color: #ffffff;
+        }
+
+        .create-header{
+            border-bottom: 1px solid rgb(54, 54, 54);
+            h1{
+                color: #ffffff;
+            }
+            div{
+                svg{
+
+                    color: #ffffff;
+                }
+            }
+        }
+
+        .add-text{
+            border-bottom: 1px solid rgb(54, 54, 54);
+            color: #ffffff;
+        }
+
+        .add-imgs-section{
+            >*{
+                border: 1px solid rgb(54, 54, 54);
+            }
+        }
+    }
+
     .create-header {
         border-bottom: 1px solid rgb(219, 219, 219);
         padding-block: rem(10px);
         display: flex;
         justify-content: center;
+        align-items: center;
 
         h1 {
             font-size: 16px;
             font-weight: 600;
             color: $clr1;
+        }
+        div {
+            height: rem(18px);
+            width: rem(18px);
+
+            svg {
+                cursor: pointer;
+                position: absolute;
+                left: 96%;
+                transform: translateX(-96%);
+                height: rem(18px);
+                width: rem(18px);
+                color: rgb(38, 38, 38);
+            }
         }
     }
 

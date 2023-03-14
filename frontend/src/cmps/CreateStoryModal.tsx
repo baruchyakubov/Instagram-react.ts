@@ -8,6 +8,7 @@ import { showErrorMsg } from "../services/event-bus.service";
 import { UploadUserImg } from "./UploadUserImg";
 import { addStory } from "../store/actions/story.actions";
 import { useNavigate } from "react-router-dom";
+import { CloseBtn3 } from "../svg-cmps/CloseBtn3";
 
 export function CreateStoryModal({ setIsCreateModalOpen }: Props) {
     const [imgUrl, setImgUrl] = useState('')
@@ -17,6 +18,7 @@ export function CreateStoryModal({ setIsCreateModalOpen }: Props) {
     const [text, setText] = useState('')
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
+    const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
     const navigate = useNavigate()
 
     const AddStory = (ev: React.FormEvent<HTMLFormElement>) => {
@@ -39,10 +41,10 @@ export function CreateStoryModal({ setIsCreateModalOpen }: Props) {
             _id: loggedInUser?._id,
             username: loggedInUser?.username,
             imgUrl: loggedInUser?.imgUrl
-        }    
+        }
 
-        dispatch(addStory({ text, imgUrls , createdBy } , navigate))
-        if(setIsCreateModalOpen) setIsCreateModalOpen(false)
+        dispatch(addStory({ text, imgUrls, createdBy }, navigate))
+        if (setIsCreateModalOpen) setIsCreateModalOpen(false)
     }
 
     const handleInput = (ev: React.FormEvent<HTMLInputElement>): void => {
@@ -53,9 +55,12 @@ export function CreateStoryModal({ setIsCreateModalOpen }: Props) {
     return (
         <>
             <div onClick={() => { if (setIsCreateModalOpen) setIsCreateModalOpen(false) }} className="opacity-wrapper"></div>
-            <form onSubmit={AddStory} className="create-story-modal">
+            <form onSubmit={AddStory} className={`create-story-modal ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="create-header">
                     <h1>Create new post</h1>
+                    <div onClick={() => { if (setIsCreateModalOpen) setIsCreateModalOpen(false) }}>
+                        <CloseBtn3></CloseBtn3>
+                    </div>
                 </div>
                 <div className="add-imgs-section">
                     <UploadUserImg imgUrl={imgUrl} setImgUrl={setImgUrl}></UploadUserImg>
