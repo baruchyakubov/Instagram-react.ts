@@ -21,9 +21,10 @@ oen my mind to other ideas like unit testing with jest.
 7. react-router-dom
 8. node.js
 9. express
-10. rest API
-11. cookie-parser
-12. SCSS
+10. MongoDB
+11. rest API
+12. cookie-parser
+13. SCSS
 
 ## Setup
 1. Frontend - npm i , npm run dev.
