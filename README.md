@@ -30,35 +30,45 @@ oen my mind to other ideas like unit testing with jest.
 
 ## Features
 1. Details page for each post.
+
 ![image](https://user-images.githubusercontent.com/114091759/224860590-c853a754-3fbb-46cf-9fc0-8e8f96f3f7a8.png)
 
 2. Login and signup authentication with full validation using bycrypt.
+
 ![image](https://user-images.githubusercontent.com/114091759/224860865-16f61fd4-404f-4b66-91a8-999074984161.png)
 
 3. Dark mode.
+
 ![image](https://user-images.githubusercontent.com/114091759/224860982-108d822f-85a9-4623-9dc1-5330012eaf0e.png)
 
 4. Notification page with immediate responses using websockets.
+
 ![image](https://user-images.githubusercontent.com/114091759/224861152-c7d5a5a9-963c-40c0-bb2b-681e91b510af.png)
 
 5. Explore page.
+
 ![image](https://user-images.githubusercontent.com/114091759/224861375-9d58fd4b-2d3a-459f-9fe0-5982060f1048.png)
 
 6.  Profile page specific for logged in user and also for other users with the abilty to watch saved posts.
+
 ![image](https://user-images.githubusercontent.com/114091759/224861810-b0cfbf5c-f90f-49b2-97e9-5c9890c23866.png)
 
-7. Full followers management
+7. Full followers management.
+
 ![image](https://user-images.githubusercontent.com/114091759/224861971-5f4c9611-f20c-40ee-b13e-805c667f4072.png)
 
 8. Searching for users and recent searchs for logged in users.
+
 ![image](https://user-images.githubusercontent.com/114091759/224862099-1611a386-aaf7-4c29-84e7-f99fbd393bb4.png)
 
 9. The ability to add or delete post for logged in users.
+
 ![image](https://user-images.githubusercontent.com/114091759/224862348-86c9fe0a-dedc-41e5-aa4e-5d2bd0deb2fa.png)
 
 10. Add like , save posts and sent comment to post whice receieved immediately to everyone using broadcast with websockets.
 
 11. Also responsive design as well.
+
 ![image](https://user-images.githubusercontent.com/114091759/224862765-6218995f-b392-4cc4-9348-20bf57457139.png)
 ![image](https://user-images.githubusercontent.com/114091759/224862851-05ef6566-606a-4e59-b620-a955cd2ffb4f.png)
 ![image](https://user-images.githubusercontent.com/114091759/224862933-33edc5ce-f9e0-426b-afa0-86fdfb8d0917.png)
