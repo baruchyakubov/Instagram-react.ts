@@ -20,7 +20,6 @@ export function addStory(storyData: { text: string, imgUrls: string[] ,createdBy
     return async (dispatch: Function) => {
         try {
             const story = await storyService.addStory(storyData)
-            console.log(story);
             dispatch({ type: 'ADD_STORY', story })
             navigate('/')
             showSuccessMsg('Post added succesfully')
@@ -35,7 +34,6 @@ export function deleteStory(storyId: string | undefined) {
     return async (dispatch: Function) => {
         try {
             const StoryId = await storyService.deleteStory(storyId)
-            console.log(StoryId);
             dispatch({ type: 'DELETE_STORY', StoryId })
             showSuccessMsg('Post deleted succesfully')
             return 'hello'
