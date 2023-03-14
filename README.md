@@ -15,14 +15,15 @@ oen my mind to other ideas like unit testing with jest.
 1. react
 2. typeScript
 3. vite
-4. jest
-5. socket.io
-6. react-router-dom
-7. node.js
-8. express
-9. rest API
-10. cookie-parser
-11. SCSS
+4. redux
+5. jest
+6. socket.io
+7. react-router-dom
+8. node.js
+9. express
+10. rest API
+11. cookie-parser
+12. SCSS
 
 ## Setup
 1. Frontend - npm i , npm run dev.
