@@ -45,7 +45,7 @@ oen my mind to other ideas like unit testing with jest.
 
 4. Notification page with immediate responses using websockets.
 
-![image](https://user-images.githubusercontent.com/114091759/224861152-c7d5a5a9-963c-40c0-bb2b-681e91b510af.png)
+![image](https://user-images.githubusercontent.com/114091759/224876342-ebec030b-4a1b-4e86-aeda-a5d2860dc017.png)
 
 5. Explore page.
 
