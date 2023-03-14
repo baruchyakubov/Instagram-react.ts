@@ -14,7 +14,7 @@ export function NotificationsPage({ UpdateFollowStatus }: Props) {
         if (!loggedInUser) navigate(-1)
     }, [])
 
-    if (!loggedInUser?.notifications.length) return <div>No notifications yet</div>
+    if (!loggedInUser?.notifications.length) return <div className="no-notifications">No notifications yet</div>
 
     return (
         <section className={`notifications-page ${isDarkMode ? 'dark-mode' : ''}`}>

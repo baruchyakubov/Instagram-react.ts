@@ -1,3 +1,11 @@
+.no-notifications{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: $clr1;
+    font-weight: 600;
+}
+
 .notifications-page {
     display: flex;
     justify-content: center;
