@@ -66,7 +66,6 @@ export function FollowersSuggestions({ Users, UpdateFollowStatus }: Props) {
             </div>
             <p className="Suggestions">Suggestions for you</p>
             {Users?.map(user => {
-                if (user._id === '63727d458a7f36b53eb8ee30') return
                 return <div key={user._id} className="user-preview">
                     <div onClick={() => goToProfile(user._id)} className="col-1">
                         <img src={user.imgUrl} alt="" />
