@@ -40,14 +40,14 @@ function App() {
 
   useEffect(() => {
     socketService.on('show-comment-to-all', (story: Story) => dispatch(updatedStory(story)))
-    const listener = eventBus.on('openUserListModal', ({ userList, title }: EmitData) => {
+    const unSubscribe = eventBus.on('openUserListModal', ({ userList, title }: EmitData) => {
       setlikeList(userList)
       setUserListModaltitle(title)
       setIsOpenedLikeList(true)
     })
     return () => {
-      listener()
-      socketService.terminate()
+      unSubscribe()
+      socketService.off('show-comment-to-all')
     }
   }, [])
 
