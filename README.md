@@ -5,7 +5,7 @@ using vite.
 
 Link to website - [Instagram - react.ts](https://instagram-react-ts.onrender.com/#/) 
 
-![image](https://user-images.githubusercontent.com/114091759/224860172-0431ecb6-7aaa-47d1-b6d6-af50c03c72aa.png)
+![image](https://user-images.githubusercontent.com/114091759/224860324-80deecf0-a402-404e-baf1-e48143bfb5b0.png)
 
 ## Motivation
 I wanted to improve my skills in react and especially in typescript , and i also wanted to
