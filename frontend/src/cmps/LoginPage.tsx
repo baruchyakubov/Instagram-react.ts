@@ -37,7 +37,8 @@ export function LoginPage({ setIsLogin }: Props) {
     }
 
     const Signup = (): void => {
-        dispatch(signup(userCreds))
+        let imgUrl = userCreds.imgUrl ? userCreds.imgUrl : 'https://res.cloudinary.com/dgvpl7cdq/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1678393640/bvlgm7dzj4tzeruw9vi6.png'
+        dispatch(signup({...userCreds , imgUrl}))
     }
 
     return (
