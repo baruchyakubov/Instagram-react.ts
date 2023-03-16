@@ -24,11 +24,13 @@ declare global {
     }
 }
 
+const STORAGE_KEY = 'user'
+
 window.userService = userService
 
 async function getUsers(filterBy = { txt: '', limit: null }) {
     try {
-        return await httpService.get('user', filterBy)
+        return await httpService.get(STORAGE_KEY, filterBy)
     } catch (err) {
         throw err
     }
@@ -36,7 +38,7 @@ async function getUsers(filterBy = { txt: '', limit: null }) {
 
 async function getById(userId: string) {
     try {
-        return await httpService.get(`user/${userId}`)
+        return await httpService.get(`${STORAGE_KEY}/${userId}`)
     } catch (err) {
         throw err
     }
@@ -86,7 +88,7 @@ function setLoggedInUser(user: User) {
 
 async function updateUser(user: User) {
     try {
-        return await httpService.put(`user/${user._id}`, user)
+        return await httpService.put(`${STORAGE_KEY}/${user._id}`, user)
     } catch (err) {
         throw err
     }
@@ -94,7 +96,7 @@ async function updateUser(user: User) {
 
 async function updateFollowStatus(updatedStatus: string, userId: string) {
     try {
-        const user = await httpService.put(`user/follow-status/${userId}`, { updatedStatus })
+        const user = await httpService.put(`${STORAGE_KEY}/follow-status/${userId}`, { updatedStatus })
         setLoggedInUser(user)
         return user
     } catch (err) {
@@ -104,7 +106,7 @@ async function updateFollowStatus(updatedStatus: string, userId: string) {
 
 async function changeSaveStatus(updatedStatus: boolean, loggedInUserId: string , story: SavedPosts) {
     try {    
-      await httpService.put(`user/save-status-change/${loggedInUserId}`, {updatedStatus , story})
+      await httpService.put(`${STORAGE_KEY}/save-status-change/${loggedInUserId}`, {updatedStatus , story})
     } catch (err) {
       throw err
     }

@@ -7,7 +7,7 @@ import { loadStorys, resetStorys } from "../store/actions/story.actions"
 import { INITIAL_STATE, RootState } from "../interfaces/state";
 import { AnyAction } from "redux"
 import { ThunkDispatch } from "redux-thunk"
-import { getUsers } from "../store/actions/user.actions";
+import { getUsers, setFilterBy } from "../store/actions/user.actions";
 import { Props } from "../interfaces/props";
 
 export function Home({ UpdateFollowStatus }: Props) {
@@ -18,6 +18,7 @@ export function Home({ UpdateFollowStatus }: Props) {
     useEffect(() => {
         if (storys) dispatch(resetStorys())
         dispatch(loadStorys())
+        dispatch(setFilterBy({ txt: '', limit: 5 }))
         dispatch(getUsers())
     }, [])
 

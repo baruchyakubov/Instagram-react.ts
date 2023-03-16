@@ -21,6 +21,7 @@ import { UserMsg } from './cmps/UserMsg'
 import { updatedStory } from './store/actions/story.actions'
 import { Story } from './interfaces/story'
 import { CreateStoryModal } from './cmps/CreateStoryModal'
+import { useCheckIfFollowing } from './custom-hooks/useCheckIfFollowing'
 
 interface EmitData {
   userList: UserInfo[]
@@ -52,6 +53,12 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const elBody = document.querySelector('body')
+    if (isDarkMode && elBody) elBody.style.backgroundColor = 'rgb(0,0,0)'
+    else if (!isDarkMode && elBody) elBody.style.backgroundColor = 'white'
+  }, [isDarkMode])
+
+  useEffect(() => {
     if (loggedInUser) {
       socketService.on('send-notification', addNotification)
     }
@@ -67,12 +74,7 @@ function App() {
     }
   }
 
-  const checkIfFollowing = (userId: string): boolean => {
-    const user = loggedInUser?.following.find(user => {
-      return user._id === userId
-    })
-    return user ? true : false
-  }
+  const checkIfFollowing = (userId: string) => useCheckIfFollowing(userId , loggedInUser)
 
   const UpdateFollowStatus = (updatedStatus: string, userId: string, username: string): void => {
     if (isSettingFollowStatus) return
@@ -83,13 +85,6 @@ function App() {
     setIsSettingFollowStatus(true)
     dispatch(updateFollowStatus(updatedStatus, userId, setIsSettingFollowStatus, username))
   }
-
-  useEffect(() => {
-    const elBody = document.querySelector('body')
-    if (isDarkMode && elBody) elBody.style.backgroundColor = 'rgb(0,0,0)'
-    else if (!isDarkMode && elBody) elBody.style.backgroundColor = 'white'
-  }, [isDarkMode])
-
 
   return (
     <Router>

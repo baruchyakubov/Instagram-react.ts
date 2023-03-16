@@ -12,6 +12,7 @@ import { AnyAction } from "redux";
 import { eventBus } from "../services/event-bus.service";
 import { Props } from "../interfaces/props";
 import { logout } from "../store/actions/user.actions";
+import { useCheckIfFollowing } from "../custom-hooks/useCheckIfFollowing";
 
 export function ProfilePage({ UpdateFollowStatus }: Props) {
     const [user, setUser] = useState<User | null>(null)
@@ -70,12 +71,7 @@ export function ProfilePage({ UpdateFollowStatus }: Props) {
             setIsActive(status)
     }
 
-    const checkIfFollowing = (userId: string): boolean => {
-        const user = loggedInUser?.following.find(user => {
-            return user._id === userId
-        })
-        return user ? true : false
-    }
+    const checkIfFollowing = (userId: string) => useCheckIfFollowing(userId , loggedInUser)
 
     const Logout = () => {
         dispatch(logout())

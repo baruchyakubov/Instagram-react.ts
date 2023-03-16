@@ -54,6 +54,8 @@
 }
 
 .like-list-scroll {
+    height: calc(100% - 42.4px);
+    overflow-y: auto;
     .item-preview {
         display: flex;
         justify-content: space-between;

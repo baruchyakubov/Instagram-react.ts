@@ -15,6 +15,8 @@ import { addUserComment, changeLikeStatus, deleteStory } from "../store/actions/
 import { CommentInputBox } from "./CommentInputBox";
 import { changeSaveStatus } from "../store/actions/user.actions";
 import { SettingsCmp } from "./SettingsCmp";
+import { useCheckIfLiked } from "../custom-hooks/useCheckIfLiked";
+import { useCheckIfSaved } from "../custom-hooks/useCheckIfSaved";
 
 export function StoryPreview({ storyData }: Props) {
     let navigate = useNavigate();
@@ -35,6 +37,9 @@ export function StoryPreview({ storyData }: Props) {
         checkIfSaved()
     }, [loggedInUser])
 
+    const checkIfSaved = (): void => useCheckIfSaved(setIsSaved, loggedInUser, storyData?.story)
+    const checkIfLiked = (): void => useCheckIfLiked(setIsLiked, loggedInUser, storyData?.story)
+
     const openDetsils = (): void => {
         navigate(`/details/${storyData?.story._id}/${storyData?.idx}`)
     }
@@ -45,34 +50,6 @@ export function StoryPreview({ storyData }: Props) {
 
     const openUserListModal = (): void => {
         eventBus.emit('openUserListModal', { userList: storyData?.story.likedBy, title: 'Likes' })
-    }
-
-    const checkIfSaved = () => {
-        if (!loggedInUser) {
-            setIsSaved(false)
-            return
-        }
-        if (!storyData?.story) return
-        const IsSaved = loggedInUser.savedPosts.find(story => {
-            return storyData?.story._id === story._id
-        })
-        if (IsSaved)
-            setIsSaved(true)
-        else
-            setIsSaved(false)
-    }
-
-    const checkIfLiked = (): void => {
-        if (!loggedInUser) {
-            setIsLiked(false)
-            return
-        }
-        if (!storyData?.story) return
-        const user = storyData?.story.likedBy.find(user => {
-            return user._id === loggedInUser._id
-        })
-        if (user) setIsLiked(true)
-        else setIsLiked(false)
     }
 
     const ChangeSaveStatus = (): void => {

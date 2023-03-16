@@ -19,7 +19,10 @@ export function getSearchedUsers() {
     return async (dispatch: Function, getState: Function) => {
         try {
             const searchedUsers = await userService.getUsers(getState().userModule.filterBy)
-            dispatch({ type: 'GET_SEARCHED_USERS', searchedUsers })
+            if (!getState().userModule.filterBy.txt)
+                dispatch({ type: 'RESET_SEARCHED_USERS' })
+            else
+                dispatch({ type: 'GET_SEARCHED_USERS', searchedUsers })
         } catch (err) {
             showErrorMsg('Failed to get users')
         }
@@ -49,8 +52,6 @@ export function signup(userCreds: Signup) {
     return async (dispatch: Function) => {
         try {
             await userService.signup(userCreds)
-            const users = await userService.getUsers()
-            dispatch({ type: 'GET_USERS', users })
             const loggedInUser = await userService.login(userCreds)
             dispatch({ type: 'UPDATE_USER', user: { ...loggedInUser } })
             showSuccessMsg('You logged in succesfully')

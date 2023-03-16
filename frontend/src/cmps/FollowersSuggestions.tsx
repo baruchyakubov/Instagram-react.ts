@@ -7,18 +7,14 @@ import { ThunkDispatch } from "redux-thunk"
 import { useNavigate } from "react-router-dom";
 import { Props } from "../interfaces/props";
 import { User } from "../interfaces/user";
+import { useCheckIfFollowing } from "../custom-hooks/useCheckIfFollowing";
 
 export function FollowersSuggestions({ Users, UpdateFollowStatus }: Props) {
     const dispatch = useDispatch<ThunkDispatch<INITIAL_STATE, any, AnyAction>>()
     const loggedInUser = useSelector((state: RootState) => state.userModule.loggedInUser)
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
-
     let navigate = useNavigate();
-
-    useEffect(() => {
-        dispatch(setFilterBy({ txt: '', limit: 5 }))
-        dispatch(getUsers())
-    }, [])
+    const checkIfFollowing = (userId: string) => useCheckIfFollowing(userId , loggedInUser)
 
     const goToProfile = (userId: string | undefined): void => {
         if (!loggedInUser) return
@@ -28,13 +24,6 @@ export function FollowersSuggestions({ Users, UpdateFollowStatus }: Props) {
     const Logoot = (ev: SyntheticEvent): void => {
         ev.stopPropagation()
         dispatch(logout())
-    }
-
-    const checkIfFollowing = (userId: string): boolean => {
-        const user = loggedInUser?.following.find(user => {
-            return user._id === userId
-        })
-        return user ? true : false
     }
 
     const dynamicItem = (user: User) => {

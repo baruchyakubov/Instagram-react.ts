@@ -18,6 +18,8 @@ import { ThunkDispatch } from "redux-thunk";
 import { CommentInputBox } from "../cmps/CommentInputBox";
 import { changeSaveStatus } from "../store/actions/user.actions";
 import { SettingsCmp } from "../cmps/SettingsCmp";
+import { useCheckIfSaved } from "../custom-hooks/useCheckIfSaved";
+import { useCheckIfLiked } from "../custom-hooks/useCheckIfLiked";
 
 export function StoryDetails() {
     const [isLiked, setIsLiked] = useState<boolean>(false)
@@ -43,13 +45,15 @@ export function StoryDetails() {
         checkIfSaved()
     }, [story, loggedInUser?._id])
 
+    const checkIfSaved = (): void => useCheckIfSaved(setIsSaved, loggedInUser, story)
+    const checkIfLiked = (): void => useCheckIfLiked(setIsLiked, loggedInUser, story)
 
     const loadPost = async (): Promise<void> => {
         try {
             const StoryId = params.id
 
             if (StoryId) {
-                const Story = await storyService.getById(StoryId)               
+                const Story = await storyService.getById(StoryId)
                 if (!Story) throw 'Post does not exict'
                 if (Story) setStory(Story)
             }
@@ -60,49 +64,29 @@ export function StoryDetails() {
     }
 
     const closeDetails = (): void => {
-        if (location.pathname === `/details/${params.id}/${params.idx}`) navigate('/')
-        if (location.pathname === `/explore/details/${params.id}/${params.idx}`) navigate('/explore')
-        if (location.pathname === `/profile/${params.userId}/details/${params.id}/${params.idx}`) navigate(`/profile/${params.userId}`)
+        if (location.pathname === `/details/${params.id}/${params.idx}`)
+            navigate('/')
+        if (location.pathname === `/explore/details/${params.id}/${params.idx}`)
+            navigate('/explore')
+        if (location.pathname === `/profile/${params.userId}/details/${params.id}/${params.idx}`)
+            navigate(`/profile/${params.userId}`)
     }
 
     const changeStoryRoute = (diff: number): void => {
         if (params.idx) {
             let idx = JSON.parse(params.idx)
-            if (idx === 0 && diff === -1) idx = storys.length
-            else if (idx === storys.length - 1 && diff === 1) idx = -1
+            if (idx === 0 && diff === -1)
+                idx = storys.length
+            else if (idx === storys.length - 1 && diff === 1)
+                idx = -1
             const id = storys[idx + diff]._id
-            if (location.pathname === `/explore/details/${params.id}/${params.idx}`) navigate(`/explore/details/${id}/${idx + diff}`)
-            else if (location.pathname === `/profile/${params.userId}/details/${params.id}/${params.idx}`) navigate(`/profile/${params.userId}/details/${id}/${idx + diff}`)
-            else navigate(`/details/${id}/${idx + diff}`)
+            if (location.pathname === `/explore/details/${params.id}/${params.idx}`)
+                navigate(`/explore/details/${id}/${idx + diff}`)
+            else if (location.pathname === `/profile/${params.userId}/details/${params.id}/${params.idx}`)
+                navigate(`/profile/${params.userId}/details/${id}/${idx + diff}`)
+            else
+                navigate(`/details/${id}/${idx + diff}`)
         }
-    }
-
-    const checkIfSaved = () => {
-        if (!loggedInUser) {
-            setIsSaved(false)
-            return
-        }
-        if (!story) return
-        const IsSaved = loggedInUser.savedPosts.find(s => {
-            return story._id === s._id
-        })
-        if (IsSaved)
-            setIsSaved(true)
-        else
-            setIsSaved(false)
-    }
-
-    const checkIfLiked = (): void => {
-        if (!loggedInUser) {
-            setIsLiked(false)
-            return
-        }
-        if (!story) return
-        const user = story.likedBy.find(user => {
-            return user._id === loggedInUser._id
-        })
-        if (user) setIsLiked(true)
-        else setIsLiked(false)
     }
 
     const ChangeSaveStatus = (): void => {
