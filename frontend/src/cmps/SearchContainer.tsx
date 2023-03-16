@@ -2,6 +2,7 @@ import { SyntheticEvent, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk/es/types";
+import { useHandleClickOutside } from "../custom-hooks/useHandleClickOutside";
 import { Props } from "../interfaces/props";
 import { INITIAL_STATE, RootState } from "../interfaces/state";
 import { getSearchedUsers, setFilterBy } from "../store/actions/user.actions";
@@ -15,6 +16,8 @@ export function SearchContainer({ isSearchOpened, setIsSearchOpened }: Props) {
     const users = useSelector((state: RootState) => state.userModule.searchedUsers)
     const inputEl = useRef<HTMLInputElement>(null);
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
+    const inputEl3 = useRef<HTMLInputElement>(null);
+    useHandleClickOutside(inputEl3, () => {if(setIsSearchOpened) setIsSearchOpened(false)})
 
     const closeSearchContainer = (): void => {
         if (setIsSearchOpened) setIsSearchOpened(false)
@@ -35,7 +38,7 @@ export function SearchContainer({ isSearchOpened, setIsSearchOpened }: Props) {
 
 
     return (
-        <section className={`search-container ${isSearchOpened ? 'opened' : ''} ${isDarkMode ? 'dark-mode' : ''}`}>
+        <section ref={inputEl3} className={`search-container ${isSearchOpened ? 'opened' : ''} ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="row-1">
                 <div className="search-header">
                     <h2>Search</h2>

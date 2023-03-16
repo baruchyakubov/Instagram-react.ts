@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { useHandleClickOutside } from "../custom-hooks/useHandleClickOutside";
 import { INITIAL_STATE, RootState } from "../interfaces/state";
 import { setFilterBy, getSearchedUsers } from "../store/actions/user.actions";
 import { InstagramLogoMobile } from "../svg-cmps/InstagramLogoMobile";
@@ -17,6 +18,7 @@ export function HeaderMobile() {
     const inputEl2 = useRef<HTMLInputElement>(null);
     const ref = useRef<HTMLInputElement>(null);
     const isDarkMode = useSelector((state: RootState) => state.storyModule.isDarkMode)
+    useHandleClickOutside(ref, () => setIsSearchOpened(false))
 
     const closeSearchContainer = () => {
         if (setIsSearchOpened) setIsSearchOpened(false)
@@ -24,31 +26,16 @@ export function HeaderMobile() {
 
     const startSearch = (ev: SyntheticEvent): void => {
         const target = ev.target as any
-
         if (!target.value.length) setIsRecentShown(true)
         else if (target.value.length === 1) setIsRecentShown(false)
-
         dispatch(setFilterBy({ txt: target.value }))
         dispatch(getSearchedUsers())
     }
 
     const openSearchList = (): void => {
         if (isSearchOpened) return
-        
-        document.addEventListener('click', (ev) => handleClickOutside(ev), true);
         setIsSearchOpened(true)
     }
-
-    const handleClickOutside = (event: MouseEvent): void => {
-        let target = event.target as HTMLTextAreaElement
-
-        if (ref.current && !ref.current.contains(target)) {
-            setIsSearchOpened(false)
-            document.removeEventListener('click', (ev) => handleClickOutside(ev), true);
-        }
-    };
-
-
 
     const clearInput = (): void => {
         if (inputEl2.current) inputEl2.current.value = ''

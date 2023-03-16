@@ -9,7 +9,6 @@ import { CloseBtn2 } from "../svg-cmps/CloseBtn2"
 import { InstagramLogo } from "../svg-cmps/InstagramLogo"
 import { UploadUserImg } from "./UploadUserImg"
 
-
 export function LoginPage({ setIsLogin }: Props) {
     const [userCreds, setUserCreds] = useState({ username: '', password: '', fullname: '', imgUrl: '' })
     const [imgUrl, setImgUrl] = useState('')
