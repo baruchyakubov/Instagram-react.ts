@@ -9,7 +9,7 @@ Link to website - [Instagram - react.ts](https://instagram-react-ts.onrender.com
 
 ## Motivation
 I wanted to improve my skills in react and especially in typescript , and i also wanted to
-oen my mind to other ideas like unit testing with jest.
+open my mind to other ideas like unit testing with jest.
 
 ## Technologies and conventions
 1. react
